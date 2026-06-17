@@ -3070,7 +3070,7 @@ msgstr "Slug är angiven"
 
 #: src/lib/components/shared/asset/asset-preview.tsx:141
 msgid "Failed to update focal point"
-msgstr "Det gick inte att uppdatera fokuspunkten"
+msgstr "Misslyckades att uppdatera fokuspunkt"
 
 #: src/app/routes/_authenticated/_zones/zones_.$id.tsx:61
 msgid "Successfully updated zone"
