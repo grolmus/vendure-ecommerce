@@ -25,6 +25,40 @@ test.describe('Orders', () => {
         await lp.expectLoaded();
     });
 
+    // #4748 — enum columns (e.g. Order.type / OrderType) must be offered in the
+    // "Add filter" menu, render a working enum filter input (not an empty dialog),
+    // and actually filter server-side (core maps every enum column to StringOperators,
+    // so `eq` is valid — this is the same path a custom-entity enum field uses).
+    test('should allow filtering the orders list by the enum "type" column', async ({ page }) => {
+        const client = new VendureAdminClient(page);
+        await client.login();
+        await createPaidOrder(client); // a Regular-type order so the list is non-empty
+
+        const lp = listPage(page);
+        await lp.goto();
+        await lp.expectLoaded();
+        await lp.expectRowCountGreaterThan(0);
+
+        await lp.openAddFilterMenu();
+
+        // On master the enum column is not filterable, so it never appears here.
+        const typeFilterItem = page.getByRole('menuitem', { name: /^type$/i });
+        await expect(typeFilterItem).toBeVisible();
+        await typeFilterItem.click();
+
+        // The dialog renders the enum filter pre-populated with the first OrderType
+        // value — not the empty dialog you got from enabling the filter alone.
+        const dialog = page.getByRole('dialog');
+        await expect(dialog).toBeVisible();
+        await expect(dialog.getByText('Regular')).toBeVisible();
+
+        // Applying `type eq Regular` must succeed server-side and keep the Regular order.
+        await dialog.getByRole('button', { name: /Apply filter/i }).click();
+        await expect(dialog).toBeHidden();
+        await lp.expectRowCountGreaterThan(0);
+        await expect(page.getByText(/An error occurred:/i)).toHaveCount(0);
+    });
+
     test('should show "Draft order" button', async ({ page }) => {
         const lp = listPage(page);
         await lp.goto();
