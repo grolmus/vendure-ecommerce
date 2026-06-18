@@ -1,6 +1,6 @@
+import { A11yModule } from '@angular/cdk/a11y';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { OverlayModule } from '@angular/cdk/overlay';
-import { A11yModule } from '@angular/cdk/a11y';
 import { CommonModule } from '@angular/common';
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -15,6 +15,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 
 import { ModalService } from '../providers/modal/modal.service';
 
+import { ActionBarDropdownMenuComponent } from './components/action-bar-dropdown-menu/action-bar-dropdown-menu.component';
 import { ActionBarItemsComponent } from './components/action-bar-items/action-bar-items.component';
 import {
     ActionBarComponent,
@@ -30,14 +31,17 @@ import { AssetPickerDialogComponent } from './components/asset-picker-dialog/ass
 import { AssetPreviewDialogComponent } from './components/asset-preview-dialog/asset-preview-dialog.component';
 import { AssetPreviewLinksComponent } from './components/asset-preview-links/asset-preview-links.component';
 import { AssetPreviewComponent } from './components/asset-preview/asset-preview.component';
-import { AssetsComponent } from './components/assets/assets.component';
 import { AssetSearchInputComponent } from './components/asset-search-input/asset-search-input.component';
+import { AssetsComponent } from './components/assets/assets.component';
 import { AssignToChannelDialogComponent } from './components/assign-to-channel-dialog/assign-to-channel-dialog.component';
 import { BulkActionMenuComponent } from './components/bulk-action-menu/bulk-action-menu.component';
+import { CardComponent, CardControlsDirective } from './components/card/card.component';
 import { ChannelAssignmentControlComponent } from './components/channel-assignment-control/channel-assignment-control.component';
 import { ChannelBadgeComponent } from './components/channel-badge/channel-badge.component';
+import { ChartComponent } from './components/chart/chart.component';
 import { ChipComponent } from './components/chip/chip.component';
 import { ConfigurableInputComponent } from './components/configurable-input/configurable-input.component';
+import { CurrencyCodeSelectorComponent } from './components/currency-code-selector/currency-code-selector.component';
 import { CurrencyInputComponent } from './components/currency-input/currency-input.component';
 import { CustomDetailComponentHostComponent } from './components/custom-detail-component-host/custom-detail-component-host.component';
 import { CustomFieldControlComponent } from './components/custom-field-control/custom-field-control.component';
@@ -48,6 +52,9 @@ import { DataTable2SearchComponent } from './components/data-table-2/data-table-
 import { DataTable2Component } from './components/data-table-2/data-table2.component';
 import { DataTableColumnPickerComponent } from './components/data-table-column-picker/data-table-column-picker.component';
 import { DataTableFilterLabelComponent } from './components/data-table-filter-label/data-table-filter-label.component';
+import { AddFilterPresetButtonComponent } from './components/data-table-filter-presets/add-filter-preset-button.component';
+import { DataTableFilterPresetsComponent } from './components/data-table-filter-presets/data-table-filter-presets.component';
+import { RenameFilterPresetDialogComponent } from './components/data-table-filter-presets/rename-filter-preset-dialog.component';
 import { CustomFilterComponentDirective } from './components/data-table-filters/custom-filter-component.directive';
 import { DataTableFiltersComponent } from './components/data-table-filters/data-table-filters.component';
 import { DataTableColumnComponent } from './components/data-table/data-table-column.component';
@@ -57,6 +64,7 @@ import { DropdownItemDirective } from './components/dropdown/dropdown-item.direc
 import { DropdownMenuComponent } from './components/dropdown/dropdown-menu.component';
 import { DropdownTriggerDirective } from './components/dropdown/dropdown-trigger.directive';
 import { DropdownComponent } from './components/dropdown/dropdown.component';
+import { DuplicateEntityDialogComponent } from './components/duplicate-entity-dialog/duplicate-entity-dialog.component';
 import { EditNoteDialogComponent } from './components/edit-note-dialog/edit-note-dialog.component';
 import { EmptyPlaceholderComponent } from './components/empty-placeholder/empty-placeholder.component';
 import { EntityInfoComponent } from './components/entity-info/entity-info.component';
@@ -71,6 +79,7 @@ import { HelpTooltipComponent } from './components/help-tooltip/help-tooltip.com
 import { HistoryEntryDetailComponent } from './components/history-entry-detail/history-entry-detail.component';
 import { ItemsPerPageControlsComponent } from './components/items-per-page-controls/items-per-page-controls.component';
 import { LabeledDataComponent } from './components/labeled-data/labeled-data.component';
+import { LanguageCodeSelectorComponent } from './components/language-code-selector/language-code-selector.component';
 import { LanguageSelectorComponent } from './components/language-selector/language-selector.component';
 import { LocalizedTextComponent } from './components/localized-text/localized-text.component';
 import { ManageTagsDialogComponent } from './components/manage-tags-dialog/manage-tags-dialog.component';
@@ -115,6 +124,7 @@ import { TagSelectorComponent } from './components/tag-selector/tag-selector.com
 import { TimelineEntryComponent } from './components/timeline-entry/timeline-entry.component';
 import { TitleInputComponent } from './components/title-input/title-input.component';
 import { UiExtensionPointComponent } from './components/ui-extension-point/ui-extension-point.component';
+import { ZoneSelectorComponent } from './components/zone-selector/zone-selector.component';
 import { DisabledDirective } from './directives/disabled.directive';
 import { IfDefaultChannelActiveDirective } from './directives/if-default-channel-active.directive';
 import { IfMultichannelDirective } from './directives/if-multichannel.directive';
@@ -165,18 +175,9 @@ import { SentenceCasePipe } from './pipes/sentence-case.pipe';
 import { SortPipe } from './pipes/sort.pipe';
 import { StateI18nTokenPipe } from './pipes/state-i18n-token.pipe';
 import { StringToColorPipe } from './pipes/string-to-color.pipe';
+import { StripHtmlPipe } from './pipes/strip-html.pipe';
 import { TimeAgoPipe } from './pipes/time-ago.pipe';
 import { CanDeactivateDetailGuard } from './providers/routing/can-deactivate-detail-guard';
-import { CardComponent, CardControlsDirective } from './components/card/card.component';
-import { ZoneSelectorComponent } from './components/zone-selector/zone-selector.component';
-import { ChartComponent } from './components/chart/chart.component';
-import { CurrencyCodeSelectorComponent } from './components/currency-code-selector/currency-code-selector.component';
-import { LanguageCodeSelectorComponent } from './components/language-code-selector/language-code-selector.component';
-import { DataTableFilterPresetsComponent } from './components/data-table-filter-presets/data-table-filter-presets.component';
-import { AddFilterPresetButtonComponent } from './components/data-table-filter-presets/add-filter-preset-button.component';
-import { RenameFilterPresetDialogComponent } from './components/data-table-filter-presets/rename-filter-preset-dialog.component';
-import { ActionBarDropdownMenuComponent } from './components/action-bar-dropdown-menu/action-bar-dropdown-menu.component';
-import { DuplicateEntityDialogComponent } from './components/duplicate-entity-dialog/duplicate-entity-dialog.component';
 
 const IMPORTS = [
     ClarityModule,
@@ -239,6 +240,7 @@ const DECLARATIONS = [
     FormattedAddressComponent,
     LabeledDataComponent,
     StringToColorPipe,
+    StripHtmlPipe,
     ObjectTreeComponent,
     IfPermissionsDirective,
     IfMultichannelDirective,

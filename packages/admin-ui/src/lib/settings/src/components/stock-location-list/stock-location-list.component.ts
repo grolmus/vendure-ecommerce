@@ -24,9 +24,8 @@ export const GET_STOCK_LOCATION_LIST = gql`
 @Component({
     selector: 'vdr-stock-location-list',
     templateUrl: './stock-location-list.component.html',
-    styleUrls: ['./stock-location-list.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+    standalone: false,
 })
 export class StockLocationListComponent
     extends TypedBaseListComponent<typeof GetStockLocationListDocument, 'stockLocations'>

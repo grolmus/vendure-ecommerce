@@ -69,7 +69,7 @@
     </vdr-dt2-column>
     <vdr-dt2-column [heading]="'common.description' | translate" id="description" [sort]="sorts.get('description')">
         <ng-template let-stockLocation="item">
-            <div class="description" [innerHTML]="stockLocation.description"></div>
+            <div>{{ stockLocation.description | stripHtml }}</div>
         </ng-template>
     </vdr-dt2-column>
     <vdr-dt2-custom-field-column
