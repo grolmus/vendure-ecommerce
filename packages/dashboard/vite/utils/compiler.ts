@@ -219,6 +219,26 @@ async function compileTypeScript({
         : undefined;
 
     for (const filePath of sourceFiles) {
+        // JSON assets are copied as-is, preserving their relative path so the
+        // compiled config can require/import them at load time. Like the
+        // transpiled-file branch below, this assumes the asset lives under
+        // `sourceRoot`; a JSON imported from outside it would resolve to a path
+        // outside `outputPath` and won't be reachable from the compiled config.
+        if (filePath.endsWith('.json')) {
+            const jsonRelativePath = path.relative(sourceRoot, filePath);
+            if (jsonRelativePath.startsWith('..')) {
+                logger.warn(
+                    `JSON asset "${filePath}" is outside the config source root and was not copied; ` +
+                        `imports of it from the compiled config may fail to resolve.`,
+                );
+                continue;
+            }
+            const jsonOutputFilePath = path.join(outputPath, jsonRelativePath);
+            await fs.ensureDir(path.dirname(jsonOutputFilePath));
+            await fs.copyFile(filePath, jsonOutputFilePath);
+            continue;
+        }
+
         const content = await fs.readFile(filePath, 'utf-8');
         const result = ts.transpileModule(content, {
             compilerOptions,
@@ -256,6 +276,13 @@ async function collectLocalSourceFiles(
         // Skip declaration files and non-source files before adding to visited,
         // so they don't leak into the returned sourceFiles array.
         if (resolved.endsWith('.d.ts') || resolved.endsWith('.d.tsx')) return;
+        // JSON modules (`import data from './x.json'` with resolveJsonModule) are
+        // copied verbatim during compilation so the compiled config can require
+        // them at load time. They have no imports to follow, so collect and return.
+        if (resolved.endsWith('.json')) {
+            visited.add(resolved);
+            return;
+        }
         if (!/\.(ts|tsx|js|jsx)$/.test(resolved)) return;
 
         if (visited.has(resolved)) return;

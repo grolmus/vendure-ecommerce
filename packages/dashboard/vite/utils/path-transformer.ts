@@ -62,6 +62,19 @@ export function createPathTransformer(options: PathTransformerOptions): ts.Trans
                         baseUrl,
                         sourceDir,
                     );
+                    const finalSpecifier = resolvedPath ?? node.moduleSpecifier.text;
+                    // ESM requires an explicit `with { type: 'json' }` attribute to import
+                    // a JSON module; without it Node throws ERR_IMPORT_ATTRIBUTE_MISSING.
+                    // Applies to both relative and path-aliased JSON imports.
+                    if (finalSpecifier.endsWith('.json')) {
+                        return context.factory.updateImportDeclaration(
+                            node,
+                            node.modifiers,
+                            node.importClause,
+                            context.factory.createStringLiteral(finalSpecifier),
+                            node.attributes ?? createJsonImportAttributes(context.factory),
+                        );
+                    }
                     if (resolvedPath) {
                         return context.factory.updateImportDeclaration(
                             node,
@@ -126,6 +139,21 @@ export function createPathTransformer(options: PathTransformerOptions): ts.Trans
             return ts.visitNode(sourceFile, visitor) as ts.SourceFile;
         };
     };
+}
+
+/**
+ * Builds an `with { type: "json" }` import attributes node, required by ESM to
+ * import a JSON module.
+ */
+function createJsonImportAttributes(factory: ts.NodeFactory): ts.ImportAttributes {
+    return factory.createImportAttributes(
+        factory.createNodeArray([
+            factory.createImportAttribute(
+                factory.createIdentifier('type'),
+                factory.createStringLiteral('json'),
+            ),
+        ]),
+    );
 }
 
 /**
