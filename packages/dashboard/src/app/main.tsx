@@ -9,6 +9,7 @@ import { executeDashboardExtensionCallbacks } from '@/vdb/framework/extension-ap
 import { useDashboardExtensions } from '@/vdb/framework/extension-api/use-dashboard-extensions.js';
 import { useExtendedRouter } from '@/vdb/framework/page/use-extended-router.js';
 import { useAuth } from '@/vdb/hooks/use-auth.js';
+import { useChannel } from '@/vdb/hooks/use-channel.js';
 import { useServerConfig } from '@/vdb/hooks/use-server-config.js';
 import { defaultLocale, dynamicActivate } from '@/vdb/providers/i18n-provider.js';
 import { AnyRoute, createRouter, RouterOptions, RouterProvider } from '@tanstack/react-router';
@@ -84,10 +85,42 @@ function InnerApp() {
     const [hasSetCustomFieldsMap, setHasSetCustomFieldsMap] = React.useState(false);
     const { settings } = useUserSettings();
     const { loadAndActivateLocale } = useUiLanguageLoader();
+    const { activeChannel } = useChannel();
+    const previousChannelTokenRef = React.useRef<string | undefined>(undefined);
 
     useEffect(() => {
         void loadAndActivateLocale(settings.displayLanguage);
     }, [settings.displayLanguage]);
+
+    // When the active channel changes, leave the entity detail page you were on
+    // and return to the dashboard home. Otherwise the previous channel's entity
+    // (and its breadcrumb/nav links) stay on screen and 404 when clicked, since
+    // it doesn't belong to the newly selected channel. List/settings pages are
+    // valid in any channel and just refetch via the provider's query
+    // invalidation, so we leave those in place. See #4826.
+    //
+    // The signal is the server-confirmed active channel token (post-refetch),
+    // not the click itself — don't "optimise" this to fire synchronously on the
+    // switch, or it would run before the new channel context is established.
+    useEffect(() => {
+        const previousToken = previousChannelTokenRef.current;
+        const token = activeChannel?.token;
+        previousChannelTokenRef.current = token;
+        if (previousToken === undefined || previousToken === token) {
+            return;
+        }
+        // Detail/edit routes are the only ones carrying a dynamic path param
+        // (e.g. $id, or the seller-order route's $aggregateOrderId/$sellerOrderId);
+        // list and settings routes are static. Keying on "has any path param"
+        // rather than a specific name avoids missing detail routes that don't
+        // follow the $id convention.
+        const onEntityDetailPage = router.state.matches.some(
+            match => Object.keys(match.params ?? {}).length > 0,
+        );
+        if (onEntityDetailPage) {
+            void router.navigate({ to: '/' });
+        }
+    }, [activeChannel?.token, router]);
 
     useEffect(() => {
         if (!serverConfig) {
