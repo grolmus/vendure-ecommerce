@@ -13,9 +13,13 @@ async function ensureSecondChannel(client: VendureAdminClient) {
         return;
     }
     const { zones } = await client.gql(`query { zones { items { id } } }`);
+    if (!zones.items.length) {
+        throw new Error('No zones available to create second-channel');
+    }
     const zoneId = zones.items[0].id;
+    let createChannel: { id: string } | { errorCode: string; message: string };
     try {
-        await client.gql(
+        ({ createChannel } = await client.gql(
             `mutation ($input: CreateChannelInput!) {
                 createChannel(input: $input) {
                     ... on Channel { id }
@@ -33,9 +37,20 @@ async function ensureSecondChannel(client: VendureAdminClient) {
                     defaultShippingZoneId: zoneId,
                 },
             },
+        ));
+    } catch (e) {
+        // A concurrent run may have created it first (unique-constraint error).
+        // Tolerate only if it now exists; otherwise the failure is real.
+        const { channels: after } = await client.gql(`query { channels { items { code } } }`);
+        if (after.items.some((c: any) => c.code === 'second-channel')) {
+            return;
+        }
+        throw e;
+    }
+    if (!('id' in createChannel)) {
+        throw new Error(
+            `Failed to create second-channel: ${createChannel.errorCode} ${createChannel.message}`,
         );
-    } catch {
-        // Already created by a prior run/test — fine, it exists either way.
     }
 }
 
@@ -76,7 +91,12 @@ test('stays on a channel-agnostic list page when switching channel', async ({ pa
 
     await switchToSecondChannel(page);
 
+    // Wait until the switch has actually taken effect — the switcher now shows the
+    // new channel. That's the same signal that would drive a redirect, so once it
+    // resolves we can assert no redirect happened (still on the list page).
+    await expect(page.getByRole('button').filter({ hasText: 'second-channel' })).toBeVisible({
+        timeout: 10_000,
+    });
     // List pages are valid in any channel — we must NOT bounce to home.
-    await page.waitForTimeout(2000);
     expect(new URL(page.url()).pathname).toBe('/products');
 });
