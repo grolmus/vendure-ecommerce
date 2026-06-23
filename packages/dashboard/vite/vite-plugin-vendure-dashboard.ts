@@ -7,6 +7,7 @@ import { PluginOption } from 'vite';
 
 import { PathAdapter } from './types.js';
 import { PackageScannerConfig } from './utils/compiler.js';
+import { buildTanstackRouterPluginConfig } from './utils/tanstack-router-config.js';
 import { adminApiSchemaPlugin } from './vite-plugin-admin-api-schema.js';
 import { configLoaderPlugin } from './vite-plugin-config-loader.js';
 import { viteConfigPlugin } from './vite-plugin-config.js';
@@ -87,6 +88,17 @@ export type VitePluginVendureDashboardOptions = {
      */
     gqlOutputPath?: string;
     tempCompilationDir?: string;
+    /**
+     * @description
+     * Sets the `tmpDir` option of the underlying TanStack Router Vite plugin. Configure this when
+     * your deployment's default temp directory is on a different device than the checked-out code
+     * (e.g. `node_modules` on a separate volume), which otherwise causes the build to fail with
+     * `EXDEV: cross-device link not permitted` during route-tree generation. When omitted, the
+     * TanStack Router plugin's own default is used.
+     *
+     * @since 3.7.0
+     */
+    tanstackRouterTmpDir?: string;
     /**
      * @description
      * Allows you to customize the location of node_modules & glob patterns used to scan for potential
@@ -180,12 +192,7 @@ export function vendureDashboardPlugin(options: VitePluginVendureDashboardOption
         {
             key: 'tanstackRouter',
             plugin: () =>
-                tanstackRouter({
-                    autoCodeSplitting: true,
-                    routeFileIgnorePattern: '.graphql.ts|components|hooks|utils',
-                    routesDirectory: path.join(packageRoot, 'src/app/routes'),
-                    generatedRouteTree: path.join(packageRoot, 'src/app/routeTree.gen.ts'),
-                }),
+                tanstackRouter(buildTanstackRouterPluginConfig(packageRoot, options.tanstackRouterTmpDir)),
         },
         {
             // Custom plugin that transforms Lingui macros using Babel instead of SWC.
