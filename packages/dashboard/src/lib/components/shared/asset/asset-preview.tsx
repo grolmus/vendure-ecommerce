@@ -19,26 +19,20 @@ export type PreviewPreset = 'tiny' | 'thumb' | 'small' | 'medium' | 'large' | ''
 
 export type AssetWithTags = AssetFragment & { tags?: { value: string }[] };
 
-// Centre of the image — used as the seed position for the editor's draggable
-// indicator when the asset has no persisted focal point yet.
+// Editor seed position when the asset has no persisted focal point.
 const DEFAULT_FOCAL_POINT: Point = { x: 0.5, y: 0.5 };
 
 interface AssetPreviewProps {
     asset: AssetWithTags;
     assets?: AssetWithTags[];
     customFields?: any[];
-    /**
-     * Called after a successful focal-point mutation with the updated asset
-     * shape (id + focalPoint). Parent containers (e.g. EntityAssets) can use
-     * it to keep their local asset state in sync so a re-opened dialog or a
-     * focal-point-cropped thumbnail does not regress to the stale value.
-     */
+    // Lets a parent (e.g. EntityAssets) sync its local asset state after a save,
+    // so a re-opened dialog or cropped thumbnail doesn't show the stale value.
     onAssetUpdated?: (asset: Pick<AssetWithTags, 'id'> & { focalPoint: Point | null }) => void;
 }
 
-// Local mutation — defined here rather than imported from the assets route
-// (`app/routes/_authenticated/_assets/assets.graphql.ts`) so that this shared
-// preview component does not depend on a route module.
+// Defined here rather than imported from the assets route so this shared
+// component doesn't depend on a route module.
 const updateAssetFocalPointDocument = graphql(`
     mutation UpdateAssetFocalPoint($input: UpdateAssetInput!) {
         updateAsset(input: $input) {
@@ -65,18 +59,14 @@ export function AssetPreview({
     const initialIndex = assets?.findIndex(a => a.id === asset.id) ?? -1;
     const [assetIndex, setAssetIndex] = useState(initialIndex === -1 ? 0 : initialIndex);
     const [settingFocalPoint, setSettingFocalPoint] = useState(false);
-    // Local override so the indicator reflects the new focal point immediately
-    // after a successful mutation, without re-fetching the parent EntityAssets
-    // gallery. Cleared when the user navigates to a different asset.
+    // Reflects a just-saved focal point without refetching; cleared on asset change.
     const [focalPointOverride, setFocalPointOverride] = useState<Point | null>(null);
 
     const imageRef = useRef<HTMLImageElement>(null);
     const containerRef = useRef<HTMLDivElement>(null);
 
     const activeAsset = assets?.[assetIndex] ?? asset;
-    // Persisted value to display ("Not set" when the asset has no focal point
-    // yet) vs the value handed to the editor (which always needs a starting
-    // position to render the draggable indicator).
+    // Undefined when unset (shown as "Not set"); the editor always needs a start position.
     const persistedFocalPoint: Point | undefined = focalPointOverride ?? activeAsset.focalPoint ?? undefined;
     const editorFocalPoint: Point = persistedFocalPoint ?? DEFAULT_FOCAL_POINT;
 
@@ -87,9 +77,7 @@ export function AssetPreview({
         }
     }, [assets, asset.id]);
 
-    // When the user navigates to a different asset (prev/next arrows or the
-    // dialog being opened on a new asset), drop the local override and close
-    // the focal-point editor so we start from the new asset's persisted state.
+    // On asset change, reset to the new asset's persisted state.
     useEffect(() => {
         setFocalPointOverride(null);
         setSettingFocalPoint(false);
@@ -119,12 +107,9 @@ export function AssetPreview({
     };
 
     const updateFocalPointMutation = useMutation({
-        // Stamp the mutation variable with the asset id captured at click time.
-        // The parent is always notified (it keys the update by id, so recording
-        // the now-saved focal point for that asset is correct even if the user
-        // has navigated away). The *local* override, however, is only applied
-        // when the response still matches the asset on screen, so a late
-        // response can't paint one asset's focal point onto another's view.
+        // The parent is always notified (keyed by id), but the local override is
+        // only applied if the response still matches the on-screen asset, so a
+        // late response can't paint one asset's focal point onto another.
         mutationFn: ({ assetId, focalPoint }: { assetId: string; focalPoint: Point }) =>
             api.mutate(updateAssetFocalPointDocument, {
                 input: { id: assetId, focalPoint },
@@ -211,11 +196,8 @@ export function AssetPreview({
                     className={cn('relative', centered && 'flex items-center justify-center')}
                 >
                     <AssetFocalPointEditor
-                        // Remount on asset / edit-session change so the editor's
-                        // internal drag state is re-seeded from the active
-                        // asset's focal point. Without this, navigating between
-                        // assets (or re-opening edit after a cancel) could submit
-                        // the previous asset's stale coordinates.
+                        // Remount on asset/edit-session change to re-seed the editor's
+                        // drag state; otherwise it could submit the previous asset's coordinates.
                         key={`${activeAsset.id}:${settingFocalPoint ? 'edit' : 'view'}`}
                         width={width}
                         height={height}

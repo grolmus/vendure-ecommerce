@@ -353,11 +353,8 @@ export function EntityAssets({
                     onOpenChange={() => setPreviewAsset(null)}
                     open={!!previewAsset}
                     onAssetUpdated={updated => {
-                        // Keep local state in sync so a re-opened preview (or a
-                        // focal-point-cropped thumbnail rendered by VendureImage
-                        // elsewhere in this gallery) reflects the new value
-                        // immediately, without waiting for the parent detail
-                        // query to refetch.
+                        // Sync local state so a re-opened preview or cropped thumbnail
+                        // reflects the new value without waiting for a parent refetch.
                         setAssets(prev =>
                             prev.map(a =>
                                 a.id === updated.id ? { ...a, focalPoint: updated.focalPoint } : a,

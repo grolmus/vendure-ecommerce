@@ -20,15 +20,10 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 registerInitializer('sqljs', new SqljsInitializer(path.join(__dirname, '__data__')));
 
 /**
- * Minimal in-memory storage strategy used only by the dashboard e2e suite.
- * Emits a parseable absolute URL so VendureImage's `new URL(asset.preview)`
- * does not throw on assets created during tests. No bytes are persisted and
- * no real HTTP server (and no AssetServerPlugin) is required.
- *
- * This duplicates a little of `TestingAssetStorageStrategy` rather than
- * subclassing it because that class is not part of `@vendure/testing`'s public
- * API — the only behaviour we need to change is `toAbsoluteUrl` returning a
- * URL that `new URL(...)` can parse.
+ * Storage strategy for the dashboard e2e suite. Emits a parseable absolute URL
+ * so `VendureImage`'s `new URL(asset.preview)` doesn't throw on test assets,
+ * without needing AssetServerPlugin. Reimplemented rather than subclassing
+ * `TestingAssetStorageStrategy` because that class is not part of the public API.
  */
 class E2eAssetStorageStrategy implements AssetStorageStrategy {
     toAbsoluteUrl(_req: unknown, identifier: string) {
@@ -100,19 +95,12 @@ export default async function globalSetup() {
         paymentOptions: {
             paymentMethodHandlers: e2ePaymentMethodHandlers,
         },
-        // The default test-asset storage strategy emits a non-parseable
-        // `test-url/test-assets/...` placeholder that `VendureImage` cannot
-        // parse with `new URL(...)`, which crashes any page showing a real
-        // asset. The minimal strategy below emits a parseable absolute URL —
-        // all the asset-preview tests actually require — without pulling in
-        // AssetServerPlugin (not in the dashboard-e2e build scope on CI).
+        // Default test strategy emits a non-parseable URL that crashes VendureImage.
         assetOptions: {
             assetStorageStrategy: new E2eAssetStorageStrategy(),
         },
-        // Point the CSV asset importer at the core e2e fixture images so the
-        // seeded products (e.g. "Laptop") get a real featured asset. This lets
-        // asset-dependent tests use a seeded product directly instead of
-        // uploading one at runtime.
+        // Give seeded products (e.g. "Laptop") a real featured asset, so asset-dependent
+        // tests can use them directly instead of uploading at runtime.
         importExportOptions: {
             importAssetsDir: path.join(__dirname, '../../core/e2e/fixtures/assets'),
         },
