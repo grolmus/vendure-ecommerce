@@ -2,6 +2,7 @@ import { lingui } from '@lingui/vite-plugin';
 import tailwindcss from '@tailwindcss/vite';
 import { tanstackRouter } from '@tanstack/router-plugin/vite';
 import react from '@vitejs/plugin-react';
+import { randomUUID } from 'node:crypto';
 import path from 'path';
 import { PluginOption } from 'vite';
 
@@ -9,6 +10,7 @@ import { PathAdapter } from './types.js';
 import { PackageScannerConfig } from './utils/compiler.js';
 import { buildTanstackRouterPluginConfig } from './utils/tanstack-router-config.js';
 import { adminApiSchemaPlugin } from './vite-plugin-admin-api-schema.js';
+import { bundleEntryPlugin } from './vite-plugin-bundle-entry.js';
 import { configLoaderPlugin } from './vite-plugin-config-loader.js';
 import { viteConfigPlugin } from './vite-plugin-config.js';
 import { dashboardMetadataPlugin } from './vite-plugin-dashboard-metadata.js';
@@ -142,6 +144,7 @@ export type VitePluginVendureDashboardOptions = {
         tailwindcss?: boolean;
         configLoader?: boolean;
         viteConfig?: boolean;
+        bundleEntry?: boolean;
         adminApiSchema?: boolean;
         dashboardMetadata?: boolean;
         uiConfig?: boolean;
@@ -150,6 +153,31 @@ export type VitePluginVendureDashboardOptions = {
         translations?: boolean;
         hmr?: boolean;
     };
+    /**
+     * @description
+     * **EXPERIMENTAL** — Opt into the pre-bundled dashboard architecture.
+     *
+     * When `true`, the dashboard is loaded from a pre-built ESM bundle
+     * (`@vendure/dashboard/dist/publishable/`) shipped inside the npm package,
+     * instead of being compiled from TypeScript source by your Vite dev server.
+     * This dramatically reduces the number of HTTP requests during `vite dev`
+     * (~3000 raw module fetches → ~40 bundled chunks) which avoids the
+     * Chromium renderer crash reported in issue #4715.
+     *
+     * Trade-offs while this is experimental:
+     * - Some dashboard internals are now opaque to your `vite dev` (no per-file HMR
+     *   for the dashboard itself; extension HMR still works)
+     * - Reports of behavioural regressions are very welcome — this flag exists so
+     *   the bundled mode can be tested in real-world projects alongside the stable
+     *   source-shipping mode.
+     *
+     * This flag will be removed (and the bundled mode will become the default)
+     * once it has been validated across enough real-world setups.
+     *
+     * @default false
+     * @since 3.7.0
+     */
+    useExperimentalBundle?: boolean;
 } & UiConfigPluginOptions &
     ThemeVariablesPluginOptions;
 
@@ -179,6 +207,9 @@ type PluginMapEntry = {
  */
 export function vendureDashboardPlugin(options: VitePluginVendureDashboardOptions): PluginOption[] {
     const tempDir = options.tempCompilationDir ?? path.join(import.meta.dirname, './.vendure-dashboard-temp');
+    const tempInstanceId = `${process.pid}-${randomUUID()}`;
+    const compilationTempDir = path.join(tempDir, 'compiler', tempInstanceId);
+    const gqlTadaTempDir = path.join(tempDir, 'gql-tada', tempInstanceId);
     const normalizedVendureConfigPath = getNormalizedVendureConfigPath(options.vendureConfigPath);
     const packageRoot = getDashboardPackageRoot();
     const linguiConfigPath = path.join(packageRoot, 'lingui.config.js');
@@ -225,7 +256,11 @@ export function vendureDashboardPlugin(options: VitePluginVendureDashboardOption
         },
         {
             key: 'tailwindSource',
-            plugin: () => dashboardTailwindSourcePlugin(),
+            plugin: () =>
+                dashboardTailwindSourcePlugin({
+                    packageRoot,
+                    useExperimentalBundle: options.useExperimentalBundle,
+                }),
         },
         {
             key: 'tailwindcss',
@@ -236,7 +271,7 @@ export function vendureDashboardPlugin(options: VitePluginVendureDashboardOption
             plugin: () =>
                 configLoaderPlugin({
                     vendureConfigPath: normalizedVendureConfigPath,
-                    outputPath: tempDir,
+                    outputPath: compilationTempDir,
                     pathAdapter: options.pathAdapter,
                     pluginPackageScanner: options.pluginPackageScanner,
                     module: options.module,
@@ -244,7 +279,15 @@ export function vendureDashboardPlugin(options: VitePluginVendureDashboardOption
         },
         {
             key: 'viteConfig',
-            plugin: () => viteConfigPlugin({ packageRoot }),
+            plugin: () =>
+                viteConfigPlugin({
+                    packageRoot,
+                    useExperimentalBundle: options.useExperimentalBundle,
+                }),
+        },
+        {
+            key: 'bundleEntry',
+            plugin: () => (options.useExperimentalBundle ? bundleEntryPlugin() : false),
         },
         {
             key: 'adminApiSchema',
@@ -262,7 +305,11 @@ export function vendureDashboardPlugin(options: VitePluginVendureDashboardOption
             key: 'gqlTada',
             plugin: () =>
                 options.gqlOutputPath &&
-                gqlTadaPlugin({ gqlTadaOutputPath: options.gqlOutputPath, tempDir, packageRoot }),
+                gqlTadaPlugin({
+                    gqlTadaOutputPath: options.gqlOutputPath,
+                    tempDir: gqlTadaTempDir,
+                    packageRoot,
+                }),
         },
         {
             key: 'transformIndexHtml',
