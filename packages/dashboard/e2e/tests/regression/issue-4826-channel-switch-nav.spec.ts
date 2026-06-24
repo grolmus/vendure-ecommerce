@@ -59,7 +59,7 @@ async function switchToSecondChannel(page: Page) {
     await page.getByRole('menuitem').filter({ hasText: 'second-channel' }).click();
 }
 
-test('returns to dashboard home when switching channel from an entity detail', async ({ page }) => {
+test('returns to the entity list view when switching channel from an entity detail', async ({ page }) => {
     test.setTimeout(120_000);
     const client = new VendureAdminClient(page);
     await client.login();
@@ -74,8 +74,8 @@ test('returns to dashboard home when switching channel from an entity detail', a
 
     await switchToSecondChannel(page);
 
-    // Primary signal: navigated to the (channel-neutral) dashboard home.
-    await page.waitForURL(url => new URL(url).pathname === '/', { timeout: 10_000 });
+    // Primary signal: navigated to the product list view (not all the way to home).
+    await page.waitForURL(url => new URL(url).pathname === '/products', { timeout: 10_000 });
     // The stale product breadcrumb is gone.
     await expect(breadcrumb.getByText(product.name, { exact: false })).toHaveCount(0);
 });

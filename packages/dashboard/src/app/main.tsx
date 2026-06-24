@@ -93,10 +93,10 @@ function InnerApp() {
     }, [settings.displayLanguage]);
 
     // When the active channel changes, leave the entity detail page you were on
-    // and return to the dashboard home. Otherwise the previous channel's entity
-    // (and its breadcrumb/nav links) stay on screen and 404 when clicked, since
-    // it doesn't belong to the newly selected channel. List/settings pages are
-    // valid in any channel and just refetch via the provider's query
+    // and return to that entity's list view. Otherwise the previous channel's
+    // entity (and its breadcrumb/nav links) stay on screen and 404 when clicked,
+    // since it doesn't belong to the newly selected channel. List/settings pages
+    // are valid in any channel and just refetch via the provider's query
     // invalidation, so we leave those in place. See #4826.
     //
     // The signal is the server-confirmed active channel token (post-refetch),
@@ -114,12 +114,25 @@ function InnerApp() {
         // list and settings routes are static. Keying on "has any path param"
         // rather than a specific name avoids missing detail routes that don't
         // follow the $id convention.
-        const onEntityDetailPage = router.state.matches.some(
+        const detailMatch = router.state.matches.find(
             match => Object.keys(match.params ?? {}).length > 0,
         );
-        if (onEntityDetailPage) {
-            void router.navigate({ to: '/' });
+        if (!detailMatch) {
+            return;
         }
+        // Return to the list view for this entity type, i.e. the static path
+        // prefix before the first dynamic segment: `/products/$id` -> `/products`,
+        // `/facets/$facetId/values/$id` -> `/facets`. Falls back to home if the
+        // detail route has no static prefix.
+        const paramValues = new Set(Object.values(detailMatch.params ?? {}).map(String));
+        const listSegments: string[] = [];
+        for (const segment of router.state.location.pathname.split('/').filter(Boolean)) {
+            if (paramValues.has(decodeURIComponent(segment))) {
+                break;
+            }
+            listSegments.push(segment);
+        }
+        void router.navigate({ to: listSegments.length ? `/${listSegments.join('/')}` : '/' });
     }, [activeChannel?.token, router]);
 
     useEffect(() => {
