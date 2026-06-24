@@ -348,7 +348,7 @@ msgstr "מיקום המלאי נוצר בהצלחה"
 #: src/app/routes/_authenticated/_products/components/generate-variants-panel.tsx:185
 #: src/app/routes/_authenticated/_products/products_.$id_.variants.tsx:112
 #: src/app/routes/_authenticated/_products/products_.$id.tsx:204
-#: src/lib/components/shared/asset/asset-preview.tsx:142
+#: src/lib/components/shared/asset/asset-preview.tsx:127
 msgid "Unknown error"
 msgstr "שגיאה לא ידועה"
 
@@ -894,7 +894,7 @@ msgid "Shipping address set for order"
 msgstr "כתובת משלוח הוגדרה להזמנה"
 
 #: src/app/routes/_authenticated/_assets/assets_.$id.tsx:173
-#: src/lib/components/shared/asset/asset-preview.tsx:168
+#: src/lib/components/shared/asset/asset-preview.tsx:153
 msgid "Focal Point"
 msgstr "נקודת מיקוד"
 
@@ -1286,7 +1286,7 @@ msgstr "{buttonText}"
 msgid "Item added to order"
 msgstr "הפריט נוסף להזמנה"
 
-#: src/lib/components/shared/asset/asset-preview.tsx:161
+#: src/lib/components/shared/asset/asset-preview.tsx:146
 msgid "Edit focal point"
 msgstr "עריכת נקודת המיקוד"
 
@@ -2822,7 +2822,7 @@ msgstr "מ-{0} ל-{1}"
 msgid "Failed to create customer"
 msgstr "יצירת הלקוח נכשלה"
 
-#: src/lib/components/shared/asset/asset-preview.tsx:138
+#: src/lib/components/shared/asset/asset-preview.tsx:123
 msgid "Focal point updated"
 msgstr "נקודת המיקוד עודכנה"
 
@@ -3068,7 +3068,7 @@ msgstr "קטגוריית מס ברירת מחדל"
 msgid "Slug is set"
 msgstr "ה-slug מוגדר"
 
-#: src/lib/components/shared/asset/asset-preview.tsx:141
+#: src/lib/components/shared/asset/asset-preview.tsx:126
 msgid "Failed to update focal point"
 msgstr "עדכון נקודת המיקוד נכשל"
 
@@ -3588,7 +3588,7 @@ msgid "Cannot remove from active channel"
 msgstr "לא ניתן להסיר מערוץ פעיל"
 
 #: src/app/routes/_authenticated/_assets/assets_.$id.tsx:179
-#: src/lib/components/shared/asset/asset-preview.tsx:177
+#: src/lib/components/shared/asset/asset-preview.tsx:162
 msgid "Not set"
 msgstr "לא מוגדר"
 
@@ -4506,6 +4506,7 @@ msgstr "גדול או שווה ל"
 
 #: src/app/routes/_authenticated/_collections/components/collection-contents-preview-table.tsx:77
 #: src/app/routes/_authenticated/_collections/components/collection-contents-preview-table.tsx:88
+#: src/lib/components/shared/entity-assets.tsx:151
 msgid "Preview"
 msgstr "תצוגה מקדימה"
 

@@ -23,6 +23,7 @@ import {
     useSortable,
 } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
+import { Trans } from '@lingui/react/macro';
 import { EllipsisIcon, ImageIcon, PaperclipIcon } from 'lucide-react';
 import { useCallback, useEffect, useState } from 'react';
 import { AssetPickerDialog } from './asset/asset-picker-dialog.js';
@@ -146,7 +147,9 @@ function SortableAsset({
                             <EllipsisIcon className="h-4 w-4" />
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
-                            <DropdownMenuItem onClick={() => onPreview(asset)}>Preview</DropdownMenuItem>
+                            <DropdownMenuItem onClick={() => onPreview(asset)}>
+                                <Trans>Preview</Trans>
+                            </DropdownMenuItem>
                             <DropdownMenuItem disabled={isFeatured} onClick={() => onSetAsFeatured(asset)}>
                                 Set as featured asset
                             </DropdownMenuItem>

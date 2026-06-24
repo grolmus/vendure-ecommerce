@@ -348,7 +348,7 @@ msgstr "已成功创建库存位置"
 #: src/app/routes/_authenticated/_products/components/generate-variants-panel.tsx:185
 #: src/app/routes/_authenticated/_products/products_.$id_.variants.tsx:112
 #: src/app/routes/_authenticated/_products/products_.$id.tsx:204
-#: src/lib/components/shared/asset/asset-preview.tsx:142
+#: src/lib/components/shared/asset/asset-preview.tsx:127
 msgid "Unknown error"
 msgstr "未知错误"
 
@@ -894,7 +894,7 @@ msgid "Shipping address set for order"
 msgstr "订单已设置配送地址"
 
 #: src/app/routes/_authenticated/_assets/assets_.$id.tsx:173
-#: src/lib/components/shared/asset/asset-preview.tsx:168
+#: src/lib/components/shared/asset/asset-preview.tsx:153
 msgid "Focal Point"
 msgstr "焦点"
 
@@ -1286,7 +1286,7 @@ msgstr "{buttonText}"
 msgid "Item added to order"
 msgstr "项目已添加到订单"
 
-#: src/lib/components/shared/asset/asset-preview.tsx:161
+#: src/lib/components/shared/asset/asset-preview.tsx:146
 msgid "Edit focal point"
 msgstr "编辑焦点"
 
@@ -2822,7 +2822,7 @@ msgstr "从 {0} 到 {1}"
 msgid "Failed to create customer"
 msgstr "创建客户失败"
 
-#: src/lib/components/shared/asset/asset-preview.tsx:138
+#: src/lib/components/shared/asset/asset-preview.tsx:123
 msgid "Focal point updated"
 msgstr "焦点已更新"
 
@@ -3068,7 +3068,7 @@ msgstr "默认税务类别"
 msgid "Slug is set"
 msgstr "Slug 已设置"
 
-#: src/lib/components/shared/asset/asset-preview.tsx:141
+#: src/lib/components/shared/asset/asset-preview.tsx:126
 msgid "Failed to update focal point"
 msgstr "更新焦点失败"
 
@@ -3588,7 +3588,7 @@ msgid "Cannot remove from active channel"
 msgstr "无法从活动渠道中移除"
 
 #: src/app/routes/_authenticated/_assets/assets_.$id.tsx:179
-#: src/lib/components/shared/asset/asset-preview.tsx:177
+#: src/lib/components/shared/asset/asset-preview.tsx:162
 msgid "Not set"
 msgstr "未设置"
 
@@ -4506,6 +4506,7 @@ msgstr "大于或等于"
 
 #: src/app/routes/_authenticated/_collections/components/collection-contents-preview-table.tsx:77
 #: src/app/routes/_authenticated/_collections/components/collection-contents-preview-table.tsx:88
+#: src/lib/components/shared/entity-assets.tsx:151
 msgid "Preview"
 msgstr "预览"
 

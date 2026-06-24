@@ -351,7 +351,7 @@ msgstr "Успешно създадено складово местополож�
 #: src/app/routes/_authenticated/_products/components/generate-variants-panel.tsx:185
 #: src/app/routes/_authenticated/_products/products_.$id_.variants.tsx:112
 #: src/app/routes/_authenticated/_products/products_.$id.tsx:204
-#: src/lib/components/shared/asset/asset-preview.tsx:142
+#: src/lib/components/shared/asset/asset-preview.tsx:127
 msgid "Unknown error"
 msgstr "Неизвестна грешка"
 
@@ -900,7 +900,7 @@ msgid "Shipping address set for order"
 msgstr "Зададен адрес за доставка за поръчка"
 
 #: src/app/routes/_authenticated/_assets/assets_.$id.tsx:173
-#: src/lib/components/shared/asset/asset-preview.tsx:168
+#: src/lib/components/shared/asset/asset-preview.tsx:153
 msgid "Focal Point"
 msgstr "Фокусна точка"
 
@@ -1292,7 +1292,7 @@ msgstr "{buttonText}"
 msgid "Item added to order"
 msgstr "Артикулът е добавен към поръчката"
 
-#: src/lib/components/shared/asset/asset-preview.tsx:161
+#: src/lib/components/shared/asset/asset-preview.tsx:146
 msgid "Edit focal point"
 msgstr "Редактиране на фокусната точка"
 
@@ -2842,7 +2842,7 @@ msgstr "От {0} до {1}"
 msgid "Failed to create customer"
 msgstr "Неуспешно създаване на клиент"
 
-#: src/lib/components/shared/asset/asset-preview.tsx:138
+#: src/lib/components/shared/asset/asset-preview.tsx:123
 msgid "Focal point updated"
 msgstr "Фокусната точка е актуализирана"
 
@@ -3088,7 +3088,7 @@ msgstr "Това е данъчна категория по подразбира�
 msgid "Slug is set"
 msgstr "Slug е настроен"
 
-#: src/lib/components/shared/asset/asset-preview.tsx:141
+#: src/lib/components/shared/asset/asset-preview.tsx:126
 msgid "Failed to update focal point"
 msgstr "Неуспешно актуализиране на фокусната точка"
 
@@ -3608,7 +3608,7 @@ msgid "Cannot remove from active channel"
 msgstr "Не може да се премахне от активния канал"
 
 #: src/app/routes/_authenticated/_assets/assets_.$id.tsx:179
-#: src/lib/components/shared/asset/asset-preview.tsx:177
+#: src/lib/components/shared/asset/asset-preview.tsx:162
 msgid "Not set"
 msgstr "Не е зададено"
 
@@ -4532,6 +4532,7 @@ msgstr "е по-голямо или равно на"
 
 #: src/app/routes/_authenticated/_collections/components/collection-contents-preview-table.tsx:77
 #: src/app/routes/_authenticated/_collections/components/collection-contents-preview-table.tsx:88
+#: src/lib/components/shared/entity-assets.tsx:151
 msgid "Preview"
 msgstr "Преглед"
 

@@ -324,7 +324,7 @@ msgstr "Locația de stoc a fost creată cu succes"
 #: src/app/routes/_authenticated/_products/components/generate-variants-panel.tsx:185
 #: src/app/routes/_authenticated/_products/products_.$id_.variants.tsx:112
 #: src/app/routes/_authenticated/_products/products_.$id.tsx:204
-#: src/lib/components/shared/asset/asset-preview.tsx:142
+#: src/lib/components/shared/asset/asset-preview.tsx:127
 msgid "Unknown error"
 msgstr "Eroare necunoscută"
 
@@ -866,7 +866,7 @@ msgid "Shipping address set for order"
 msgstr "Adresa de livrare setată pentru comandă"
 
 #: src/app/routes/_authenticated/_assets/assets_.$id.tsx:173
-#: src/lib/components/shared/asset/asset-preview.tsx:168
+#: src/lib/components/shared/asset/asset-preview.tsx:153
 msgid "Focal Point"
 msgstr "Punct focal"
 
@@ -1246,7 +1246,7 @@ msgstr "{buttonText}"
 msgid "Item added to order"
 msgstr "Articol adăugat la comandă"
 
-#: src/lib/components/shared/asset/asset-preview.tsx:161
+#: src/lib/components/shared/asset/asset-preview.tsx:146
 msgid "Edit focal point"
 msgstr "Editează punctul focal"
 
@@ -2738,7 +2738,7 @@ msgstr "De la {0} la {1}"
 msgid "Failed to create customer"
 msgstr "Nu s-a putut crea clientul"
 
-#: src/lib/components/shared/asset/asset-preview.tsx:138
+#: src/lib/components/shared/asset/asset-preview.tsx:123
 msgid "Focal point updated"
 msgstr "Punct focal actualizat"
 
@@ -2976,7 +2976,7 @@ msgstr "Este categoria de taxă implicită"
 msgid "Slug is set"
 msgstr "Identificator-ul URL este setat"
 
-#: src/lib/components/shared/asset/asset-preview.tsx:141
+#: src/lib/components/shared/asset/asset-preview.tsx:126
 msgid "Failed to update focal point"
 msgstr "Actualizarea punctului focal a eșuat"
 
@@ -3477,7 +3477,7 @@ msgid "Cannot remove from active channel"
 msgstr "Nu poți elimina din canalul activ"
 
 #: src/app/routes/_authenticated/_assets/assets_.$id.tsx:179
-#: src/lib/components/shared/asset/asset-preview.tsx:177
+#: src/lib/components/shared/asset/asset-preview.tsx:162
 msgid "Not set"
 msgstr "Nu este setat"
 
@@ -4350,6 +4350,7 @@ msgstr "este mai mare sau egal cu"
 
 #: src/app/routes/_authenticated/_collections/components/collection-contents-preview-table.tsx:77
 #: src/app/routes/_authenticated/_collections/components/collection-contents-preview-table.tsx:88
+#: src/lib/components/shared/entity-assets.tsx:151
 msgid "Preview"
 msgstr "Previzualizare"
 

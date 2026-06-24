@@ -348,7 +348,7 @@ msgstr "Voorraadlocatie succesvol aangemaakt"
 #: src/app/routes/_authenticated/_products/components/generate-variants-panel.tsx:185
 #: src/app/routes/_authenticated/_products/products_.$id_.variants.tsx:112
 #: src/app/routes/_authenticated/_products/products_.$id.tsx:204
-#: src/lib/components/shared/asset/asset-preview.tsx:142
+#: src/lib/components/shared/asset/asset-preview.tsx:127
 msgid "Unknown error"
 msgstr "Onbekende fout"
 
@@ -898,7 +898,7 @@ msgid "Shipping address set for order"
 msgstr "Verzendadres ingesteld voor bestelling"
 
 #: src/app/routes/_authenticated/_assets/assets_.$id.tsx:173
-#: src/lib/components/shared/asset/asset-preview.tsx:168
+#: src/lib/components/shared/asset/asset-preview.tsx:153
 msgid "Focal Point"
 msgstr "Focuspunt"
 
@@ -1290,7 +1290,7 @@ msgstr "{buttonText}"
 msgid "Item added to order"
 msgstr "Item toegevoegd aan bestelling"
 
-#: src/lib/components/shared/asset/asset-preview.tsx:161
+#: src/lib/components/shared/asset/asset-preview.tsx:146
 msgid "Edit focal point"
 msgstr "Focuspunt bewerken"
 
@@ -2816,7 +2816,7 @@ msgstr "Van {0} tot {1}"
 msgid "Failed to create customer"
 msgstr "Klant aanmaken mislukt"
 
-#: src/lib/components/shared/asset/asset-preview.tsx:138
+#: src/lib/components/shared/asset/asset-preview.tsx:123
 msgid "Focal point updated"
 msgstr "Focuspunt bijgewerkt"
 
@@ -3062,7 +3062,7 @@ msgstr "Is standaard belastingcategorie"
 msgid "Slug is set"
 msgstr "Slug is ingesteld"
 
-#: src/lib/components/shared/asset/asset-preview.tsx:141
+#: src/lib/components/shared/asset/asset-preview.tsx:126
 msgid "Failed to update focal point"
 msgstr "Bijwerken van focuspunt mislukt"
 
@@ -3579,7 +3579,7 @@ msgid "Cannot remove from active channel"
 msgstr "Kan niet uit actief kanaal verwijderen"
 
 #: src/app/routes/_authenticated/_assets/assets_.$id.tsx:179
-#: src/lib/components/shared/asset/asset-preview.tsx:177
+#: src/lib/components/shared/asset/asset-preview.tsx:162
 msgid "Not set"
 msgstr "Niet ingesteld"
 
@@ -4497,6 +4497,7 @@ msgstr "is groter dan of gelijk aan"
 
 #: src/app/routes/_authenticated/_collections/components/collection-contents-preview-table.tsx:77
 #: src/app/routes/_authenticated/_collections/components/collection-contents-preview-table.tsx:88
+#: src/lib/components/shared/entity-assets.tsx:151
 msgid "Preview"
 msgstr "Voorbeeld"
 

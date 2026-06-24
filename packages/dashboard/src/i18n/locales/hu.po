@@ -348,7 +348,7 @@ msgstr "A raktárhely sikeresen létrehozva"
 #: src/app/routes/_authenticated/_products/components/generate-variants-panel.tsx:185
 #: src/app/routes/_authenticated/_products/products_.$id_.variants.tsx:112
 #: src/app/routes/_authenticated/_products/products_.$id.tsx:204
-#: src/lib/components/shared/asset/asset-preview.tsx:142
+#: src/lib/components/shared/asset/asset-preview.tsx:127
 msgid "Unknown error"
 msgstr "Ismeretlen hiba"
 
@@ -894,7 +894,7 @@ msgid "Shipping address set for order"
 msgstr "Szállítási cím beállítva a megrendeléshez"
 
 #: src/app/routes/_authenticated/_assets/assets_.$id.tsx:173
-#: src/lib/components/shared/asset/asset-preview.tsx:168
+#: src/lib/components/shared/asset/asset-preview.tsx:153
 msgid "Focal Point"
 msgstr "Fókuszpont"
 
@@ -1286,7 +1286,7 @@ msgstr "{buttonText}"
 msgid "Item added to order"
 msgstr "Tétel hozzáadva a megrendeléshez"
 
-#: src/lib/components/shared/asset/asset-preview.tsx:161
+#: src/lib/components/shared/asset/asset-preview.tsx:146
 msgid "Edit focal point"
 msgstr "Fókuszpont szerkesztése"
 
@@ -2812,7 +2812,7 @@ msgstr "{0}-tól {1}-ig"
 msgid "Failed to create customer"
 msgstr "Vásárló létrehozása sikertelen"
 
-#: src/lib/components/shared/asset/asset-preview.tsx:138
+#: src/lib/components/shared/asset/asset-preview.tsx:123
 msgid "Focal point updated"
 msgstr "Fókuszpont frissítve"
 
@@ -3058,7 +3058,7 @@ msgstr "Ez az alapértelmezett adókategória"
 msgid "Slug is set"
 msgstr "A slug be van állítva"
 
-#: src/lib/components/shared/asset/asset-preview.tsx:141
+#: src/lib/components/shared/asset/asset-preview.tsx:126
 msgid "Failed to update focal point"
 msgstr "A fókuszpont frissítése sikertelen"
 
@@ -3575,7 +3575,7 @@ msgid "Cannot remove from active channel"
 msgstr "Nem távolítható el az aktív csatornából"
 
 #: src/app/routes/_authenticated/_assets/assets_.$id.tsx:179
-#: src/lib/components/shared/asset/asset-preview.tsx:177
+#: src/lib/components/shared/asset/asset-preview.tsx:162
 msgid "Not set"
 msgstr "Nincs beállítva"
 
@@ -4493,6 +4493,7 @@ msgstr "nagyobb vagy egyenlő mint"
 
 #: src/app/routes/_authenticated/_collections/components/collection-contents-preview-table.tsx:77
 #: src/app/routes/_authenticated/_collections/components/collection-contents-preview-table.tsx:88
+#: src/lib/components/shared/entity-assets.tsx:151
 msgid "Preview"
 msgstr "Előnézet"
 
