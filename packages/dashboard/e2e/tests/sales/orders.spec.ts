@@ -52,10 +52,36 @@ test.describe('Orders', () => {
         await expect(dialog).toBeVisible();
         await expect(dialog.getByText('Regular')).toBeVisible();
 
-        // Applying `type eq Regular` must succeed server-side and keep the Regular order.
+        // Applying must send `type: { eq: "Regular" }` as a server-side filter — proving
+        // the enum filter is wired through, not silently dropped on the client.
+        const filteredRequest = page.waitForRequest(
+            req =>
+                req.url().includes('/admin-api') &&
+                req.method() === 'POST' &&
+                (req.postData() ?? '').replace(/\s/g, '').includes('"type":{"eq":"Regular"}'),
+        );
         await dialog.getByRole('button', { name: /Apply filter/i }).click();
         await expect(dialog).toBeHidden();
+        await filteredRequest;
+        // The Regular order survives the matching filter, and an active filter badge appears.
         await lp.expectRowCountGreaterThan(0);
+        const filterBadge = page.getByRole('button').filter({ hasText: 'type' }).filter({ hasText: 'Regular' });
+        await expect(filterBadge).toBeVisible();
+        await expect(page.getByText(/An error occurred:/i)).toHaveCount(0);
+
+        // Negative case: switch the filter to an OrderType no order has (Seller/Aggregate
+        // only exist in multi-vendor setups). If the filter is genuinely applied
+        // server-side the list empties; if it were accepted-and-ignored the Regular order
+        // would wrongly remain. This is what the old `rowCount > 0` assertion couldn't catch.
+        await filterBadge.click();
+        const editDialog = page.getByRole('dialog');
+        await expect(editDialog).toBeVisible();
+        // Second combobox is the value select (the first is the operator select).
+        await editDialog.getByRole('combobox').nth(1).click();
+        await page.getByRole('option', { name: 'Aggregate', exact: true }).click();
+        await editDialog.getByRole('button', { name: /Apply filter/i }).click();
+        await expect(editDialog).toBeHidden();
+        await expect(lp.dataTable.getByText('No results')).toBeVisible();
         await expect(page.getByText(/An error occurred:/i)).toHaveCount(0);
     });
 
