@@ -21,20 +21,22 @@ describe('checkSuperadminCredentials', () => {
         ).toThrow(/Refusing to start/);
     });
 
-    it('throws in production when only the identifier is default', () => {
+    it('does not throw in production when the identifier is default but the password is strong', () => {
+        const logger = { warn: vi.fn() };
         expect(() =>
             checkSuperadminCredentials(
-                { identifier: 'superadmin', password: 'something-strong-1234' },
-                { nodeEnv: 'production' },
+                { identifier: 'superadmin', password: 'a-very-long-random-passphrase' },
+                { nodeEnv: 'production', logger },
             ),
-        ).toThrow(/Refusing to start/);
+        ).not.toThrow();
+        expect(logger.warn).not.toHaveBeenCalled();
     });
 
     it('warns in development when defaults are used', () => {
         const logger = { warn: vi.fn() };
         checkSuperadminCredentials(DEFAULTS, { nodeEnv: 'development', logger });
         expect(logger.warn).toHaveBeenCalledTimes(1);
-        expect(logger.warn.mock.calls[0][0]).toMatch(/Default superadmin credentials/);
+        expect(logger.warn.mock.calls[0][0]).toMatch(/Default superadmin password/);
     });
 
     it('warns in staging / non-production environments when defaults are used', () => {
