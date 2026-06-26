@@ -221,7 +221,11 @@ jobs:
             contents: read
         strategy:
             matrix:
-                pm: [bun, pnpm]
+                include:
+                    - pm: bun
+                      scaffold: bunx @vendure/create@ci test-app --ci --log-level info
+                    - pm: pnpm
+                      scaffold: pnpm dlx @vendure/create@ci test-app --ci --log-level info
             fail-fast: false
         steps:
             - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
@@ -252,38 +256,30 @@ jobs:
                   tar -xzf ~/verdaccio-download/verdaccio-storage.tar.gz
                   nohup verdaccio --config $HOME/.config/verdaccio/config.yaml &
                   wait-on http://localhost:4873
-                  # Point all managers at Verdaccio via ~/.npmrc (honoured by npm, pnpm and bun)
+                  # Register a Verdaccio user and capture an auth token.
                   TOKEN_RES=$(curl -XPUT \
                     -H "Content-type: application/json" \
                     -d '{ "name": "test", "password": "test" }' \
                     'http://localhost:4873/-/user/org.couchdb.user:test')
                   TOKEN=$(echo "$TOKEN_RES" | jq -r '.token')
-                  # npm + pnpm read ~/.npmrc.
+                  # npm + pnpm read ~/.npmrc; bun is pointed at Verdaccio via the
+                  # npm_config_registry env var on the install step (see below).
                   npm set registry=http://localhost:4873
                   npm set //localhost:4873/:_authToken $TOKEN
-                  # bun ignores the home-directory ~/.npmrc (oven-sh/bun#22971), so it needs
-                  # its own bunfig. Verdaccio allows anonymous reads ($all), so no token here.
-                  printf '[install]\nregistry = "http://localhost:4873/"\n' > $HOME/.bunfig.toml
             - name: Install via @vendure/create using ${{ matrix.pm }}
+              # bun ignores the home-directory ~/.npmrc (oven-sh/bun#22971) and does not walk
+              # up to a parent .npmrc/bunfig, but it DOES honour the npm_config_registry env
+              # var — and so does the scaffolded project's nested install (it inherits the
+              # env). This is the one mechanism that reaches both bunx and the nested install.
+              env:
+                  CI: true
+                  npm_config_registry: http://localhost:4873/
               run: |
                   mkdir -p $HOME/install
                   cd $HOME/install
                   npm dist-tag ls @vendure/create
-                  if [ "${{ matrix.pm }}" = "bun" ]; then
-                      # `bunx` ignores custom registries entirely (oven-sh/bun#5361), so it
-                      # cannot fetch @vendure/create@ci from Verdaccio. Instead install it with
-                      # `bun add` (which honours the bunfig) and run the local CLI directly,
-                      # forcing bun detection via npm_config_user_agent so the scaffolded
-                      # project is still installed with bun.
-                      bun add @vendure/create@ci
-                      npm_config_user_agent="bun/$(bun --version) npm/? node/$(node --version) linux x64" \
-                          node ./node_modules/@vendure/create/index.js test-app --ci --log-level info
-                  else
-                      # No --use-npm: the manager is detected from the invoking pnpm dlx.
-                      pnpm dlx @vendure/create@ci test-app --ci --log-level info
-                  fi
-              env:
-                  CI: true
+                  # No --use-npm: the manager is detected from the invoking bunx / pnpm dlx.
+                  ${{ matrix.scaffold }}
             - name: Assert the generated project used ${{ matrix.pm }}
               run: |
                   cd $HOME/install/test-app
