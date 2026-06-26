@@ -1,6 +1,7 @@
 import { cancel, isCancel, spinner } from '@clack/prompts';
 import spawn from 'cross-spawn';
 import fs from 'fs-extra';
+import Handlebars from 'handlebars';
 import { execFile, execFileSync, execSync } from 'node:child_process';
 import { createWriteStream } from 'node:fs';
 import { platform } from 'node:os';
@@ -12,7 +13,13 @@ import pc from 'picocolors';
 import semver from 'semver';
 import * as tar from 'tar';
 
-import { STOREFRONT_BRANCH, STOREFRONT_REPO, TYPESCRIPT_VERSION, VITE_VERSION } from './constants';
+import {
+    CONCURRENTLY_VERSION,
+    STOREFRONT_BRANCH,
+    STOREFRONT_REPO,
+    TYPESCRIPT_VERSION,
+    VITE_VERSION,
+} from './constants';
 import { log } from './logger';
 import { CliLogLevel, DbType, PackageManager } from './types';
 
@@ -103,18 +110,6 @@ export function checkNodeVersion(requiredVersion: string) {
             ),
         );
         process.exit(1);
-    }
-}
-
-// Bun support should not be exposed yet, see
-// https://github.com/oven-sh/bun/issues/4947
-// https://github.com/lovell/sharp/issues/3511
-export function bunIsAvailable() {
-    try {
-        execFileSync('bun', ['--version'], { stdio: 'ignore' });
-        return true;
-    } catch (e: any) {
-        return false;
     }
 }
 
@@ -250,8 +245,10 @@ export function getInstallCommand(
 export interface PackageManagerInfo {
     /** The package manager binary, e.g. `npm` | `yarn` | `pnpm` | `bun`. */
     name: PackageManager;
-    /** Prefix to run a package.json script, e.g. `npm run` / `yarn` / `pnpm` / `bun run`. */
+    /** Prefix to run a package.json script, e.g. `npm run` / `pnpm run` / `bun run`. */
     runScript: string;
+    /** Prefix to execute a locally-installed bin, e.g. `npx` / `bunx` / `pnpm exec`. */
+    exec: string;
     /** Install all deps declared in the manifest, e.g. `npm install` / `pnpm install`. */
     install: string;
     /** Reproducible, lockfile-frozen install for CI & Docker (includes devDependencies). */
@@ -270,11 +267,15 @@ export interface PackageManagerInfo {
 export function getPackageManagerInfo(packageManager: PackageManager): PackageManagerInfo {
     switch (packageManager) {
         case 'yarn':
+            // `yarn install` works on both Yarn Classic and Berry (and is immutable by
+            // default under CI on Berry); `--immutable`/`--frozen-lockfile` differ between
+            // the two, so we avoid them. Yarn is best-effort and not covered by CI.
             return {
                 name: 'yarn',
-                runScript: 'yarn',
+                runScript: 'yarn run',
+                exec: 'yarn',
                 install: 'yarn install',
-                ciInstall: 'yarn install --immutable',
+                ciInstall: 'yarn install',
                 lockfile: 'yarn.lock',
                 usesPackageJsonWorkspaces: true,
                 workspaceScript: (workspace, script) => `yarn workspace ${workspace} ${script}`,
@@ -282,7 +283,8 @@ export function getPackageManagerInfo(packageManager: PackageManager): PackageMa
         case 'pnpm':
             return {
                 name: 'pnpm',
-                runScript: 'pnpm',
+                runScript: 'pnpm run',
+                exec: 'pnpm exec',
                 install: 'pnpm install',
                 ciInstall: 'pnpm install --frozen-lockfile',
                 lockfile: 'pnpm-lock.yaml',
@@ -293,6 +295,7 @@ export function getPackageManagerInfo(packageManager: PackageManager): PackageMa
             return {
                 name: 'bun',
                 runScript: 'bun run',
+                exec: 'bunx',
                 install: 'bun install',
                 ciInstall: 'bun install --frozen-lockfile',
                 lockfile: 'bun.lock',
@@ -303,6 +306,7 @@ export function getPackageManagerInfo(packageManager: PackageManager): PackageMa
             return {
                 name: 'npm',
                 runScript: 'npm run',
+                exec: 'npx',
                 install: 'npm install',
                 ciInstall: 'npm ci',
                 lockfile: 'package-lock.json',
@@ -310,6 +314,71 @@ export function getPackageManagerInfo(packageManager: PackageManager): PackageMa
                 workspaceScript: (workspace, script) => `npm run ${script} -w ${workspace}`,
             };
     }
+}
+
+/**
+ * Returns the scripts for the server package.json. `concurrently` expands the
+ * `<pm>:dev:*` / `<pm>:start:*` shorthands to every matching script using the given
+ * package manager, so this must match the manager the project was created with.
+ */
+export function getServerPackageScripts(pmInfo: PackageManagerInfo): Record<string, string> {
+    const pm = pmInfo.name;
+    return {
+        'dev:server': 'ts-node ./src/index.ts',
+        'dev:worker': 'ts-node ./src/index-worker.ts',
+        'dev:dashboard': 'vite --clearScreen false',
+        dev: `concurrently --kill-others ${pm}:dev:*`,
+        build: 'tsc',
+        'build:dashboard': 'vite build',
+        'start:server': 'node ./dist/index.js',
+        'start:worker': 'node ./dist/index-worker.js',
+        start: `concurrently ${pm}:start:*`,
+    };
+}
+
+/**
+ * Returns the root package.json for the monorepo (`--include-storefront`) layout, with
+ * workspace scripts written in the syntax of the detected package manager.
+ */
+export function getMonorepoRootPackageJson(
+    name: string,
+    pmInfo: PackageManagerInfo,
+): Record<string, unknown> {
+    const ws = (workspace: string, script: string) => pmInfo.workspaceScript(workspace, script);
+    const pkg: Record<string, unknown> = {
+        name,
+        version: '0.1.0',
+        private: true,
+        scripts: {
+            dev: `concurrently -n server,storefront -c blue,magenta "${ws('server', 'dev')}" "${ws('storefront', 'dev')}"`,
+            'dev:server': ws('server', 'dev'),
+            'dev:storefront': ws('storefront', 'dev'),
+            build: `${ws('server', 'build')} && ${ws('storefront', 'build')}`,
+            'build:server': ws('server', 'build'),
+            'build:storefront': ws('storefront', 'build'),
+            start: `concurrently -n server,storefront -c blue,magenta "${ws('server', 'start')}" "${ws('storefront', 'start')}"`,
+            'start:server': ws('server', 'start'),
+            'start:storefront': ws('storefront', 'start'),
+        },
+        devDependencies: {
+            concurrently: CONCURRENTLY_VERSION,
+        },
+    };
+    if (pmInfo.usesPackageJsonWorkspaces) {
+        pkg.workspaces = ['apps/*'];
+    }
+    return pkg;
+}
+
+/**
+ * Registers Handlebars helpers that emit package-manager-specific command fragments,
+ * so templates (README, Dockerfile, …) render commands matching the manager in use.
+ */
+export function registerTemplateHelpers(pmInfo: PackageManagerInfo): void {
+    Handlebars.registerHelper('pmRunScript', (script: string) => `${pmInfo.runScript} ${script}`);
+    Handlebars.registerHelper('pmExec', () => pmInfo.exec);
+    Handlebars.registerHelper('pmCiInstall', () => pmInfo.ciInstall);
+    Handlebars.registerHelper('pmLockfile', () => pmInfo.lockfile);
 }
 
 /**
@@ -373,7 +442,7 @@ export function getDependencies(
     ];
     const devDependencies = [
         `@vendure/cli${vendurePkgVersion}`,
-        'concurrently',
+        `concurrently@${CONCURRENTLY_VERSION}`,
         'ts-node',
         `typescript@${TYPESCRIPT_VERSION}`,
         `vite@${VITE_VERSION}`,

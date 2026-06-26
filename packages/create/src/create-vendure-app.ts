@@ -40,10 +40,12 @@ import {
     downloadAndExtractStorefront,
     findAvailablePort,
     getDependencies,
+    getMonorepoRootPackageJson,
     getPackageManagerInfo,
+    getServerPackageScripts,
     installPackages,
     isSafeToCreateProjectIn,
-    PackageManagerInfo,
+    registerTemplateHelpers,
     resolvePackageRootDir,
     scaffoldAlreadyExists,
     startPostgresDatabase,
@@ -535,12 +537,11 @@ export async function createVendureApp(
 
                 // Run `dev` via the detected package manager. On Windows the npm/yarn/pnpm
                 // binaries are `.cmd` shims (bun ships a real `bun.exe`).
-                const [pmBin, ...pmRunArgs] = pmInfo.runScript.split(' ');
                 const pmCommand =
-                    os.platform() === 'win32' && pmInfo.name !== 'bun' ? `${pmBin}.cmd` : pmBin;
+                    os.platform() === 'win32' && pmInfo.name !== 'bun' ? `${pmInfo.name}.cmd` : pmInfo.name;
                 let quickStartProcess: ChildProcess | undefined;
                 try {
-                    quickStartProcess = spawn(pmCommand, [...pmRunArgs, 'dev'], {
+                    quickStartProcess = spawn(pmCommand, ['run', 'dev'], {
                         cwd: root,
                         stdio: 'inherit',
                     });
@@ -597,67 +598,6 @@ export async function createVendureApp(
         outro(pc.red(`Failed to initialize server. Please try again.`));
         process.exit(1);
     }
-}
-
-/**
- * Returns the scripts for the server package.json. `concurrently` expands the
- * `<pm>:dev:*` / `<pm>:start:*` shorthands to every matching script using the given
- * package manager, so this must match the manager the project was created with.
- */
-function getServerPackageScripts(pmInfo: PackageManagerInfo): Record<string, string> {
-    const pm = pmInfo.name;
-    return {
-        'dev:server': 'ts-node ./src/index.ts',
-        'dev:worker': 'ts-node ./src/index-worker.ts',
-        'dev:dashboard': 'vite --clearScreen false',
-        dev: `concurrently --kill-others ${pm}:dev:*`,
-        build: 'tsc',
-        'build:dashboard': 'vite build',
-        'start:server': 'node ./dist/index.js',
-        'start:worker': 'node ./dist/index-worker.js',
-        start: `concurrently ${pm}:start:*`,
-    };
-}
-
-/**
- * Returns the root package.json for the monorepo (`--include-storefront`) layout, with
- * workspace scripts written in the syntax of the detected package manager.
- */
-function getMonorepoRootPackageJson(name: string, pmInfo: PackageManagerInfo): Record<string, unknown> {
-    const ws = (workspace: string, script: string) => pmInfo.workspaceScript(workspace, script);
-    const pkg: Record<string, unknown> = {
-        name,
-        version: '0.1.0',
-        private: true,
-        scripts: {
-            dev: `concurrently -n server,storefront -c blue,magenta "${ws('server', 'dev')}" "${ws('storefront', 'dev')}"`,
-            'dev:server': ws('server', 'dev'),
-            'dev:storefront': ws('storefront', 'dev'),
-            build: `${ws('server', 'build')} && ${ws('storefront', 'build')}`,
-            'build:server': ws('server', 'build'),
-            'build:storefront': ws('storefront', 'build'),
-            start: `concurrently -n server,storefront -c blue,magenta "${ws('server', 'start')}" "${ws('storefront', 'start')}"`,
-            'start:server': ws('server', 'start'),
-            'start:storefront': ws('storefront', 'start'),
-        },
-        devDependencies: {
-            concurrently: '^9.0.0',
-        },
-    };
-    if (pmInfo.usesPackageJsonWorkspaces) {
-        pkg.workspaces = ['apps/*'];
-    }
-    return pkg;
-}
-
-/**
- * Registers Handlebars helpers that emit package-manager-specific command fragments,
- * so templates (README, Dockerfile, …) render commands matching the manager in use.
- */
-function registerTemplateHelpers(pmInfo: PackageManagerInfo): void {
-    Handlebars.registerHelper('pmRunScript', (script: string) => `${pmInfo.runScript} ${script}`);
-    Handlebars.registerHelper('pmCiInstall', () => pmInfo.ciInstall);
-    Handlebars.registerHelper('pmLockfile', () => pmInfo.lockfile);
 }
 
 interface InstallDependenciesOptions {

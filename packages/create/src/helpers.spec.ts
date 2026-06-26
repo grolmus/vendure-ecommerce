@@ -1,6 +1,16 @@
+import fs from 'fs-extra';
+import Handlebars from 'handlebars';
+import path from 'node:path';
 import { describe, expect, it } from 'vitest';
 
-import { detectPackageManager, getInstallCommand, getPackageManagerInfo } from './helpers';
+import {
+    detectPackageManager,
+    getInstallCommand,
+    getMonorepoRootPackageJson,
+    getPackageManagerInfo,
+    getServerPackageScripts,
+    registerTemplateHelpers,
+} from './helpers';
 import { PackageManager } from './types';
 
 // #4390 — `bunx @vendure/create` failed with `spawn npm ENOENT` because the
@@ -106,31 +116,36 @@ describe('getInstallCommand', () => {
 });
 
 describe('getPackageManagerInfo', () => {
-    it('provides idiomatic run/install/ci-install/lockfile per manager', () => {
+    it('provides run/exec/install/ci-install/lockfile per manager', () => {
         const expected: Record<
             PackageManager,
-            { runScript: string; install: string; ciInstall: string; lockfile: string }
+            { runScript: string; exec: string; install: string; ciInstall: string; lockfile: string }
         > = {
             npm: {
                 runScript: 'npm run',
+                exec: 'npx',
                 install: 'npm install',
                 ciInstall: 'npm ci',
                 lockfile: 'package-lock.json',
             },
             yarn: {
-                runScript: 'yarn',
+                runScript: 'yarn run',
+                exec: 'yarn',
                 install: 'yarn install',
-                ciInstall: 'yarn install --immutable',
+                // No --immutable/--frozen-lockfile: those differ between Yarn Classic and Berry.
+                ciInstall: 'yarn install',
                 lockfile: 'yarn.lock',
             },
             pnpm: {
-                runScript: 'pnpm',
+                runScript: 'pnpm run',
+                exec: 'pnpm exec',
                 install: 'pnpm install',
                 ciInstall: 'pnpm install --frozen-lockfile',
                 lockfile: 'pnpm-lock.yaml',
             },
             bun: {
                 runScript: 'bun run',
+                exec: 'bunx',
                 install: 'bun install',
                 ciInstall: 'bun install --frozen-lockfile',
                 lockfile: 'bun.lock',
@@ -140,6 +155,7 @@ describe('getPackageManagerInfo', () => {
             const info = getPackageManagerInfo(pm);
             expect(info.name).toBe(pm);
             expect(info.runScript).toBe(expected[pm].runScript);
+            expect(info.exec).toBe(expected[pm].exec);
             expect(info.install).toBe(expected[pm].install);
             expect(info.ciInstall).toBe(expected[pm].ciInstall);
             expect(info.lockfile).toBe(expected[pm].lockfile);
@@ -158,5 +174,76 @@ describe('getPackageManagerInfo', () => {
         expect(getPackageManagerInfo('yarn').usesPackageJsonWorkspaces).toBe(true);
         expect(getPackageManagerInfo('bun').usesPackageJsonWorkspaces).toBe(true);
         expect(getPackageManagerInfo('pnpm').usesPackageJsonWorkspaces).toBe(false);
+    });
+});
+
+describe('getServerPackageScripts', () => {
+    it('uses the manager-specific concurrently prefix for dev/start', () => {
+        for (const pm of ['npm', 'yarn', 'pnpm', 'bun'] as const) {
+            const scripts = getServerPackageScripts(getPackageManagerInfo(pm));
+            expect(scripts.dev).toBe(`concurrently --kill-others ${pm}:dev:*`);
+            expect(scripts.start).toBe(`concurrently ${pm}:start:*`);
+            // Non-pm scripts are identical regardless of manager.
+            expect(scripts['dev:server']).toBe('ts-node ./src/index.ts');
+            expect(scripts.build).toBe('tsc');
+        }
+    });
+});
+
+describe('getMonorepoRootPackageJson', () => {
+    it('writes workspace scripts in each manager’s syntax', () => {
+        const npm = getMonorepoRootPackageJson('my-shop', getPackageManagerInfo('npm'));
+        expect((npm.scripts as Record<string, string>)['dev:server']).toBe('npm run dev -w server');
+
+        const pnpm = getMonorepoRootPackageJson('my-shop', getPackageManagerInfo('pnpm'));
+        expect((pnpm.scripts as Record<string, string>)['dev:server']).toBe('pnpm --filter server dev');
+
+        const bun = getMonorepoRootPackageJson('my-shop', getPackageManagerInfo('bun'));
+        expect((bun.scripts as Record<string, string>)['build:storefront']).toBe(
+            'bun run --filter storefront build',
+        );
+    });
+
+    it('only declares the package.json workspaces field for managers that read it', () => {
+        expect(getMonorepoRootPackageJson('x', getPackageManagerInfo('npm')).workspaces).toEqual(['apps/*']);
+        expect(getMonorepoRootPackageJson('x', getPackageManagerInfo('bun')).workspaces).toEqual(['apps/*']);
+        // pnpm uses pnpm-workspace.yaml instead, so the field must be absent.
+        expect(getMonorepoRootPackageJson('x', getPackageManagerInfo('pnpm')).workspaces).toBeUndefined();
+    });
+});
+
+// The Dockerfile template is rendered with helpers registered by registerTemplateHelpers.
+// A misspelled helper name renders an empty string silently, so assert real output.
+describe('registerTemplateHelpers + Dockerfile template', () => {
+    const dockerfileTemplate = fs.readFileSync(
+        path.join(__dirname, '../templates/Dockerfile.hbs'),
+        'utf-8',
+    );
+
+    function renderDockerfile(pm: PackageManager): string {
+        registerTemplateHelpers(getPackageManagerInfo(pm));
+        return Handlebars.compile(dockerfileTemplate)({
+            packageManager: pm,
+            isBun: pm === 'bun',
+            needsCorepack: pm === 'pnpm' || pm === 'yarn',
+        });
+    }
+
+    it('renders a bun Dockerfile against the oven/bun base with a frozen install', () => {
+        const out = renderDockerfile('bun');
+        expect(out).toContain('FROM oven/bun:1');
+        expect(out).toContain('COPY package.json bun.lock ./');
+        expect(out).toContain('RUN bun install --frozen-lockfile');
+        expect(out).toContain('RUN bun run build');
+        expect(out).not.toContain('corepack');
+    });
+
+    it('renders a pnpm Dockerfile on node with corepack and a frozen install', () => {
+        const out = renderDockerfile('pnpm');
+        expect(out).toContain('FROM node:20');
+        expect(out).toContain('RUN corepack enable');
+        expect(out).toContain('COPY package.json pnpm-lock.yaml ./');
+        expect(out).toContain('RUN pnpm install --frozen-lockfile');
+        expect(out).toContain('RUN pnpm run build');
     });
 });
