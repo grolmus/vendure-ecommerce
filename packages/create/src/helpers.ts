@@ -201,6 +201,13 @@ export function getInstallCommand(
     options: { dependencies: string[]; isDevDependencies?: boolean; logLevel: CliLogLevel },
 ): { command: string; args: string[] } {
     const { dependencies, isDevDependencies = false, logLevel } = options;
+    // With no explicit packages, the intent is "install everything declared in the
+    // manifest" (e.g. the downloaded storefront). `npm install` does this with no args,
+    // but `<pm> add` with no args is an error for yarn/pnpm/bun — so use the plain
+    // `install` subcommand, which all four managers accept.
+    if (dependencies.length === 0) {
+        return { command: packageManager, args: ['install'] };
+    }
     switch (packageManager) {
         case 'yarn':
             return {
@@ -235,6 +242,77 @@ export function getInstallCommand(
 }
 
 /**
+ * Manager-specific command fragments used to generate package.json scripts, CLI
+ * instructions, Dockerfiles and READMEs that match the package manager the project
+ * was created with. This is the single source of truth for everything that used to
+ * be hard-coded as `npm`.
+ */
+export interface PackageManagerInfo {
+    /** The package manager binary, e.g. `npm` | `yarn` | `pnpm` | `bun`. */
+    name: PackageManager;
+    /** Prefix to run a package.json script, e.g. `npm run` / `yarn` / `pnpm` / `bun run`. */
+    runScript: string;
+    /** Install all deps declared in the manifest, e.g. `npm install` / `pnpm install`. */
+    install: string;
+    /** Reproducible, lockfile-frozen install for CI & Docker (includes devDependencies). */
+    ciInstall: string;
+    /** The lockfile this manager writes. */
+    lockfile: string;
+    /**
+     * Whether the manager reads the package.json `workspaces` field (npm/yarn/bun) or
+     * requires a `pnpm-workspace.yaml` (pnpm).
+     */
+    usesPackageJsonWorkspaces: boolean;
+    /** Build a command to run a script in a named workspace, e.g. `npm run dev -w server`. */
+    workspaceScript(workspace: string, script: string): string;
+}
+
+export function getPackageManagerInfo(packageManager: PackageManager): PackageManagerInfo {
+    switch (packageManager) {
+        case 'yarn':
+            return {
+                name: 'yarn',
+                runScript: 'yarn',
+                install: 'yarn install',
+                ciInstall: 'yarn install --immutable',
+                lockfile: 'yarn.lock',
+                usesPackageJsonWorkspaces: true,
+                workspaceScript: (workspace, script) => `yarn workspace ${workspace} ${script}`,
+            };
+        case 'pnpm':
+            return {
+                name: 'pnpm',
+                runScript: 'pnpm',
+                install: 'pnpm install',
+                ciInstall: 'pnpm install --frozen-lockfile',
+                lockfile: 'pnpm-lock.yaml',
+                usesPackageJsonWorkspaces: false,
+                workspaceScript: (workspace, script) => `pnpm --filter ${workspace} ${script}`,
+            };
+        case 'bun':
+            return {
+                name: 'bun',
+                runScript: 'bun run',
+                install: 'bun install',
+                ciInstall: 'bun install --frozen-lockfile',
+                lockfile: 'bun.lock',
+                usesPackageJsonWorkspaces: true,
+                workspaceScript: (workspace, script) => `bun run --filter ${workspace} ${script}`,
+            };
+        default:
+            return {
+                name: 'npm',
+                runScript: 'npm run',
+                install: 'npm install',
+                ciInstall: 'npm ci',
+                lockfile: 'package-lock.json',
+                usesPackageJsonWorkspaces: true,
+                workspaceScript: (workspace, script) => `npm run ${script} -w ${workspace}`,
+            };
+    }
+}
+
+/**
  * Install packages via the package manager that invoked the CLI.
  * Based on the install function from https://github.com/facebook/create-react-app
  */
@@ -243,10 +321,17 @@ export function installPackages(options: {
     isDevDependencies?: boolean;
     logLevel: CliLogLevel;
     cwd?: string;
+    packageManager?: PackageManager;
 }): Promise<void> {
-    const { dependencies, isDevDependencies = false, logLevel, cwd } = options;
+    const {
+        dependencies,
+        isDevDependencies = false,
+        logLevel,
+        cwd,
+        packageManager = detectPackageManager(),
+    } = options;
     return new Promise((resolve, reject) => {
-        const { command, args } = getInstallCommand(detectPackageManager(), {
+        const { command, args } = getInstallCommand(packageManager, {
             dependencies,
             isDevDependencies,
             logLevel,

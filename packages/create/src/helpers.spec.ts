@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
-import { detectPackageManager, getInstallCommand } from './helpers';
+import { detectPackageManager, getInstallCommand, getPackageManagerInfo } from './helpers';
+import { PackageManager } from './types';
 
 // #4390 — `bunx @vendure/create` failed with `spawn npm ENOENT` because the
 // installer hard-coded `npm`. These cover the package-manager detection and the
@@ -89,5 +90,73 @@ describe('getInstallCommand', () => {
             logLevel: 'silent',
         });
         expect(dev.args).toContain('--save-dev');
+    });
+
+    // #4390 — with no explicit packages (e.g. installing the downloaded storefront from
+    // its own manifest), `<pm> add` with no args errors for yarn/pnpm/bun, so we fall
+    // back to the plain `install` subcommand which all four managers accept.
+    it('installs from the manifest with a bare `install` when there are no dependencies', () => {
+        for (const pm of ['npm', 'yarn', 'pnpm', 'bun'] as const) {
+            expect(getInstallCommand(pm, { dependencies: [], logLevel: 'silent' })).toEqual({
+                command: pm,
+                args: ['install'],
+            });
+        }
+    });
+});
+
+describe('getPackageManagerInfo', () => {
+    it('provides idiomatic run/install/ci-install/lockfile per manager', () => {
+        const expected: Record<
+            PackageManager,
+            { runScript: string; install: string; ciInstall: string; lockfile: string }
+        > = {
+            npm: {
+                runScript: 'npm run',
+                install: 'npm install',
+                ciInstall: 'npm ci',
+                lockfile: 'package-lock.json',
+            },
+            yarn: {
+                runScript: 'yarn',
+                install: 'yarn install',
+                ciInstall: 'yarn install --immutable',
+                lockfile: 'yarn.lock',
+            },
+            pnpm: {
+                runScript: 'pnpm',
+                install: 'pnpm install',
+                ciInstall: 'pnpm install --frozen-lockfile',
+                lockfile: 'pnpm-lock.yaml',
+            },
+            bun: {
+                runScript: 'bun run',
+                install: 'bun install',
+                ciInstall: 'bun install --frozen-lockfile',
+                lockfile: 'bun.lock',
+            },
+        };
+        for (const pm of Object.keys(expected) as PackageManager[]) {
+            const info = getPackageManagerInfo(pm);
+            expect(info.name).toBe(pm);
+            expect(info.runScript).toBe(expected[pm].runScript);
+            expect(info.install).toBe(expected[pm].install);
+            expect(info.ciInstall).toBe(expected[pm].ciInstall);
+            expect(info.lockfile).toBe(expected[pm].lockfile);
+        }
+    });
+
+    it('builds workspace run commands in each manager’s syntax', () => {
+        expect(getPackageManagerInfo('npm').workspaceScript('server', 'dev')).toBe('npm run dev -w server');
+        expect(getPackageManagerInfo('yarn').workspaceScript('server', 'dev')).toBe('yarn workspace server dev');
+        expect(getPackageManagerInfo('pnpm').workspaceScript('server', 'dev')).toBe('pnpm --filter server dev');
+        expect(getPackageManagerInfo('bun').workspaceScript('server', 'dev')).toBe('bun run --filter server dev');
+    });
+
+    it('flags pnpm as needing pnpm-workspace.yaml rather than the package.json workspaces field', () => {
+        expect(getPackageManagerInfo('npm').usesPackageJsonWorkspaces).toBe(true);
+        expect(getPackageManagerInfo('yarn').usesPackageJsonWorkspaces).toBe(true);
+        expect(getPackageManagerInfo('bun').usesPackageJsonWorkspaces).toBe(true);
+        expect(getPackageManagerInfo('pnpm').usesPackageJsonWorkspaces).toBe(false);
     });
 });

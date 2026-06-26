@@ -36,11 +36,14 @@ import {
     checkNodeVersion,
     checkThatNpmCanReadCwd,
     cleanUpDockerResources,
+    detectPackageManager,
     downloadAndExtractStorefront,
     findAvailablePort,
     getDependencies,
+    getPackageManagerInfo,
     installPackages,
     isSafeToCreateProjectIn,
+    PackageManagerInfo,
     resolvePackageRootDir,
     scaffoldAlreadyExists,
     startPostgresDatabase,
@@ -76,7 +79,7 @@ program
     .option('--verbose', 'Alias for --log-level verbose', false)
     .option(
         '--use-npm',
-        'Uses npm rather than as the default package manager. DEPRECATED: Npm is now the default',
+        'Force npm, overriding auto-detection of the package manager that invoked the CLI',
     )
     .option('--ci', 'Runs without prompts for use in CI scenarios', false)
     .option('--with-storefront', 'Include Next.js storefront (only used with --ci)', false)
@@ -96,7 +99,7 @@ void createVendureApp(
 
 export async function createVendureApp(
     name: string | undefined,
-    _useNpm: boolean, // Deprecated: npm is now the default package manager
+    _useNpm: boolean, // Legacy flag: forces npm, overriding package-manager auto-detection
     logLevel: CliLogLevel,
     isCi: boolean = false,
     withStorefront: boolean = false,
@@ -144,7 +147,12 @@ export async function createVendureApp(
     const appName = path.basename(root);
     const scaffoldExists = scaffoldAlreadyExists(root, name);
 
-    const packageManager: PackageManager = 'npm';
+    // `--use-npm` is honoured as an explicit override of auto-detection; otherwise we
+    // detect the manager that invoked the CLI (bunx/pnpm dlx/yarn dlx) so the generated
+    // project, install step and instructions all match what the user is actually using.
+    const packageManager: PackageManager = _useNpm ? 'npm' : detectPackageManager();
+    const pmInfo = getPackageManagerInfo(packageManager);
+    registerTemplateHelpers(pmInfo);
 
     if (scaffoldExists) {
         log(
@@ -196,7 +204,8 @@ export async function createVendureApp(
     }
 
     process.chdir(root);
-    if (packageManager !== 'npm' && !checkThatNpmCanReadCwd()) {
+    // This check spawns `npm` itself, so it only makes sense (and only works) for npm.
+    if (packageManager === 'npm' && !checkThatNpmCanReadCwd()) {
         process.exit(1);
     }
 
@@ -215,15 +224,23 @@ export async function createVendureApp(
         await fs.ensureDir(serverRoot);
         await fs.ensureDir(path.join(serverRoot, 'src'));
 
-        // Generate root package.json from template
-        const rootPackageTemplate = await fs.readFile(templatePath('root-package.json.hbs'), 'utf-8');
-        const rootPackageContent = Handlebars.compile(rootPackageTemplate)({ name: appName });
-        fs.writeFileSync(path.join(root, 'package.json'), rootPackageContent + os.EOL);
+        // Generate root package.json with package-manager-aware workspace scripts
+        fs.writeFileSync(
+            path.join(root, 'package.json'),
+            JSON.stringify(getMonorepoRootPackageJson(appName, pmInfo), null, 2) + os.EOL,
+        );
+
+        // pnpm does not read the package.json `workspaces` field; it requires a
+        // pnpm-workspace.yaml instead.
+        if (!pmInfo.usesPackageJsonWorkspaces) {
+            fs.writeFileSync(path.join(root, 'pnpm-workspace.yaml'), `packages:\n  - 'apps/*'\n`);
+        }
 
         // Generate root README from template
         const rootReadmeTemplate = await fs.readFile(templatePath('root-readme.hbs'), 'utf-8');
         const rootReadmeContent = Handlebars.compile(rootReadmeTemplate)({
             name: appName,
+            packageManager,
             serverPort: port,
             storefrontPort,
             superadminIdentifier: SUPER_ADMIN_USER_IDENTIFIER,
@@ -239,7 +256,7 @@ export async function createVendureApp(
             name: 'server',
             version: DEFAULT_PROJECT_VERSION,
             private: true,
-            scripts: getServerPackageScripts(),
+            scripts: getServerPackageScripts(pmInfo),
         };
         fs.writeFileSync(
             path.join(serverRoot, 'package.json'),
@@ -251,7 +268,7 @@ export async function createVendureApp(
             name: appName,
             version: DEFAULT_PROJECT_VERSION,
             private: true,
-            scripts: getServerPackageScripts(),
+            scripts: getServerPackageScripts(pmInfo),
         };
         fs.writeFileSync(
             path.join(root, 'package.json'),
@@ -302,6 +319,7 @@ export async function createVendureApp(
     // Install server dependencies
     await installDependenciesWithSpinner({
         dependencies,
+        packageManager,
         logLevel,
         cwd: serverRoot,
         spinnerMessage: `Installing ${dependencies[0]} + ${dependencies.length - 1} more dependencies`,
@@ -313,6 +331,7 @@ export async function createVendureApp(
         await installDependenciesWithSpinner({
             dependencies: devDependencies,
             isDevDependencies: true,
+            packageManager,
             logLevel,
             cwd: serverRoot,
             spinnerMessage: `Installing ${devDependencies[0]} + ${devDependencies.length - 1} more dev dependencies`,
@@ -325,6 +344,7 @@ export async function createVendureApp(
         // Install storefront dependencies
         const storefrontInstalled = await installDependenciesWithSpinner({
             dependencies: [],
+            packageManager,
             logLevel,
             cwd: storefrontRoot,
             spinnerMessage: 'Installing storefront dependencies...',
@@ -333,7 +353,9 @@ export async function createVendureApp(
             warnOnFailure: true,
         });
         if (!storefrontInstalled) {
-            log('You may need to run npm install in the storefront directory manually.', { level: 'info' });
+            log(`You may need to run ${pmInfo.install} in the storefront directory manually.`, {
+                level: 'info',
+            });
         }
     }
 
@@ -511,10 +533,14 @@ export async function createVendureApp(
                 ];
                 note(quickStartInstructions.join('\n'));
 
-                const npmCommand = os.platform() === 'win32' ? 'npm.cmd' : 'npm';
+                // Run `dev` via the detected package manager. On Windows the npm/yarn/pnpm
+                // binaries are `.cmd` shims (bun ships a real `bun.exe`).
+                const [pmBin, ...pmRunArgs] = pmInfo.runScript.split(' ');
+                const pmCommand =
+                    os.platform() === 'win32' && pmInfo.name !== 'bun' ? `${pmBin}.cmd` : pmBin;
                 let quickStartProcess: ChildProcess | undefined;
                 try {
-                    quickStartProcess = spawn(npmCommand, ['run', 'dev'], {
+                    quickStartProcess = spawn(pmCommand, [...pmRunArgs, 'dev'], {
                         cwd: root,
                         stdio: 'inherit',
                     });
@@ -527,6 +553,7 @@ export async function createVendureApp(
                     displayOutro({
                         root,
                         name,
+                        packageManager,
                         superAdminCredentials,
                         includeStorefront,
                         serverPort: port,
@@ -557,6 +584,7 @@ export async function createVendureApp(
             displayOutro({
                 root,
                 name,
+                packageManager,
                 superAdminCredentials,
                 includeStorefront,
                 serverPort: port,
@@ -572,25 +600,70 @@ export async function createVendureApp(
 }
 
 /**
- * Returns the standard npm scripts for the server package.json.
+ * Returns the scripts for the server package.json. `concurrently` expands the
+ * `<pm>:dev:*` / `<pm>:start:*` shorthands to every matching script using the given
+ * package manager, so this must match the manager the project was created with.
  */
-function getServerPackageScripts(): Record<string, string> {
+function getServerPackageScripts(pmInfo: PackageManagerInfo): Record<string, string> {
+    const pm = pmInfo.name;
     return {
         'dev:server': 'ts-node ./src/index.ts',
         'dev:worker': 'ts-node ./src/index-worker.ts',
         'dev:dashboard': 'vite --clearScreen false',
-        dev: 'concurrently --kill-others npm:dev:*',
+        dev: `concurrently --kill-others ${pm}:dev:*`,
         build: 'tsc',
         'build:dashboard': 'vite build',
         'start:server': 'node ./dist/index.js',
         'start:worker': 'node ./dist/index-worker.js',
-        start: 'concurrently npm:start:*',
+        start: `concurrently ${pm}:start:*`,
     };
+}
+
+/**
+ * Returns the root package.json for the monorepo (`--include-storefront`) layout, with
+ * workspace scripts written in the syntax of the detected package manager.
+ */
+function getMonorepoRootPackageJson(name: string, pmInfo: PackageManagerInfo): Record<string, unknown> {
+    const ws = (workspace: string, script: string) => pmInfo.workspaceScript(workspace, script);
+    const pkg: Record<string, unknown> = {
+        name,
+        version: '0.1.0',
+        private: true,
+        scripts: {
+            dev: `concurrently -n server,storefront -c blue,magenta "${ws('server', 'dev')}" "${ws('storefront', 'dev')}"`,
+            'dev:server': ws('server', 'dev'),
+            'dev:storefront': ws('storefront', 'dev'),
+            build: `${ws('server', 'build')} && ${ws('storefront', 'build')}`,
+            'build:server': ws('server', 'build'),
+            'build:storefront': ws('storefront', 'build'),
+            start: `concurrently -n server,storefront -c blue,magenta "${ws('server', 'start')}" "${ws('storefront', 'start')}"`,
+            'start:server': ws('server', 'start'),
+            'start:storefront': ws('storefront', 'start'),
+        },
+        devDependencies: {
+            concurrently: '^9.0.0',
+        },
+    };
+    if (pmInfo.usesPackageJsonWorkspaces) {
+        pkg.workspaces = ['apps/*'];
+    }
+    return pkg;
+}
+
+/**
+ * Registers Handlebars helpers that emit package-manager-specific command fragments,
+ * so templates (README, Dockerfile, …) render commands matching the manager in use.
+ */
+function registerTemplateHelpers(pmInfo: PackageManagerInfo): void {
+    Handlebars.registerHelper('pmRunScript', (script: string) => `${pmInfo.runScript} ${script}`);
+    Handlebars.registerHelper('pmCiInstall', () => pmInfo.ciInstall);
+    Handlebars.registerHelper('pmLockfile', () => pmInfo.lockfile);
 }
 
 interface InstallDependenciesOptions {
     dependencies: string[];
     isDevDependencies?: boolean;
+    packageManager: PackageManager;
     logLevel: CliLogLevel;
     cwd: string;
     spinnerMessage: string;
@@ -607,6 +680,7 @@ async function installDependenciesWithSpinner(installOptions: InstallDependencie
     const {
         dependencies,
         isDevDependencies = false,
+        packageManager,
         logLevel,
         cwd,
         spinnerMessage,
@@ -619,7 +693,7 @@ async function installDependenciesWithSpinner(installOptions: InstallDependencie
     installSpinner.start(spinnerMessage);
 
     try {
-        await installPackages({ dependencies, isDevDependencies, logLevel, cwd });
+        await installPackages({ dependencies, isDevDependencies, packageManager, logLevel, cwd });
         installSpinner.stop(successMessage);
         return true;
     } catch (e) {
@@ -636,6 +710,7 @@ async function installDependenciesWithSpinner(installOptions: InstallDependencie
 interface OutroOptions {
     root: string;
     name: string;
+    packageManager: PackageManager;
     superAdminCredentials?: { identifier: string; password: string };
     includeStorefront?: boolean;
     serverPort?: number;
@@ -647,12 +722,13 @@ function displayOutro(outroOptions: OutroOptions) {
     const {
         root,
         name,
+        packageManager,
         superAdminCredentials,
         includeStorefront,
         serverPort = SERVER_PORT,
         storefrontPort = STOREFRONT_PORT,
     } = outroOptions;
-    const startCommand = 'npm run dev';
+    const startCommand = `${getPackageManagerInfo(packageManager).runScript} dev`;
     const identifier = superAdminCredentials?.identifier ?? SUPER_ADMIN_USER_IDENTIFIER;
     const password = superAdminCredentials?.password ?? SUPER_ADMIN_USER_PASSWORD;
 
