@@ -320,6 +320,7 @@ function ProductDetailPage() {
                                     id={g.id}
                                     name={g.name}
                                     productId={entity.id}
+                                    onRemoved={() => refreshEntity()}
                                 />
                             ))}
                         </div>

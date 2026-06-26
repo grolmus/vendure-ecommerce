@@ -5133,6 +5133,11 @@ msgstr "Collection moved to new parent"
 msgid "Option group removed"
 msgstr "Option group removed"
 
+#: src/app/routes/_authenticated/_products/components/product-option-group-badge.tsx:56
+#: src/app/routes/_authenticated/_products/components/product-option-group-badge.tsx:71
+msgid "Failed to remove option group"
+msgstr "Failed to remove option group"
+
 #: src/app/routes/_authenticated/_orders/components/use-transition-order-to-state.tsx:130
 msgid "Transition to selected state"
 msgstr "Transition to selected state"
