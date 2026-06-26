@@ -239,7 +239,7 @@ jobs:
             - name: Enable pnpm via corepack
               run: |
                   corepack enable
-                  corepack prepare pnpm@9 --activate
+                  corepack prepare pnpm@9.15.9 --activate
                   pnpm --version
             - name: Download Verdaccio storage
               uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
@@ -264,6 +264,12 @@ jobs:
                   TOKEN=$(echo "$TOKEN_RES" | jq -r '.token')
                   npm set registry=http://localhost:4873
                   npm set //localhost:4873/:_authToken $TOKEN
+                  # `bunx` does not honour the default `registry=` from ~/.npmrc when resolving
+                  # the package to run, so it would fetch @vendure/create from the public npm
+                  # registry (where the `ci` dist-tag doesn't exist) and fail. Route bun at
+                  # Verdaccio explicitly via a scoped registry and a bunfig.
+                  npm set @vendure:registry=http://localhost:4873
+                  printf '[install]\nregistry = "http://localhost:4873/"\n' > $HOME/.bunfig.toml
             - name: Install via @vendure/create using ${{ matrix.pm }}
               run: |
                   mkdir -p $HOME/install
