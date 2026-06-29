@@ -4,9 +4,8 @@ import path from 'path';
 /**
  * @description
  * The options accepted by the underlying TanStack Router Vite plugin (`tanstackRouter()`).
- * Derived from the plugin's own signature so it stays in sync with the installed version
- * without us having to restate its (heavily inferred) option shape.
  */
+// Derived from the plugin's own (un-exported, inferred) signature so it tracks the installed version.
 export type TanstackRouterPluginOptions = NonNullable<Parameters<typeof tanstackRouter>[0]>;
 
 /**
