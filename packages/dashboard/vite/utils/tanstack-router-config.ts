@@ -1,37 +1,34 @@
+import type { tanstackRouter } from '@tanstack/router-plugin/vite';
 import path from 'path';
 
 /**
  * @description
- * The subset of TanStack Router plugin options configured by the Vendure Dashboard plugin.
+ * The options accepted by the underlying TanStack Router Vite plugin (`tanstackRouter()`).
+ * Derived from the plugin's own signature so it stays in sync with the installed version
+ * without us having to restate its (heavily inferred) option shape.
  */
-export interface TanstackRouterPluginConfig {
-    autoCodeSplitting: boolean;
-    routeFileIgnorePattern: string;
-    routesDirectory: string;
-    generatedRouteTree: string;
-    /**
-     * Directory used by the TanStack Router plugin for temporary files. Only included when
-     * explicitly configured — otherwise the plugin's own default is used. See #4048.
-     */
-    tmpDir?: string;
-}
+export type TanstackRouterPluginOptions = NonNullable<Parameters<typeof tanstackRouter>[0]>;
 
 /**
  * @description
- * Builds the options passed to the `tanstackRouter` Vite plugin. `tmpDir` is only set when
- * provided so the default behaviour is unchanged; configuring it lets deployments whose temp
- * directory sits on a different device than the generated route tree avoid the TanStack Router
- * `EXDEV: cross-device link not permitted` rename error. See #4048.
+ * Builds the options passed to the `tanstackRouter` Vite plugin. The Dashboard's own defaults
+ * (routes directory, generated route tree, code splitting) can be overridden by passing
+ * `pluginOptions`, which are merged on top of the defaults.
+ *
+ * This lets deployments customize any aspect of the TanStack Router plugin — for example setting
+ * `tmpDir` when the default temp directory is on a different device than the generated route tree,
+ * which otherwise causes the build to fail with `EXDEV: cross-device link not permitted` during
+ * route-tree generation. See #4048.
  */
 export function buildTanstackRouterPluginConfig(
     packageRoot: string,
-    tmpDir?: string,
-): TanstackRouterPluginConfig {
+    pluginOptions?: TanstackRouterPluginOptions,
+): TanstackRouterPluginOptions {
     return {
         autoCodeSplitting: true,
         routeFileIgnorePattern: '.graphql.ts|components|hooks|utils',
         routesDirectory: path.join(packageRoot, 'src/app/routes'),
         generatedRouteTree: path.join(packageRoot, 'src/app/routeTree.gen.ts'),
-        ...(tmpDir ? { tmpDir } : {}),
+        ...pluginOptions,
     };
 }

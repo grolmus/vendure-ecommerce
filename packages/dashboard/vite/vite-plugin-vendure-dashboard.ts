@@ -8,7 +8,10 @@ import { PluginOption } from 'vite';
 
 import { PathAdapter } from './types.js';
 import { PackageScannerConfig } from './utils/compiler.js';
-import { buildTanstackRouterPluginConfig } from './utils/tanstack-router-config.js';
+import {
+    buildTanstackRouterPluginConfig,
+    TanstackRouterPluginOptions,
+} from './utils/tanstack-router-config.js';
 import { adminApiSchemaPlugin } from './vite-plugin-admin-api-schema.js';
 import { bundleEntryPlugin } from './vite-plugin-bundle-entry.js';
 import { configLoaderPlugin } from './vite-plugin-config-loader.js';
@@ -92,15 +95,28 @@ export type VitePluginVendureDashboardOptions = {
     tempCompilationDir?: string;
     /**
      * @description
-     * Sets the `tmpDir` option of the underlying TanStack Router Vite plugin. Configure this when
-     * your deployment's default temp directory is on a different device than the checked-out code
-     * (e.g. `node_modules` on a separate volume), which otherwise causes the build to fail with
-     * `EXDEV: cross-device link not permitted` during route-tree generation. When omitted, the
-     * TanStack Router plugin's own default is used.
+     * Options passed to the underlying TanStack Router Vite plugin (`tanstackRouter()`). These are
+     * merged on top of the Dashboard's own defaults, letting you override any aspect of the router
+     * plugin's configuration.
+     *
+     * A common use case is setting `tmpDir` when your deployment's default temp directory is on a
+     * different device than the checked-out code (e.g. `node_modules` on a separate volume), which
+     * otherwise causes the build to fail with `EXDEV: cross-device link not permitted` during
+     * route-tree generation.
+     *
+     * @example
+     * ```ts
+     * vendureDashboardPlugin({
+     *   vendureConfigPath: './vendure-config.ts',
+     *   tanstackRouterPluginOptions: {
+     *     tmpDir: path.join(packageRoot, '.tanstack-tmp'),
+     *   },
+     * })
+     * ```
      *
      * @since 3.7.0
      */
-    tanstackRouterTmpDir?: string;
+    tanstackRouterPluginOptions?: TanstackRouterPluginOptions;
     /**
      * @description
      * Allows you to customize the location of node_modules & glob patterns used to scan for potential
@@ -223,7 +239,9 @@ export function vendureDashboardPlugin(options: VitePluginVendureDashboardOption
         {
             key: 'tanstackRouter',
             plugin: () =>
-                tanstackRouter(buildTanstackRouterPluginConfig(packageRoot, options.tanstackRouterTmpDir)),
+                tanstackRouter(
+                    buildTanstackRouterPluginConfig(packageRoot, options.tanstackRouterPluginOptions),
+                ),
         },
         {
             // Custom plugin that transforms Lingui macros using Babel instead of SWC.
