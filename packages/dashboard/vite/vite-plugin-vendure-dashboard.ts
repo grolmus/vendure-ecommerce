@@ -97,8 +97,8 @@ export type VitePluginVendureDashboardOptions = {
      * @description
      * Options passed to the underlying TanStack Router Vite plugin (`tanstackRouter()`). These are
      * merged on top of the Dashboard's own defaults, letting you override most aspects of the router
-     * plugin's configuration. The `routesDirectory` and `generatedRouteTree` paths are managed by the
-     * Dashboard and cannot be overridden (attempts are ignored with a warning).
+     * plugin's configuration. The `routesDirectory`, `generatedRouteTree` and `routeFileIgnorePattern`
+     * settings are managed by the Dashboard and cannot be overridden (attempts are ignored with a warning).
      *
      * A common use case is setting `tmpDir` when your deployment's default temp directory is on a
      * different device than the checked-out code (e.g. `node_modules` on a separate volume), which

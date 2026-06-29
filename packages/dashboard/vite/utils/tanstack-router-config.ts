@@ -1,16 +1,20 @@
-import type { tanstackRouter } from '@tanstack/router-plugin/vite';
+import type { Config } from '@tanstack/router-plugin/vite';
 import path from 'path';
 
 /**
  * @description
  * The options accepted by the underlying TanStack Router Vite plugin (`tanstackRouter()`).
  */
-// Derived from the plugin's own (un-exported, inferred) signature so it tracks the installed version.
-export type TanstackRouterPluginOptions = NonNullable<Parameters<typeof tanstackRouter>[0]>;
+export type TanstackRouterPluginOptions = Partial<Config>;
 
-// Fixed to the Dashboard's expected layout — route discovery and generation depend on these exact
-// paths, so user-provided overrides are ignored (with a warning) rather than silently breaking the build.
-const DASHBOARD_MANAGED_KEYS = ['routesDirectory', 'generatedRouteTree'] as const;
+// Managed by the Dashboard: the route directory layout and generated tree path are wired to fixed
+// locations, and `components`/`hooks`/`utils` are siblings of the routes that must stay excluded.
+// User overrides of these are ignored (with a warning) rather than silently breaking the build.
+const DASHBOARD_MANAGED_KEYS = [
+    'routesDirectory',
+    'generatedRouteTree',
+    'routeFileIgnorePattern',
+] as const;
 
 /**
  * @description
@@ -36,8 +40,8 @@ export function buildTanstackRouterPluginConfig(
     }
     return {
         autoCodeSplitting: true,
-        routeFileIgnorePattern: '.graphql.ts|components|hooks|utils',
         ...pluginOptions,
+        routeFileIgnorePattern: '.graphql.ts|components|hooks|utils',
         routesDirectory: path.join(packageRoot, 'src/app/routes'),
         generatedRouteTree: path.join(packageRoot, 'src/app/routeTree.gen.ts'),
     };
