@@ -16,6 +16,7 @@ export const configLoaderName = 'vendure:config-loader';
  */
 export function configLoaderPlugin(options: CompilerOptions): Plugin {
     let result: CompileResult;
+    let loadConfigPromise: Promise<CompileResult> | undefined;
     const onConfigLoaded: Array<() => void> = [];
     return {
         name: configLoaderName,
@@ -25,7 +26,7 @@ export function configLoaderPlugin(options: CompilerOptions): Plugin {
             );
             try {
                 const startTime = Date.now();
-                result = await compile({
+                loadConfigPromise ??= compile({
                     ...options,
                     logger: process.env.LOG
                         ? debugLogger
@@ -35,7 +36,10 @@ export function configLoaderPlugin(options: CompilerOptions): Plugin {
                               debug: (message: string) => this.debug(message),
                               error: (message: string) => this.error(message),
                           },
+                }).finally(() => {
+                    loadConfigPromise = undefined;
                 });
+                result = await loadConfigPromise;
                 const endTime = Date.now();
                 const duration = endTime - startTime;
                 const activeNames = new Set(

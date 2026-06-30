@@ -29,12 +29,31 @@ function resolveVendureUiSourcePath(): string | undefined {
     }
 }
 
+export interface DashboardTailwindSourcePluginOptions {
+    /**
+     * Absolute path to the dashboard package root. Required when
+     * `useExperimentalBundle` is enabled (so we can resolve the bundled
+     * JS path for Tailwind's `@source` scan).
+     */
+    packageRoot?: string;
+    /**
+     * When true, also emit a `@source` directive pointing at the dashboard's
+     * pre-built JS bundle so Tailwind picks up the dashboard's own utility
+     * classes (which are otherwise invisible to consumer-side scanning since
+     * the bundle lives in node_modules).
+     */
+    useExperimentalBundle?: boolean;
+}
+
 /**
  * This Vite plugin transforms the `app/styles.css` file to include a `@source` directive
  * for each dashboard extension's source directory. This allows Tailwind CSS to
  * include styles from these extensions when processing the CSS.
  */
-export function dashboardTailwindSourcePlugin(): Plugin {
+export function dashboardTailwindSourcePlugin(
+    options: DashboardTailwindSourcePluginOptions = {},
+): Plugin {
+    const { packageRoot, useExperimentalBundle } = options;
     let configLoaderApi: ConfigLoaderApi;
     let loadVendureConfigResult: CompileResult;
     return {
@@ -45,7 +64,9 @@ export function dashboardTailwindSourcePlugin(): Plugin {
             configLoaderApi = getConfigLoaderApi(plugins);
         },
         async transform(src, id) {
-            if (/app\/styles.css$/.test(id)) {
+            const isMainStyles = /app\/styles.css$/.test(id);
+            const isExtensionStyles = /app\/extension-tailwind.css$/.test(id);
+            if (isMainStyles || isExtensionStyles) {
                 if (!loadVendureConfigResult) {
                     loadVendureConfigResult = await configLoaderApi.getVendureConfig();
                 }
@@ -56,6 +77,16 @@ export function dashboardTailwindSourcePlugin(): Plugin {
                 const vendureUiSrcPath = resolveVendureUiSourcePath();
                 if (vendureUiSrcPath) {
                     dashboardExtensionDirs.push(vendureUiSrcPath);
+                }
+
+                if (isExtensionStyles && useExperimentalBundle && packageRoot) {
+                    // In bundle mode the dashboard's own utility classes live
+                    // inside the published JS chunks rather than the readable
+                    // src files. Point Tailwind at the bundle so those classes
+                    // are also generated.
+                    dashboardExtensionDirs.push(
+                        path.join(packageRoot, 'dist/bundle'),
+                    );
                 }
 
                 const sources = dashboardExtensionDirs
