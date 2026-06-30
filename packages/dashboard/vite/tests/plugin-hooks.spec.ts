@@ -670,9 +670,11 @@ describe('filterActivePluginInfo', () => {
         expect(result).toEqual([]);
     });
 
-    it('treats missing plugins array as no active plugins', () => {
+    // Fails open: a missing `plugins` key means "no filtering information",
+    // not "disable everything", so the discovered pluginInfo is returned as-is.
+    it('returns pluginInfo unchanged when the plugins key is missing', () => {
         const result = filterActivePluginInfo([makePluginInfo('A')], {} as { plugins?: undefined });
-        expect(result).toEqual([]);
+        expect(result.map(p => p.name)).toEqual(['A']);
     });
 
     // Some plugins return a NestJS DynamicModule from their `init()` method

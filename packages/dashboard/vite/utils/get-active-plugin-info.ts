@@ -21,12 +21,20 @@ import { PluginInfo } from '../types.js';
  * services would be absent — leading to broken nav items and runtime
  * crashes inside the dashboard.
  *
+ * Fails open: if `vendureConfig.plugins` is not an array (e.g. an unresolved
+ * or malformed config), the discovered `pluginInfo` is returned unchanged
+ * rather than stripping every extension. A missing `plugins` key means "no
+ * filtering information", not "disable everything".
+ *
  * @internal
  */
 export function filterActivePluginInfo(
     pluginInfo: PluginInfo[],
     vendureConfig: Pick<VendureConfig, 'plugins'>,
 ): PluginInfo[] {
+    if (!Array.isArray(vendureConfig.plugins)) {
+        return pluginInfo;
+    }
     const activePluginNames = getActivePluginNames(vendureConfig);
     return pluginInfo.filter(info => activePluginNames.has(info.name));
 }
