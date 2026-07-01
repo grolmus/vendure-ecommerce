@@ -245,7 +245,7 @@ Routes allow you to define completely custom views in the Admin UI.
 
 Your `routes.ts` file exports an array of objects which define new routes in the Admin UI. For example, imagine you have created a plugin which implements a simple content management system. You can define a route for the list of articles, and another for the detail view of an article.
 
-For a detailed instructions, see the [Defining Routes guide](/extending-the-admin-ui/defining-routes/).
+For a detailed instructions, see the [Defining Routes guide](/legacy-apis/extending-the-admin-ui/defining-routes/).
 
 ## Dev vs Prod mode
 
@@ -347,7 +347,7 @@ npm install copyfiles
 
 ## Using other frameworks
 
-While the Admin UI natively supports extensions written with Angular or React, it is still possible to create extensions using other front-end frameworks such as Vue or Solid. Note that creating extensions in this way is much more limited, with only the ability to define new routes, and limited access to internal services such as data fetching and notifications. See [UI extensions in other frameworks](/extending-the-admin-ui/using-other-frameworks/).
+While the Admin UI natively supports extensions written with Angular or React, it is still possible to create extensions using other front-end frameworks such as Vue or Solid. Note that creating extensions in this way is much more limited, with only the ability to define new routes, and limited access to internal services such as data fetching and notifications. See [UI extensions in other frameworks](/legacy-apis/extending-the-admin-ui/using-other-frameworks/).
 
 ## IDE Support
 
@@ -398,7 +398,7 @@ Angular uses the concept of modules ([NgModules](https://angular.io/guide/ngmodu
 
 When creating your UI extensions, you can set your module to be either `lazy` or `shared`. Shared modules are loaded _eagerly_, i.e. their code is bundled up with the main app and loaded as soon as the app loads.
 
-As a rule, modules defining new routes should be lazily loaded (so that the code is only loaded once that route is activated), and modules defining [new navigations items](/extending-the-admin-ui/nav-menu/) and [custom form input](/extending-the-admin-ui/custom-form-inputs/) should be set to `shared`.
+As a rule, modules defining new routes should be lazily loaded (so that the code is only loaded once that route is activated), and modules defining [new navigations items](/legacy-apis/extending-the-admin-ui/nav-menu/) and [custom form input](/legacy-apis/extending-the-admin-ui/custom-form-inputs/) should be set to `shared`.
 
 :::info
 "lazy" modules are equivalent to the new "routes" API, and "shared" modules are equivalent to the new "providers" API. In fact, behind the scenes,
