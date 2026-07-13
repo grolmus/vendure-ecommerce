@@ -21,7 +21,12 @@ interface ProductOptionGroupBadgeProps {
     onRemoved?: () => void;
 }
 
-export function ProductOptionGroupBadge({ id, name, productId, onRemoved }: ProductOptionGroupBadgeProps) {
+export function ProductOptionGroupBadge({
+    id,
+    name,
+    productId,
+    onRemoved,
+}: Readonly<ProductOptionGroupBadgeProps>) {
     const { t } = useLingui();
     const { remove, forceRemove, inUseGroupId, clearInUseGroup, isPending } = useRemoveOptionGroup(
         productId,

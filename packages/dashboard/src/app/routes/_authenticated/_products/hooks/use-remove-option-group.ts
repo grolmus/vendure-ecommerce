@@ -30,7 +30,9 @@ export interface UseRemoveOptionGroupOptions {
 export function useRemoveOptionGroup(productId: string, options?: UseRemoveOptionGroupOptions) {
     const { t } = useLingui();
     // The group that hit ProductOptionInUseError and is awaiting force confirmation.
-    // Also disambiguates which row's dialog is open when a page lists many groups.
+    // When a single hook instance is shared across many groups (the Manage Variants
+    // page), this also identifies which group's force dialog is open. Per-instance
+    // callers (the detail-page badge) only ever see null or their own group id.
     const [inUseGroupId, setInUseGroupId] = useState<string | null>(null);
     const mutation = useMutation({ mutationFn: api.mutate(removeOptionGroupFromProductDocument) });
 
@@ -65,7 +67,8 @@ export function useRemoveOptionGroup(productId: string, options?: UseRemoveOptio
             toast.success(t`Option group removed`);
             options?.onRemoved?.();
         } catch (error) {
-            setInUseGroupId(null);
+            // Keep the dialog open on failure so the user can retry the force-remove
+            // without restarting the whole flow; only a success clears `inUseGroupId`.
             toast.error(t`Failed to remove option group`, {
                 description: error instanceof Error ? error.message : t`Unknown error`,
             });

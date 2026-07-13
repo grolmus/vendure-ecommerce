@@ -44,7 +44,7 @@ export function ForceRemoveOptionGroupDialog({
                     </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
-                    <AlertDialogCancel>
+                    <AlertDialogCancel disabled={isPending}>
                         <Trans>Cancel</Trans>
                     </AlertDialogCancel>
                     <AlertDialogAction

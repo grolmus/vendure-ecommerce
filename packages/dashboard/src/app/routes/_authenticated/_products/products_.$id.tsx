@@ -170,8 +170,15 @@ function ProductDetailPage() {
         },
     });
 
+    // The empty-string fallback only ever applies before `entity` has loaded;
+    // `removeAllOptionGroups` is reachable exclusively from the onBack handler below,
+    // which is rendered only once `entity` exists, so the real id is always used.
     const { removeOptionGroupAsync } = useRemoveOptionGroup(entity?.id ?? '');
 
+    // Batch-removes every option group when the user backs out of variant setup. This is
+    // reached only while the product has zero variants, so ProductOptionInUseError cannot
+    // realistically fire here — the branch is kept as a defensive guard. Note the loop is
+    // not transactional: a mid-list failure leaves earlier groups already removed.
     const removeAllOptionGroups = async (optionGroups: Array<{ id: string }>) => {
         try {
             for (const group of optionGroups) {
