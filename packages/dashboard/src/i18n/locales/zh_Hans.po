@@ -18,7 +18,7 @@ msgstr ""
 msgid "Full Name"
 msgstr "全名"
 
-#: src/lib/components/data-input/relation-selector.tsx:408
+#: src/lib/components/data-input/relation-selector.tsx:409
 msgid "Select items"
 msgstr "选择项目"
 
@@ -90,7 +90,7 @@ msgstr "编辑 JSON 值"
 msgid "Using external authentication strategy: {strategy}"
 msgstr "使用外部身份验证策略：{strategy}"
 
-#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:225
+#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:230
 msgid "Select a reason..."
 msgstr "选择原因..."
 
@@ -153,7 +153,7 @@ msgstr "已删除 {selectionLength} 个资源"
 msgid "Successfully updated tax rate"
 msgstr "已成功更新税率"
 
-#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:237
+#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:242
 msgid "Enter custom reason..."
 msgstr "输入自定义原因..."
 
@@ -167,6 +167,11 @@ msgstr "类型"
 #: src/lib/components/data-input/default-relation-input.tsx:676
 msgid "Select {0}"
 msgstr "选择 {0}"
+
+#. placeholder {0}: selectedItems.length
+#: src/lib/components/data-input/relation-selector.tsx:408
+msgid "Add more ({0} selected)"
+msgstr ""
 
 #: src/app/routes/_authenticated/_facets/facets.tsx:67
 msgid "View values"
@@ -198,7 +203,7 @@ msgstr "启用后，商品目录中输入的价格将包含默认税务区域的
 #~ msgid "Create variants for your product"
 #~ msgstr "为您的商品创建变体"
 
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:291
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:331
 msgid "Draft order completed"
 msgstr "草稿订单已完成"
 
@@ -218,6 +223,10 @@ msgstr "自动刷新：{0}"
 #: src/app/common/delete-bulk-action.tsx:108
 msgid "Deleted {deleted} {entityName}"
 msgstr "已删除 {deleted} {entityName}"
+
+#: src/lib/components/shared/asset/asset-properties.tsx:32
+msgid "File Size"
+msgstr ""
 
 #: src/app/routes/_authenticated/_system/healthchecks.tsx:13
 #~ msgid "Healthchecks"
@@ -241,7 +250,7 @@ msgstr "{fulfilled, plural, other {成功取消 {fulfilled} 个任务}}"
 msgid "Seller"
 msgstr "卖家"
 
-#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:131
+#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:136
 msgid "SKU:"
 msgstr "SKU:"
 
@@ -350,10 +359,11 @@ msgstr "已成功创建库存位置"
 #: src/app/routes/_authenticated/_products/components/add-option-group-dialog.tsx:120
 #: src/app/routes/_authenticated/_products/components/add-product-variant-dialog.tsx:166
 #: src/app/routes/_authenticated/_products/components/generate-variants-panel.tsx:185
-#: src/app/routes/_authenticated/_products/hooks/use-remove-option-group.ts:56
-#: src/app/routes/_authenticated/_products/hooks/use-remove-option-group.ts:73
+#: src/app/routes/_authenticated/_products/hooks/use-remove-option-group.ts:53
+#: src/app/routes/_authenticated/_products/hooks/use-remove-option-group.ts:70
 #: src/app/routes/_authenticated/_products/products_.$id_.variants.tsx:105
 #: src/app/routes/_authenticated/_products/products_.$id.tsx:190
+#: src/lib/components/shared/asset/asset-preview.tsx:127
 msgid "Unknown error"
 msgstr "未知错误"
 
@@ -397,7 +407,7 @@ msgstr "新角色"
 msgid "Failed to delete assets: {message}"
 msgstr "删除资源失败：{message}"
 
-#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:105
+#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:109
 msgid "Return to stock"
 msgstr "退回库存"
 
@@ -543,7 +553,7 @@ msgstr "管理对所有用户可见的全局保存视图"
 msgid "Search payment methods..."
 msgstr "搜索支付方式..."
 
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:217
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:257
 msgid "Shipping address unset for order"
 msgstr "订单已取消配送地址"
 
@@ -667,7 +677,7 @@ msgstr "请添加商品并填写配送地址以运行测试。"
 msgid "Toggle header row"
 msgstr "切换标题行"
 
-#: src/app/routes/_authenticated/_orders/components/customer-address-selector.tsx:65
+#: src/app/routes/_authenticated/_orders/components/customer-address-selector.tsx:52
 msgid "Select address"
 msgstr "选择地址"
 
@@ -689,7 +699,7 @@ msgid "Metadata"
 msgstr "元数据"
 
 #. placeholder {0}: error.message
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:251
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:291
 msgid "Failed to set shipping method for order: {0}"
 msgstr ""
 
@@ -744,7 +754,7 @@ msgstr "确认导航"
 msgid "Link target"
 msgstr "链接目标"
 
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:365
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:405
 msgid "Complete draft"
 msgstr "完成草稿"
 
@@ -795,7 +805,7 @@ msgstr "输入此退款结算的交易 ID"
 msgid "Your API Key"
 msgstr "您的 API Key"
 
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:349
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:389
 msgid "Are you sure you want to delete this draft order?"
 msgstr "确定要删除此草稿订单吗？"
 
@@ -810,6 +820,7 @@ msgid "Found {0} eligible shipping method{1}"
 msgstr "找到 {0} 个符合条件的配送方式"
 
 #: src/lib/components/shared/asset/asset-gallery.tsx:746
+#: src/lib/components/shared/asset/asset-properties.tsx:39
 msgid "Dimensions"
 msgstr "尺寸"
 
@@ -818,7 +829,7 @@ msgid "Show password"
 msgstr "显示密码"
 
 #. placeholder {0}: formatCurrency(refund.totalRefundableAmount, order.currencyCode)
-#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:282
+#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:287
 msgid "(max: {0})"
 msgstr "(最大: {0})"
 
@@ -846,7 +857,7 @@ msgstr "折扣"
 msgid "Enter refund note"
 msgstr "输入退款备注"
 
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:151
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:153
 msgid "Order line removed"
 msgstr "订单行已删除"
 
@@ -864,7 +875,7 @@ msgid "Confirm"
 msgstr "确认"
 
 #. placeholder {0}: error.message
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:303
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:343
 msgid "Failed to complete draft order: {0}"
 msgstr ""
 
@@ -882,7 +893,7 @@ msgstr "创建商品失败"
 
 #: src/app/routes/_authenticated/_orders/components/order-detail-shared.tsx:276
 #: src/app/routes/_authenticated/_orders/orders_.$id_.modify.tsx:233
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:457
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:497
 #: src/lib/components/shared/role-code-label.tsx:8
 msgid "Customer"
 msgstr "客户"
@@ -892,11 +903,12 @@ msgstr "客户"
 msgid "Error loading order history: {0}"
 msgstr "加载订单历史出错：{0}"
 
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:195
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:235
 msgid "Shipping address set for order"
 msgstr "订单已设置配送地址"
 
 #: src/app/routes/_authenticated/_assets/assets_.$id.tsx:173
+#: src/lib/components/shared/asset/asset-preview.tsx:153
 msgid "Focal Point"
 msgstr "焦点"
 
@@ -938,7 +950,7 @@ msgstr "这些是 <0>{facetName}</0> 属性的属性值。"
 msgid "Successfully added payment to order"
 msgstr "已成功向订单添加支付"
 
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:206
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:246
 msgid "Billing address set for order"
 msgstr "已为订单设置账单地址"
 
@@ -1016,7 +1028,7 @@ msgstr "已分配"
 #~ msgstr "添加另一个选项组"
 
 #. placeholder {0}: error.message
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:270
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:310
 msgid "Failed to set coupon code for order: {0}"
 msgstr ""
 
@@ -1041,7 +1053,7 @@ msgstr "已成功创建集合"
 msgid "Price"
 msgstr "价格"
 
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:343
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:383
 #: src/app/routes/_authenticated/_orders/orders.tsx:115
 msgid "Draft order"
 msgstr "草稿订单"
@@ -1050,6 +1062,10 @@ msgstr "草稿订单"
 #: src/app/routes/_authenticated/_system/settings-store.tsx:314
 msgid "Scope"
 msgstr "范围"
+
+#: src/app/routes/_authenticated/_promotions/components/promotion-conditions-selector.tsx:37
+msgid "Add condition"
+msgstr "添加条件"
 
 #: src/app/routes/_authenticated/_shipping-methods/components/test-single-method-result.tsx:58
 msgid "Shipping method is eligible for this order"
@@ -1084,7 +1100,7 @@ msgstr "启用后，促销在商店中可用"
 msgid "When tracked, product variant stock levels will be automatically adjusted when sold. This setting can be overridden by individual product variants."
 msgstr "跟踪后，商品变体库存水平将在售出时自动调整。此设置可由各个商品变体覆盖。"
 
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:242
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:282
 msgid "Shipping method set for order"
 msgstr "订单已设置配送方式"
 
@@ -1130,7 +1146,7 @@ msgid "Email address"
 msgstr "电子邮件地址"
 
 #. placeholder {0}: error.message
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:281
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:321
 msgid "Failed to remove coupon code from order: {0}"
 msgstr ""
 
@@ -1261,7 +1277,7 @@ msgstr "支付状态已成功更新"
 msgid "Create new"
 msgstr "新建"
 
-#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:249
+#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:254
 msgid "Refund total"
 msgstr "退款总额"
 
@@ -1279,18 +1295,24 @@ msgid "{cancellableCount, plural, one {Cancel {cancellableCount} job} other {Can
 msgstr ""
 
 #: src/lib/components/data-input/product-multi-selector-input.tsx:499
-#: src/lib/components/shared/configurable-operation-multi-selector.tsx:265
-#: src/lib/components/shared/configurable-operation-selector.tsx:140
 msgid "{buttonText}"
 msgstr "{buttonText}"
 
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:111
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:113
 msgid "Item added to order"
 msgstr "项目已添加到订单"
+
+#: src/lib/components/shared/asset/asset-preview.tsx:146
+msgid "Edit focal point"
+msgstr "编辑焦点"
 
 #: src/lib/components/shared/seller-selector.tsx:92
 #~ msgid "No sellers found"
 #~ msgstr "未找到卖家"
+
+#: src/lib/components/shared/asset/asset-preview-dialog.tsx:34
+msgid "Asset"
+msgstr "资源"
 
 #: src/app/routes/_authenticated/_products/components/shared-option-group-warning.tsx:13
 msgid "{productCount, plural, one {This option group is used by one other product. Changes will affect it too.} other {This option group is shared across # products. Changes will affect all of them.}}"
@@ -1365,7 +1387,7 @@ msgstr "订单已转换"
 msgid "is before"
 msgstr "在之前"
 
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:348
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:388
 msgid "Delete draft order"
 msgstr "删除草稿订单"
 
@@ -1418,7 +1440,7 @@ msgid "before"
 msgstr "之前"
 
 #. placeholder {0}: error.message
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:188
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:228
 msgid "Failed to set customer for order: {0}"
 msgstr ""
 
@@ -1488,7 +1510,7 @@ msgstr "国家"
 msgid "Failed to rename view"
 msgstr "重命名视图失败"
 
-#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:306
+#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:311
 msgid "Available"
 msgstr "可用"
 
@@ -1510,6 +1532,10 @@ msgstr "客户组"
 #: src/lib/framework/defaults.ts:98
 msgid "Customers"
 msgstr "客户"
+
+#: src/app/routes/_authenticated/_shipping-methods/components/shipping-calculator-selector.tsx:37
+msgid "Select Shipping Calculator"
+msgstr ""
 
 #: src/lib/components/layout/language-dialog.tsx:103
 msgid "Sample Formatting"
@@ -1539,7 +1565,7 @@ msgstr "地址已成功更新"
 msgid "Created"
 msgstr "已创建"
 
-#: src/app/routes/_authenticated/_orders/components/customer-address-selector.tsx:76
+#: src/app/routes/_authenticated/_orders/components/customer-address-selector.tsx:63
 msgid "Loading addresses..."
 msgstr "正在加载地址..."
 
@@ -1549,7 +1575,7 @@ msgid "Select a target collection to move {0} to."
 msgstr "选择要将 {0} 移动到的目标集合。"
 
 #. placeholder {0}: error.message
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:232
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:272
 msgid "Failed to unset billing address for order: {0}"
 msgstr ""
 
@@ -1580,7 +1606,7 @@ msgstr "转到末页"
 #: src/app/routes/_authenticated/_orders/components/add-manual-payment-dialog.tsx:168
 #: src/app/routes/_authenticated/_orders/components/fulfill-order-dialog.tsx:311
 #: src/app/routes/_authenticated/_orders/components/order-modification-preview-dialog.tsx:352
-#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:358
+#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:363
 #: src/app/routes/_authenticated/_orders/components/settle-refund-dialog.tsx:71
 #: src/app/routes/_authenticated/_products/components/assign-facet-values-dialog.tsx:273
 #: src/app/routes/_authenticated/_products/components/force-remove-option-group-dialog.tsx:48
@@ -1602,7 +1628,7 @@ msgid "Cancel"
 msgstr "取消"
 
 #. placeholder {0}: error.message
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:95
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:97
 msgid "Failed to update order custom fields: {0}"
 msgstr ""
 
@@ -1637,7 +1663,7 @@ msgstr "新税务类别"
 msgid "Partial refund completed"
 msgstr "部分退款已完成"
 
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:452
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:492
 msgid "Set custom fields"
 msgstr "设置自定义字段"
 
@@ -1646,6 +1672,10 @@ msgstr "设置自定义字段"
 #: src/app/routes/_authenticated/_collections/collections.tsx:339
 msgid "Collections"
 msgstr "集合"
+
+#: src/app/routes/_authenticated/_shipping-methods/components/shipping-eligibility-checker-selector.tsx:37
+msgid "Select Shipping Eligibility Checker"
+msgstr ""
 
 #: src/app/routes/_authenticated/_products/products_.$id_.variants.tsx:433
 msgid "Delete variant"
@@ -1665,7 +1695,7 @@ msgstr "原因:"
 
 #: src/app/routes/_authenticated/_orders/components/order-detail-shared.tsx:291
 #: src/app/routes/_authenticated/_orders/orders_.$id_.modify.tsx:248
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:470
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:510
 msgid "Shipping address"
 msgstr "配送地址"
 
@@ -1705,6 +1735,7 @@ msgstr "客户组"
 
 #: src/app/routes/_authenticated/_system/scheduled-tasks.tsx:123
 #: src/app/routes/_authenticated/_tax-rates/tax-rates.tsx:58
+#: src/lib/components/data-display/boolean.tsx:22
 #: src/lib/components/layout/nav-user.tsx:155
 msgid "Disabled"
 msgstr "已禁用"
@@ -1838,7 +1869,7 @@ msgstr "备注已添加"
 msgid "Select quantities to fulfill and configure the fulfillment handler"
 msgstr "选择要履行的数量并配置履行处理器"
 
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:228
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:268
 msgid "Billing address unset for order"
 msgstr "已从订单移除账单地址"
 
@@ -1857,7 +1888,7 @@ msgstr "复制"
 msgid "No results"
 msgstr "无结果"
 
-#: src/lib/components/data-table/data-table-view-options.tsx:89
+#: src/lib/components/data-table/data-table-view-options.tsx:95
 msgid "Column settings"
 msgstr "列设置"
 
@@ -1943,7 +1974,7 @@ msgstr "扩展查询文档失败"
 msgid "Failed to update note"
 msgstr "更新备注失败"
 
-#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:201
+#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:206
 msgid "Refund shipping"
 msgstr "退还运费"
 
@@ -2348,12 +2379,16 @@ msgstr "设置所有渠道可用的语言。然后，各个渠道可以支持这
 msgid "Collections moved successfully"
 msgstr "集合移动成功"
 
+#: src/lib/components/data-input/relation-selector.tsx:411
+msgid "Change selection"
+msgstr ""
+
 #: src/app/routes/_authenticated/_customers/components/customer-status-badge.tsx:23
 msgid "Registered"
 msgstr "已注册"
 
 #. placeholder {0}: error.message
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:199
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:239
 msgid "Failed to set shipping address for order: {0}"
 msgstr ""
 
@@ -2441,7 +2476,7 @@ msgstr "已选项目"
 msgid "Values"
 msgstr "值"
 
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:170
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:172
 msgid "Customer set for order"
 msgstr "订单已设置客户"
 
@@ -2618,7 +2653,7 @@ msgstr "这将移除此产品的所有选项组并返回变体设置选择。"
 
 #: src/app/routes/_authenticated/_orders/components/order-detail-shared.tsx:299
 #: src/app/routes/_authenticated/_orders/orders_.$id_.modify.tsx:277
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:502
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:532
 msgid "Billing address"
 msgstr "账单地址"
 
@@ -2662,6 +2697,10 @@ msgstr "只有草稿订单可以完成"
 msgid "Failed to update product"
 msgstr "更新商品失败"
 
+#: src/app/routes/_authenticated/_collections/components/collection-filters-selector.tsx:26
+msgid "Add collection filter"
+msgstr ""
+
 #. placeholder {0}: adjustedLines.length
 #: src/app/routes/_authenticated/_orders/components/order-modification-summary.tsx:152
 msgid "Adjusting {0} lines"
@@ -2685,7 +2724,7 @@ msgstr "渠道"
 #~ msgstr "健康检查"
 
 #: src/app/routes/_authenticated/_orders/components/payment-details.tsx:170
-#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:317
+#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:322
 msgid "Amount"
 msgstr "金额"
 
@@ -2700,7 +2739,7 @@ msgid "New customer"
 msgstr "新客户"
 
 #: src/app/routes/_authenticated/_orders/components/order-table.tsx:33
-#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:90
+#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:94
 msgid "Image"
 msgstr "图片"
 
@@ -2821,6 +2860,10 @@ msgstr "从 {0} 到 {1}"
 msgid "Failed to create customer"
 msgstr "创建客户失败"
 
+#: src/lib/components/shared/asset/asset-preview.tsx:123
+msgid "Focal point updated"
+msgstr "焦点已更新"
+
 #: src/app/routes/_authenticated/_products/products_.$id_.variants.tsx:279
 msgid "Option values"
 msgstr "选项值"
@@ -2881,7 +2924,7 @@ msgstr "回退值: {value}"
 msgid "Order history"
 msgstr "订单历史"
 
-#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:263
+#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:268
 msgid "Override"
 msgstr "覆盖"
 
@@ -2980,7 +3023,6 @@ msgstr ""
 #: src/app/routes/_authenticated/_tax-categories/tax-categories.tsx:44
 #: src/lib/components/data-input/product-multi-selector-input.tsx:377
 #: src/lib/components/data-input/product-multi-selector-input.tsx:380
-#: src/lib/components/data-input/relation-selector.tsx:404
 #: src/lib/components/shared/rich-text-editor/responsive-toolbar.tsx:439
 msgid "{0}"
 msgstr "{0}"
@@ -2993,7 +3035,7 @@ msgstr "新区域"
 msgid "Failed to update collection position"
 msgstr "更新集合位置失败"
 
-#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:102
+#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:106
 msgid "Refund"
 msgstr "退款"
 
@@ -3067,6 +3109,10 @@ msgstr "默认税务类别"
 msgid "Slug is set"
 msgstr "Slug 已设置"
 
+#: src/lib/components/shared/asset/asset-preview.tsx:126
+msgid "Failed to update focal point"
+msgstr "更新焦点失败"
+
 #: src/app/routes/_authenticated/_zones/zones_.$id.tsx:61
 msgid "Successfully updated zone"
 msgstr "已成功更新区域"
@@ -3130,6 +3176,10 @@ msgstr "订单指标"
 msgid "Select display language"
 msgstr "选择显示语言"
 
+#: src/app/routes/_authenticated/_payment-methods/components/payment-handler-selector.tsx:37
+msgid "Select Payment Handler"
+msgstr ""
+
 #: src/app/routes/_authenticated/_profile/profile.tsx:128
 msgid "Authentication methods"
 msgstr "认证方式"
@@ -3165,7 +3215,7 @@ msgstr "商品变体"
 msgid "Manage Global Views"
 msgstr "管理全局视图"
 
-#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:365
+#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:370
 msgid "Processing..."
 msgstr "处理中..."
 
@@ -3180,7 +3230,7 @@ msgstr "选择日期范围"
 
 #: src/app/routes/_authenticated/_orders/components/edit-order-table.tsx:87
 #: src/app/routes/_authenticated/_orders/components/order-table.tsx:44
-#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:93
+#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:97
 msgid "Product"
 msgstr "商品"
 
@@ -3259,12 +3309,12 @@ msgstr "订单总数"
 msgid "No eligible shipping methods found for this order."
 msgstr "未找到此订单的符合条件的配送方式。"
 
-#: src/app/routes/_authenticated/_products/components/product-options-table.tsx:118
+#: src/app/routes/_authenticated/_products/components/product-options-table.tsx:126
 msgid "Add product option"
 msgstr "添加商品选项"
 
 #: src/app/routes/_authenticated/_orders/components/order-table-totals.tsx:66
-#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:189
+#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:194
 #: src/app/routes/_authenticated/_orders/orders.tsx:85
 msgid "Shipping"
 msgstr "配送"
@@ -3315,7 +3365,7 @@ msgstr "更新配送方式失败"
 msgid "Shipping Methods"
 msgstr "配送方式"
 
-#: src/app/routes/_authenticated/_orders/components/customer-address-selector.tsx:71
+#: src/app/routes/_authenticated/_orders/components/customer-address-selector.tsx:58
 msgid "Select an address"
 msgstr "选择一个地址"
 
@@ -3328,7 +3378,7 @@ msgstr "是"
 msgid "Slug"
 msgstr "Slug"
 
-#: src/lib/components/shared/asset/asset-focal-point-editor.tsx:97
+#: src/lib/components/shared/asset/asset-focal-point-editor.tsx:98
 msgid "Set Focal Point"
 msgstr "设置焦点"
 
@@ -3378,6 +3428,10 @@ msgstr "不等于"
 #~ msgid "e.g. Size"
 #~ msgstr "例如：尺寸"
 
+#: src/app/routes/_authenticated/_payment-methods/components/payment-eligibility-checker-selector.tsx:38
+msgid "No checkers found"
+msgstr ""
+
 #: src/app/routes/_authenticated/_orders/components/payment-details.tsx:142
 msgid "Settle payment"
 msgstr "完成支付"
@@ -3408,7 +3462,7 @@ msgstr "新库存位置"
 msgid "{successfulRefundCount} payment(s) refunded before failure. Check order history for details."
 msgstr "失败前已退还 {successfulRefundCount} 笔付款。请查看订单历史了解详情。"
 
-#: src/lib/components/data-input/relation-selector.tsx:411
+#: src/lib/components/data-input/relation-selector.tsx:412
 msgid "Select item"
 msgstr "选择项目"
 
@@ -3424,6 +3478,10 @@ msgstr "管理标签"
 #: src/app/routes/_authenticated/_orders/components/order-history/order-history-utils.tsx:110
 msgid "Items refunded"
 msgstr "已退款商品"
+
+#: src/app/routes/_authenticated/_promotions/components/promotion-actions-selector.tsx:37
+msgid "Add action"
+msgstr "添加操作"
 
 #: src/app/routes/_authenticated/_products/components/create-product-options-dialog.tsx:325
 #~ msgid "Assign options to existing variant"
@@ -3483,7 +3541,7 @@ msgstr "在后面添加行"
 msgid "Tax total"
 msgstr "税费总计"
 
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:374
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:414
 msgid "Draft order status"
 msgstr "草稿订单状态"
 
@@ -3504,7 +3562,7 @@ msgstr "已成功创建属性值"
 msgid "Marketing"
 msgstr "营销"
 
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:311
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:351
 msgid "Draft order deleted"
 msgstr "草稿订单已删除"
 
@@ -3582,6 +3640,7 @@ msgid "Cannot remove from active channel"
 msgstr "无法从活动渠道中移除"
 
 #: src/app/routes/_authenticated/_assets/assets_.$id.tsx:179
+#: src/lib/components/shared/asset/asset-preview.tsx:162
 msgid "Not set"
 msgstr "未设置"
 
@@ -3647,7 +3706,7 @@ msgid "Add option group"
 msgstr "添加选项组"
 
 #. placeholder {0}: formatCurrency(refund.amountToRefundTotal, order.currencyCode)
-#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:367
+#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:372
 msgid "Refund {0}"
 msgstr "退款 {0}"
 
@@ -3823,7 +3882,7 @@ msgid "Countries"
 msgstr "国家"
 
 #. placeholder {0}: error.message
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:160
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:162
 msgid "Failed to remove order line: {0}"
 msgstr ""
 
@@ -3895,7 +3954,7 @@ msgctxt "theme"
 msgid "Light"
 msgstr "浅色"
 
-#: src/lib/components/data-table/data-table-view-options.tsx:120
+#: src/lib/components/data-table/data-table-view-options.tsx:130
 msgid "Reset"
 msgstr "重置"
 
@@ -3903,6 +3962,10 @@ msgstr "重置"
 #: src/lib/components/data-table/human-readable-operator.tsx:26
 msgid "is equal to"
 msgstr "等于"
+
+#: src/lib/components/shared/asset/asset-properties.tsx:17
+msgid "Source File"
+msgstr ""
 
 #: src/app/routes/_authenticated/_products/components/create-product-options-dialog.tsx:249
 #: src/app/routes/_authenticated/_products/components/create-product-options-dialog.tsx:408
@@ -3972,7 +4035,7 @@ msgstr "+ {0} 个更多"
 msgid "Option Groups"
 msgstr "选项组"
 
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:431
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:471
 msgid "Custom fields"
 msgstr "自定义字段"
 
@@ -4072,7 +4135,7 @@ msgstr "订单总额"
 msgid "Visible to admins only"
 msgstr "仅管理员可见"
 
-#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:99
+#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:103
 msgid "Qty"
 msgstr "数量"
 
@@ -4088,8 +4151,12 @@ msgstr "超级管理员"
 #~ msgid "Some resources are down"
 #~ msgstr "某些资源已关闭"
 
+#: src/app/routes/_authenticated/_promotions/components/promotion-actions-selector.tsx:38
+msgid "Available Actions"
+msgstr "可用操作"
+
 #. placeholder {0}: error.message
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:141
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:143
 msgid "Failed to update order line: {0}"
 msgstr ""
 
@@ -4191,7 +4258,7 @@ msgid "{title}"
 msgstr "{title}"
 
 #: src/app/routes/_authenticated/_orders/components/fulfill-order-dialog.tsx:244
-#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:83
+#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:87
 #: src/app/routes/_authenticated/_orders/orders_.$id_.modify.tsx:178
 msgid "Order lines"
 msgstr "订单行"
@@ -4214,7 +4281,7 @@ msgstr "需要退款 {formattedDiff}。选择付款金额并输入备注以继�
 
 #: src/app/routes/_authenticated/_orders/components/edit-order-table.tsx:100
 #: src/app/routes/_authenticated/_orders/components/order-table.tsx:57
-#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:96
+#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:100
 msgid "Unit price"
 msgstr "单价"
 
@@ -4263,13 +4330,17 @@ msgid "Customer information updated"
 msgstr "客户信息已更新"
 
 #. placeholder {0}: error.message
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:318
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:358
 msgid "Failed to delete draft order: {0}"
 msgstr ""
 
 #: src/lib/components/data-table/views-sheet.tsx:120
 msgid "Failed to convert view to global"
 msgstr "将视图转换为全局失败"
+
+#: src/app/routes/_authenticated/_payment-methods/components/payment-eligibility-checker-selector.tsx:37
+msgid "Select Payment Eligibility Checker"
+msgstr ""
 
 #: src/lib/components/data-table/filters/data-table-enum-filter.tsx:53
 msgid "Select operator"
@@ -4406,7 +4477,7 @@ msgstr "或"
 msgid "Manage tags"
 msgstr "管理标签"
 
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:277
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:317
 msgid "Coupon code removed from order"
 msgstr "优惠券代码已从订单中移除"
 
@@ -4434,7 +4505,7 @@ msgid "Loading selected items..."
 msgstr ""
 
 #. placeholder {0}: error.message
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:210
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:250
 msgid "Failed to set billing address for order: {0}"
 msgstr ""
 
@@ -4492,7 +4563,7 @@ msgstr "此配送方式的资格检查器条件不符合当前订单和配送地
 msgid "Add coupon code"
 msgstr "添加优惠券代码"
 
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:261
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:301
 msgid "Coupon code set for order"
 msgstr "已为订单设置优惠券代码"
 
@@ -4510,6 +4581,7 @@ msgstr "大于或等于"
 
 #: src/app/routes/_authenticated/_collections/components/collection-contents-preview-table.tsx:77
 #: src/app/routes/_authenticated/_collections/components/collection-contents-preview-table.tsx:88
+#: src/lib/components/shared/entity-assets.tsx:151
 msgid "Preview"
 msgstr "预览"
 
@@ -4629,6 +4701,11 @@ msgstr "小于或等于"
 msgid "Customer group members for {customerGroupName}"
 msgstr "{customerGroupName} 的客户组成员"
 
+#. placeholder {0}: e instanceof Error ? e.message : String(e)
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:217
+msgid "Failed to set address for order: {0}"
+msgstr ""
+
 #: src/app/routes/_authenticated/_orders/components/fulfillment-details.tsx:118
 #: src/app/routes/_authenticated/_orders/components/payment-details.tsx:217
 #: src/app/routes/_authenticated/_orders/orders.tsx:101
@@ -4675,6 +4752,7 @@ msgstr "州/省"
 #: src/app/routes/_authenticated/_tax-rates/tax-rates.tsx:55
 #: src/app/routes/_authenticated/_tax-rates/tax-rates.tsx:57
 #: src/app/routes/_authenticated/_zones/components/zone-countries-table.tsx:57
+#: src/lib/components/data-display/boolean.tsx:22
 #: src/lib/components/layout/nav-user.tsx:152
 msgid "Enabled"
 msgstr "已启用"
@@ -4777,13 +4855,17 @@ msgstr "欢迎使用 Vendure"
 msgid "Shipping Methods"
 msgstr "配送方式"
 
-#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:144
+#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:149
 msgid "({maxRefundable} refundable)"
 msgstr "({maxRefundable} 可退款)"
 
 #: src/app/routes/_authenticated/_administrators/administrators.tsx:73
 msgid "Identifier"
 msgstr "标识符"
+
+#: src/app/routes/_authenticated/_shipping-methods/components/fulfillment-handler-selector.tsx:51
+msgid "Select a fulfillment handler"
+msgstr ""
 
 #: src/app/routes/_authenticated/_collections/collections_.$id.tsx:118
 msgid "Failed to update collection"
@@ -4886,10 +4968,11 @@ msgid "System"
 msgstr "系统"
 
 #: src/app/routes/_authenticated/_product-variants/product-variants_.$id.tsx:290
+#: src/app/routes/_authenticated/_products/components/product-variants-table.tsx:81
 msgid "Variant name"
 msgstr "变体名称"
 
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:543
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:579
 msgid "Remove"
 msgstr "删除"
 
@@ -4920,7 +5003,7 @@ msgstr "税率"
 msgid "Failed to load global settings"
 msgstr "加载全局设置失败"
 
-#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:75
+#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:79
 msgid "Select items to refund and optionally return to stock"
 msgstr "选择要退款的商品，可选择退回库存"
 
@@ -5005,6 +5088,11 @@ msgstr "正在履行..."
 #: src/app/routes/_authenticated/_products/components/add-option-group-dialog.tsx:147
 msgid "Add option group to product"
 msgstr "将选项组添加到商品"
+
+#. placeholder {0}: asset.name
+#: src/lib/components/shared/asset/asset-preview-dialog.tsx:37
+msgid "Preview of {0}"
+msgstr "{0} 的预览"
 
 #: src/app/routes/_authenticated/_sellers/sellers_.$id.tsx:56
 msgid "Successfully updated seller"
@@ -5098,6 +5186,11 @@ msgstr "默认语言"
 msgid "Status"
 msgstr "状态"
 
+#: src/lib/components/shared/configurable-operation-multi-selector.tsx:298
+#: src/lib/components/shared/configurable-operation-selector.tsx:155
+msgid "No options found"
+msgstr "未找到选项"
+
 #: src/lib/components/shared/asset/asset-gallery.tsx:370
 #: src/lib/components/shared/asset/asset-gallery.tsx:382
 msgid "Binary"
@@ -5132,8 +5225,8 @@ msgstr "已成功添加选项值"
 msgid "Collection moved to new parent"
 msgstr "集合已移至新的父级"
 
-#: src/app/routes/_authenticated/_products/hooks/use-remove-option-group.ts:52
-#: src/app/routes/_authenticated/_products/hooks/use-remove-option-group.ts:68
+#: src/app/routes/_authenticated/_products/hooks/use-remove-option-group.ts:49
+#: src/app/routes/_authenticated/_products/hooks/use-remove-option-group.ts:65
 msgid "Option group removed"
 msgstr "选项组已删除"
 
@@ -5204,6 +5297,10 @@ msgstr "处理退款失败"
 msgid "First name"
 msgstr "名"
 
+#: src/lib/components/shared/product-variant-selector.tsx:83
+msgid "Add item to order"
+msgstr ""
+
 #: src/lib/components/data-table/human-readable-operator.tsx:58
 msgid "contains"
 msgstr "包含"
@@ -5216,8 +5313,8 @@ msgstr "未找到选项组"
 msgid "No items found"
 msgstr "未找到项目"
 
-#: src/app/routes/_authenticated/_products/hooks/use-remove-option-group.ts:55
-#: src/app/routes/_authenticated/_products/hooks/use-remove-option-group.ts:72
+#: src/app/routes/_authenticated/_products/hooks/use-remove-option-group.ts:52
+#: src/app/routes/_authenticated/_products/hooks/use-remove-option-group.ts:69
 msgid "Failed to remove option group"
 msgstr ""
 
@@ -5267,7 +5364,7 @@ msgstr "测试数据已更新。点击\"运行测试\"以查看更新的结果�
 msgid "is not in"
 msgstr "不在"
 
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:132
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:134
 msgid "Order line updated"
 msgstr "订单行已更新"
 
@@ -5280,7 +5377,7 @@ msgid "Duplicate value \"{trimmed}\" already exists"
 msgstr "重复值\"{trimmed}\"已存在"
 
 #: src/app/routes/_authenticated/_orders/components/payment-details.tsx:233
-#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:217
+#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:222
 msgid "Reason"
 msgstr "原因"
 
@@ -5341,7 +5438,7 @@ msgstr "视频"
 msgid "less than"
 msgstr "小于"
 
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:121
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:123
 msgid "The variant could not be added. Ensure the parent product is enabled."
 msgstr "无法添加变体。请确保父产品已启用。"
 
@@ -5361,7 +5458,7 @@ msgstr "语言"
 msgid "New Collection"
 msgstr "新集合"
 
-#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:72
+#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:76
 msgid "Refund and cancel order"
 msgstr "退款并取消订单"
 
@@ -5403,7 +5500,7 @@ msgstr "全局语言"
 msgid "New administrator"
 msgstr "新管理员"
 
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:355
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:395
 msgid "Delete draft"
 msgstr "删除草稿"
 
@@ -5555,7 +5652,7 @@ msgstr "小于"
 msgid "Refund ID"
 msgstr "退款 ID"
 
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:91
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:93
 msgid "Order custom fields updated"
 msgstr "订单自定义字段已更新"
 
@@ -5690,6 +5787,7 @@ msgstr "正在加载集合..."
 msgid "Successfully updated facet value"
 msgstr "已成功更新属性值"
 
+#: src/lib/components/shared/entity-assets.tsx:290
 #: src/lib/components/shared/rich-text-editor/image-dialog.tsx:135
 msgid "Add asset"
 msgstr "添加资源"
@@ -5715,7 +5813,7 @@ msgid "Add option value to {groupName}"
 msgstr "向 {groupName} 添加选项值"
 
 #. placeholder {0}: error.message
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:221
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:261
 msgid "Failed to unset shipping address for order: {0}"
 msgstr ""
 
@@ -5758,6 +5856,10 @@ msgstr "创建于"
 #: src/app/routes/_authenticated/_products/components/add-product-variant-dialog.tsx:165
 msgid "Failed to create product variant"
 msgstr "创建商品变体失败"
+
+#: src/lib/components/data-input/relation-selector.tsx:417
+msgid "Search..."
+msgstr ""
 
 #. placeholder {0}: formatLanguageName(contentLanguage)
 #: src/lib/components/layout/channel-switcher.tsx:130
@@ -5819,6 +5921,10 @@ msgstr "尚无结果"
 msgid "Payment settled"
 msgstr "支付已完成"
 
+#: src/app/routes/_authenticated/_promotions/components/promotion-conditions-selector.tsx:38
+msgid "Available Conditions"
+msgstr "可用条件"
+
 #: src/lib/components/data-table/data-table-active-filters-popover.tsx:27
 msgid "Active filters"
 msgstr "活动筛选条件"
@@ -5857,7 +5963,7 @@ msgstr "正在加载..."
 msgid "The token is used to specify the channel when making API requests."
 msgstr "在进行 API 请求时使用令牌来指定渠道。"
 
-#: src/app/routes/_authenticated/_orders/components/customer-address-selector.tsx:80
+#: src/app/routes/_authenticated/_orders/components/customer-address-selector.tsx:67
 msgid "No addresses found"
 msgstr "未找到地址"
 
@@ -5865,7 +5971,7 @@ msgstr "未找到地址"
 msgid "Fulfillment ID"
 msgstr "履行 ID"
 
-#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:290
+#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:295
 msgid "Select payments to refund"
 msgstr "选择要退款的付款"
 

@@ -18,7 +18,7 @@ msgstr ""
 msgid "Full Name"
 msgstr "Volledige naam"
 
-#: src/lib/components/data-input/relation-selector.tsx:408
+#: src/lib/components/data-input/relation-selector.tsx:409
 msgid "Select items"
 msgstr "Selecteer items"
 
@@ -90,7 +90,7 @@ msgstr "JSON-waarde bewerken"
 msgid "Using external authentication strategy: {strategy}"
 msgstr "Externe authenticatiestrategie gebruiken: {strategy}"
 
-#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:225
+#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:230
 msgid "Select a reason..."
 msgstr "Selecteer een reden..."
 
@@ -153,7 +153,7 @@ msgstr "{selectionLength} bestanden verwijderd"
 msgid "Successfully updated tax rate"
 msgstr "Belastingtarief succesvol bijgewerkt"
 
-#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:237
+#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:242
 msgid "Enter custom reason..."
 msgstr "Voer een aangepaste reden in..."
 
@@ -167,6 +167,11 @@ msgstr "Type"
 #: src/lib/components/data-input/default-relation-input.tsx:676
 msgid "Select {0}"
 msgstr "Selecteer {0}"
+
+#. placeholder {0}: selectedItems.length
+#: src/lib/components/data-input/relation-selector.tsx:408
+msgid "Add more ({0} selected)"
+msgstr ""
 
 #: src/app/routes/_authenticated/_facets/facets.tsx:67
 msgid "View values"
@@ -198,7 +203,7 @@ msgstr "Wanneer dit is ingeschakeld, worden de prijzen die in de productcatalogu
 #~ msgid "Create variants for your product"
 #~ msgstr "Maak varianten aan voor uw product"
 
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:291
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:331
 msgid "Draft order completed"
 msgstr "Conceptbestelling voltooid"
 
@@ -218,6 +223,10 @@ msgstr "Automatisch vernieuwen: {0}"
 #: src/app/common/delete-bulk-action.tsx:108
 msgid "Deleted {deleted} {entityName}"
 msgstr "{deleted} {entityName} verwijderd"
+
+#: src/lib/components/shared/asset/asset-properties.tsx:32
+msgid "File Size"
+msgstr ""
 
 #: src/app/routes/_authenticated/_system/healthchecks.tsx:13
 #~ msgid "Healthchecks"
@@ -241,7 +250,7 @@ msgstr "{fulfilled, plural, one {{fulfilled} taak succesvol geannuleerd} other {
 msgid "Seller"
 msgstr "Verkoper"
 
-#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:131
+#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:136
 msgid "SKU:"
 msgstr "SKU:"
 
@@ -350,10 +359,11 @@ msgstr "Voorraadlocatie succesvol aangemaakt"
 #: src/app/routes/_authenticated/_products/components/add-option-group-dialog.tsx:120
 #: src/app/routes/_authenticated/_products/components/add-product-variant-dialog.tsx:166
 #: src/app/routes/_authenticated/_products/components/generate-variants-panel.tsx:185
-#: src/app/routes/_authenticated/_products/hooks/use-remove-option-group.ts:56
-#: src/app/routes/_authenticated/_products/hooks/use-remove-option-group.ts:73
+#: src/app/routes/_authenticated/_products/hooks/use-remove-option-group.ts:53
+#: src/app/routes/_authenticated/_products/hooks/use-remove-option-group.ts:70
 #: src/app/routes/_authenticated/_products/products_.$id_.variants.tsx:105
 #: src/app/routes/_authenticated/_products/products_.$id.tsx:190
+#: src/lib/components/shared/asset/asset-preview.tsx:127
 msgid "Unknown error"
 msgstr "Onbekende fout"
 
@@ -397,7 +407,7 @@ msgstr "Nieuwe rol"
 msgid "Failed to delete assets: {message}"
 msgstr "Bestanden verwijderen mislukt: {message}"
 
-#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:105
+#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:109
 msgid "Return to stock"
 msgstr "Terugbrengen naar voorraad"
 
@@ -543,7 +553,7 @@ msgstr "Beheer globale opgeslagen weergaven die zichtbaar zijn voor alle gebruik
 msgid "Search payment methods..."
 msgstr "Betaalmethoden zoeken..."
 
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:217
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:257
 msgid "Shipping address unset for order"
 msgstr "Verzendadres verwijderd voor bestelling"
 
@@ -667,7 +677,7 @@ msgstr "Voeg producten toe en voltooi het verzendadres om de test uit te voeren.
 msgid "Toggle header row"
 msgstr "Rijkop schakelen"
 
-#: src/app/routes/_authenticated/_orders/components/customer-address-selector.tsx:65
+#: src/app/routes/_authenticated/_orders/components/customer-address-selector.tsx:52
 msgid "Select address"
 msgstr "Selecteer adres"
 
@@ -689,7 +699,7 @@ msgid "Metadata"
 msgstr "Metadata"
 
 #. placeholder {0}: error.message
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:251
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:291
 msgid "Failed to set shipping method for order: {0}"
 msgstr ""
 
@@ -744,7 +754,7 @@ msgstr "Navigatie bevestigen"
 msgid "Link target"
 msgstr "Linkdoel"
 
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:365
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:405
 msgid "Complete draft"
 msgstr "Concept voltooien"
 
@@ -795,7 +805,7 @@ msgstr "Voer de transactie-ID in voor deze terugbetalingsafhandeling"
 msgid "Your API Key"
 msgstr "Uw API Key"
 
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:349
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:389
 msgid "Are you sure you want to delete this draft order?"
 msgstr "Weet u zeker dat u deze conceptbestelling wilt verwijderen?"
 
@@ -810,6 +820,7 @@ msgid "Found {0} eligible shipping method{1}"
 msgstr "{0} geschikte verzendmethode(n) gevonden"
 
 #: src/lib/components/shared/asset/asset-gallery.tsx:746
+#: src/lib/components/shared/asset/asset-properties.tsx:39
 msgid "Dimensions"
 msgstr "Afmetingen"
 
@@ -818,7 +829,7 @@ msgid "Show password"
 msgstr "Wachtwoord tonen"
 
 #. placeholder {0}: formatCurrency(refund.totalRefundableAmount, order.currencyCode)
-#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:282
+#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:287
 msgid "(max: {0})"
 msgstr "(max: {0})"
 
@@ -846,7 +857,7 @@ msgstr "Kortingen"
 msgid "Enter refund note"
 msgstr "Voer terugbetalingsnotitie in"
 
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:151
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:153
 msgid "Order line removed"
 msgstr "Bestelregel verwijderd"
 
@@ -868,7 +879,7 @@ msgid "Confirm"
 msgstr "Bevestigen"
 
 #. placeholder {0}: error.message
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:303
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:343
 msgid "Failed to complete draft order: {0}"
 msgstr ""
 
@@ -886,7 +897,7 @@ msgstr "Product aanmaken mislukt"
 
 #: src/app/routes/_authenticated/_orders/components/order-detail-shared.tsx:276
 #: src/app/routes/_authenticated/_orders/orders_.$id_.modify.tsx:233
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:457
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:497
 #: src/lib/components/shared/role-code-label.tsx:8
 msgid "Customer"
 msgstr "Klant"
@@ -896,11 +907,12 @@ msgstr "Klant"
 msgid "Error loading order history: {0}"
 msgstr "Fout bij laden bestelgeschiedenis: {0}"
 
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:195
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:235
 msgid "Shipping address set for order"
 msgstr "Verzendadres ingesteld voor bestelling"
 
 #: src/app/routes/_authenticated/_assets/assets_.$id.tsx:173
+#: src/lib/components/shared/asset/asset-preview.tsx:153
 msgid "Focal Point"
 msgstr "Focuspunt"
 
@@ -942,7 +954,7 @@ msgstr "Dit zijn de facetwaarden voor het facet <0>{facetName}</0>."
 msgid "Successfully added payment to order"
 msgstr "Betaling succesvol toegevoegd aan bestelling"
 
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:206
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:246
 msgid "Billing address set for order"
 msgstr "Factuuradres ingesteld voor bestelling"
 
@@ -1020,7 +1032,7 @@ msgstr "Toegewezen"
 #~ msgstr "Voeg nog een optiegroep toe"
 
 #. placeholder {0}: error.message
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:270
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:310
 msgid "Failed to set coupon code for order: {0}"
 msgstr ""
 
@@ -1045,7 +1057,7 @@ msgstr "Collectie succesvol aangemaakt"
 msgid "Price"
 msgstr "Prijs"
 
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:343
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:383
 #: src/app/routes/_authenticated/_orders/orders.tsx:115
 msgid "Draft order"
 msgstr "Conceptbestelling"
@@ -1054,6 +1066,10 @@ msgstr "Conceptbestelling"
 #: src/app/routes/_authenticated/_system/settings-store.tsx:314
 msgid "Scope"
 msgstr "Bereik"
+
+#: src/app/routes/_authenticated/_promotions/components/promotion-conditions-selector.tsx:37
+msgid "Add condition"
+msgstr "Voorwaarde toevoegen"
 
 #: src/app/routes/_authenticated/_shipping-methods/components/test-single-method-result.tsx:58
 msgid "Shipping method is eligible for this order"
@@ -1088,7 +1104,7 @@ msgstr "Wanneer ingeschakeld, is een promotie beschikbaar in de winkel"
 msgid "When tracked, product variant stock levels will be automatically adjusted when sold. This setting can be overridden by individual product variants."
 msgstr "Wanneer gevolgd, worden de voorraadniveaus van productvarianten automatisch aangepast bij verkoop. Deze instelling kan worden overschreven door individuele productvarianten."
 
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:242
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:282
 msgid "Shipping method set for order"
 msgstr "Verzendmethode ingesteld voor bestelling"
 
@@ -1134,7 +1150,7 @@ msgid "Email address"
 msgstr "E-mailadres"
 
 #. placeholder {0}: error.message
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:281
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:321
 msgid "Failed to remove coupon code from order: {0}"
 msgstr ""
 
@@ -1265,7 +1281,7 @@ msgstr "Betalingsstatus succesvol bijgewerkt"
 msgid "Create new"
 msgstr "Nieuw aanmaken"
 
-#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:249
+#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:254
 msgid "Refund total"
 msgstr "Totaal restitutie"
 
@@ -1283,18 +1299,24 @@ msgid "{cancellableCount, plural, one {Cancel {cancellableCount} job} other {Can
 msgstr ""
 
 #: src/lib/components/data-input/product-multi-selector-input.tsx:499
-#: src/lib/components/shared/configurable-operation-multi-selector.tsx:265
-#: src/lib/components/shared/configurable-operation-selector.tsx:140
 msgid "{buttonText}"
 msgstr "{buttonText}"
 
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:111
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:113
 msgid "Item added to order"
 msgstr "Item toegevoegd aan bestelling"
+
+#: src/lib/components/shared/asset/asset-preview.tsx:146
+msgid "Edit focal point"
+msgstr "Focuspunt bewerken"
 
 #: src/lib/components/shared/seller-selector.tsx:92
 #~ msgid "No sellers found"
 #~ msgstr "Geen verkopers gevonden"
+
+#: src/lib/components/shared/asset/asset-preview-dialog.tsx:34
+msgid "Asset"
+msgstr "Bestand"
 
 #: src/app/routes/_authenticated/_products/components/shared-option-group-warning.tsx:13
 msgid "{productCount, plural, one {This option group is used by one other product. Changes will affect it too.} other {This option group is shared across # products. Changes will affect all of them.}}"
@@ -1369,7 +1391,7 @@ msgstr "Bestelling overgegaan"
 msgid "is before"
 msgstr "is voor"
 
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:348
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:388
 msgid "Delete draft order"
 msgstr "Conceptbestelling verwijderen"
 
@@ -1422,7 +1444,7 @@ msgid "before"
 msgstr "voor"
 
 #. placeholder {0}: error.message
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:188
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:228
 msgid "Failed to set customer for order: {0}"
 msgstr ""
 
@@ -1492,7 +1514,7 @@ msgstr "Landen"
 msgid "Failed to rename view"
 msgstr "Weergave hernoemen mislukt"
 
-#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:306
+#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:311
 msgid "Available"
 msgstr "Beschikbaar"
 
@@ -1514,6 +1536,10 @@ msgstr "Klantengroepen"
 #: src/lib/framework/defaults.ts:98
 msgid "Customers"
 msgstr "Klanten"
+
+#: src/app/routes/_authenticated/_shipping-methods/components/shipping-calculator-selector.tsx:37
+msgid "Select Shipping Calculator"
+msgstr ""
 
 #: src/lib/components/layout/language-dialog.tsx:103
 msgid "Sample Formatting"
@@ -1543,7 +1569,7 @@ msgstr "Adres succesvol bijgewerkt"
 msgid "Created"
 msgstr "Aangemaakt"
 
-#: src/app/routes/_authenticated/_orders/components/customer-address-selector.tsx:76
+#: src/app/routes/_authenticated/_orders/components/customer-address-selector.tsx:63
 msgid "Loading addresses..."
 msgstr "Adressen laden..."
 
@@ -1553,7 +1579,7 @@ msgid "Select a target collection to move {0} to."
 msgstr "Selecteer een doelcollectie om {0} naar te verplaatsen."
 
 #. placeholder {0}: error.message
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:232
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:272
 msgid "Failed to unset billing address for order: {0}"
 msgstr ""
 
@@ -1584,7 +1610,7 @@ msgstr "Ga naar laatste pagina"
 #: src/app/routes/_authenticated/_orders/components/add-manual-payment-dialog.tsx:168
 #: src/app/routes/_authenticated/_orders/components/fulfill-order-dialog.tsx:311
 #: src/app/routes/_authenticated/_orders/components/order-modification-preview-dialog.tsx:352
-#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:358
+#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:363
 #: src/app/routes/_authenticated/_orders/components/settle-refund-dialog.tsx:71
 #: src/app/routes/_authenticated/_products/components/assign-facet-values-dialog.tsx:273
 #: src/app/routes/_authenticated/_products/components/force-remove-option-group-dialog.tsx:48
@@ -1606,7 +1632,7 @@ msgid "Cancel"
 msgstr "Annuleren"
 
 #. placeholder {0}: error.message
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:95
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:97
 msgid "Failed to update order custom fields: {0}"
 msgstr ""
 
@@ -1641,7 +1667,7 @@ msgstr "Nieuwe belastingcategorie"
 msgid "Partial refund completed"
 msgstr "Gedeeltelijke restitutie voltooid"
 
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:452
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:492
 msgid "Set custom fields"
 msgstr "Aangepaste velden instellen"
 
@@ -1650,6 +1676,10 @@ msgstr "Aangepaste velden instellen"
 #: src/app/routes/_authenticated/_collections/collections.tsx:339
 msgid "Collections"
 msgstr "Collecties"
+
+#: src/app/routes/_authenticated/_shipping-methods/components/shipping-eligibility-checker-selector.tsx:37
+msgid "Select Shipping Eligibility Checker"
+msgstr ""
 
 #: src/app/routes/_authenticated/_products/products_.$id_.variants.tsx:433
 msgid "Delete variant"
@@ -1669,7 +1699,7 @@ msgstr "Reden:"
 
 #: src/app/routes/_authenticated/_orders/components/order-detail-shared.tsx:291
 #: src/app/routes/_authenticated/_orders/orders_.$id_.modify.tsx:248
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:470
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:510
 msgid "Shipping address"
 msgstr "Verzendadres"
 
@@ -1709,6 +1739,7 @@ msgstr "Klantengroepen"
 
 #: src/app/routes/_authenticated/_system/scheduled-tasks.tsx:123
 #: src/app/routes/_authenticated/_tax-rates/tax-rates.tsx:58
+#: src/lib/components/data-display/boolean.tsx:22
 #: src/lib/components/layout/nav-user.tsx:155
 msgid "Disabled"
 msgstr "Uitgeschakeld"
@@ -1836,7 +1867,7 @@ msgstr "Notitie toegevoegd"
 msgid "Select quantities to fulfill and configure the fulfillment handler"
 msgstr "Selecteer hoeveelheden om af te handelen en configureer de afhandelingshandler"
 
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:228
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:268
 msgid "Billing address unset for order"
 msgstr "Factuuradres verwijderd van bestelling"
 
@@ -1855,7 +1886,7 @@ msgstr "Dupliceren"
 msgid "No results"
 msgstr "Geen resultaten"
 
-#: src/lib/components/data-table/data-table-view-options.tsx:89
+#: src/lib/components/data-table/data-table-view-options.tsx:95
 msgid "Column settings"
 msgstr "Kolominstellingen"
 
@@ -1941,7 +1972,7 @@ msgstr "Kon query document niet uitbreiden"
 msgid "Failed to update note"
 msgstr "Notitie bijwerken mislukt"
 
-#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:201
+#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:206
 msgid "Refund shipping"
 msgstr "Verzendkosten restitueren"
 
@@ -2346,12 +2377,16 @@ msgstr "Stelt de talen in die beschikbaar zijn voor alle kanalen. Individuele ka
 msgid "Collections moved successfully"
 msgstr "Collecties succesvol verplaatst"
 
+#: src/lib/components/data-input/relation-selector.tsx:411
+msgid "Change selection"
+msgstr ""
+
 #: src/app/routes/_authenticated/_customers/components/customer-status-badge.tsx:23
 msgid "Registered"
 msgstr "Geregistreerd"
 
 #. placeholder {0}: error.message
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:199
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:239
 msgid "Failed to set shipping address for order: {0}"
 msgstr ""
 
@@ -2439,7 +2474,7 @@ msgstr "Geselecteerde items"
 msgid "Values"
 msgstr "Waarden"
 
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:170
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:172
 msgid "Customer set for order"
 msgstr "Klant ingesteld voor bestelling"
 
@@ -2612,7 +2647,7 @@ msgstr "Dit verwijdert alle optiegroepen van dit product en keert terug naar de 
 
 #: src/app/routes/_authenticated/_orders/components/order-detail-shared.tsx:299
 #: src/app/routes/_authenticated/_orders/orders_.$id_.modify.tsx:277
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:502
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:532
 msgid "Billing address"
 msgstr "Factuuradres"
 
@@ -2656,6 +2691,10 @@ msgstr "Alleen conceptbestellingen kunnen worden voltooid"
 msgid "Failed to update product"
 msgstr "Product bijwerken mislukt"
 
+#: src/app/routes/_authenticated/_collections/components/collection-filters-selector.tsx:26
+msgid "Add collection filter"
+msgstr ""
+
 #. placeholder {0}: adjustedLines.length
 #: src/app/routes/_authenticated/_orders/components/order-modification-summary.tsx:152
 msgid "Adjusting {0} lines"
@@ -2679,7 +2718,7 @@ msgstr "Kanaal"
 #~ msgstr "Statuscontroles"
 
 #: src/app/routes/_authenticated/_orders/components/payment-details.tsx:170
-#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:317
+#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:322
 msgid "Amount"
 msgstr "Bedrag"
 
@@ -2694,7 +2733,7 @@ msgid "New customer"
 msgstr "Nieuwe klant"
 
 #: src/app/routes/_authenticated/_orders/components/order-table.tsx:33
-#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:90
+#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:94
 msgid "Image"
 msgstr "Afbeelding"
 
@@ -2815,6 +2854,10 @@ msgstr "Van {0} tot {1}"
 msgid "Failed to create customer"
 msgstr "Klant aanmaken mislukt"
 
+#: src/lib/components/shared/asset/asset-preview.tsx:123
+msgid "Focal point updated"
+msgstr "Focuspunt bijgewerkt"
+
 #: src/app/routes/_authenticated/_products/products_.$id_.variants.tsx:279
 msgid "Option values"
 msgstr "Optiewaarden"
@@ -2875,7 +2918,7 @@ msgstr "Fallback: {value}"
 msgid "Order history"
 msgstr "Bestelgeschiedenis"
 
-#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:263
+#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:268
 msgid "Override"
 msgstr "Overschrijven"
 
@@ -2974,7 +3017,6 @@ msgstr ""
 #: src/app/routes/_authenticated/_tax-categories/tax-categories.tsx:44
 #: src/lib/components/data-input/product-multi-selector-input.tsx:377
 #: src/lib/components/data-input/product-multi-selector-input.tsx:380
-#: src/lib/components/data-input/relation-selector.tsx:404
 #: src/lib/components/shared/rich-text-editor/responsive-toolbar.tsx:439
 msgid "{0}"
 msgstr "{0}"
@@ -2987,7 +3029,7 @@ msgstr "Nieuwe zone"
 msgid "Failed to update collection position"
 msgstr "Bijwerken van collectiepositie mislukt"
 
-#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:102
+#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:106
 msgid "Refund"
 msgstr "Restitutie"
 
@@ -3061,6 +3103,10 @@ msgstr "Is standaard belastingcategorie"
 msgid "Slug is set"
 msgstr "Slug is ingesteld"
 
+#: src/lib/components/shared/asset/asset-preview.tsx:126
+msgid "Failed to update focal point"
+msgstr "Bijwerken van focuspunt mislukt"
+
 #: src/app/routes/_authenticated/_zones/zones_.$id.tsx:61
 msgid "Successfully updated zone"
 msgstr "Zone succesvol bijgewerkt"
@@ -3124,6 +3170,10 @@ msgstr "Bestelstatistieken"
 msgid "Select display language"
 msgstr "Selecteer weergavetaal"
 
+#: src/app/routes/_authenticated/_payment-methods/components/payment-handler-selector.tsx:37
+msgid "Select Payment Handler"
+msgstr ""
+
 #: src/app/routes/_authenticated/_profile/profile.tsx:128
 msgid "Authentication methods"
 msgstr "Authenticatiemethoden"
@@ -3159,7 +3209,7 @@ msgstr "Productvarianten"
 msgid "Manage Global Views"
 msgstr "Globale weergaven beheren"
 
-#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:365
+#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:370
 msgid "Processing..."
 msgstr "Bezig met verwerken..."
 
@@ -3174,7 +3224,7 @@ msgstr "Datumbereik selecteren"
 
 #: src/app/routes/_authenticated/_orders/components/edit-order-table.tsx:87
 #: src/app/routes/_authenticated/_orders/components/order-table.tsx:44
-#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:93
+#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:97
 msgid "Product"
 msgstr "Product"
 
@@ -3253,12 +3303,12 @@ msgstr "Totaal bestellingen"
 msgid "No eligible shipping methods found for this order."
 msgstr "Geen geschikte verzendmethoden gevonden voor deze bestelling."
 
-#: src/app/routes/_authenticated/_products/components/product-options-table.tsx:118
+#: src/app/routes/_authenticated/_products/components/product-options-table.tsx:126
 msgid "Add product option"
 msgstr "Productoptie toevoegen"
 
 #: src/app/routes/_authenticated/_orders/components/order-table-totals.tsx:66
-#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:189
+#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:194
 #: src/app/routes/_authenticated/_orders/orders.tsx:85
 msgid "Shipping"
 msgstr "Verzending"
@@ -3309,7 +3359,7 @@ msgstr "Bijwerken van verzendmethode mislukt"
 msgid "Shipping Methods"
 msgstr "Verzendmethoden"
 
-#: src/app/routes/_authenticated/_orders/components/customer-address-selector.tsx:71
+#: src/app/routes/_authenticated/_orders/components/customer-address-selector.tsx:58
 msgid "Select an address"
 msgstr "Selecteer een adres"
 
@@ -3322,7 +3372,7 @@ msgstr "Ja"
 msgid "Slug"
 msgstr "Slug"
 
-#: src/lib/components/shared/asset/asset-focal-point-editor.tsx:97
+#: src/lib/components/shared/asset/asset-focal-point-editor.tsx:98
 msgid "Set Focal Point"
 msgstr "Focuspunt instellen"
 
@@ -3372,6 +3422,10 @@ msgstr "is niet gelijk aan"
 #~ msgid "e.g. Size"
 #~ msgstr "bijv. Maat"
 
+#: src/app/routes/_authenticated/_payment-methods/components/payment-eligibility-checker-selector.tsx:38
+msgid "No checkers found"
+msgstr ""
+
 #: src/app/routes/_authenticated/_orders/components/payment-details.tsx:142
 msgid "Settle payment"
 msgstr "Betaling afhandelen"
@@ -3402,7 +3456,7 @@ msgstr "Nieuwe voorraadlocatie"
 msgid "{successfulRefundCount} payment(s) refunded before failure. Check order history for details."
 msgstr "{successfulRefundCount} betaling(en) gerestitueerd voor de fout. Controleer de bestelgeschiedenis voor details."
 
-#: src/lib/components/data-input/relation-selector.tsx:411
+#: src/lib/components/data-input/relation-selector.tsx:412
 msgid "Select item"
 msgstr "Selecteer item"
 
@@ -3418,6 +3472,10 @@ msgstr "Tags beheren"
 #: src/app/routes/_authenticated/_orders/components/order-history/order-history-utils.tsx:110
 msgid "Items refunded"
 msgstr "Artikelen gerestitueerd"
+
+#: src/app/routes/_authenticated/_promotions/components/promotion-actions-selector.tsx:37
+msgid "Add action"
+msgstr "Actie toevoegen"
 
 #: src/app/routes/_authenticated/_products/components/create-product-options-dialog.tsx:325
 #~ msgid "Assign options to existing variant"
@@ -3474,7 +3532,7 @@ msgstr "Rij toevoegen na"
 msgid "Tax total"
 msgstr "Totale belasting"
 
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:374
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:414
 msgid "Draft order status"
 msgstr "Status conceptbestelling"
 
@@ -3495,7 +3553,7 @@ msgstr "Facetwaarde succesvol aangemaakt"
 msgid "Marketing"
 msgstr "Marketing"
 
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:311
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:351
 msgid "Draft order deleted"
 msgstr "Conceptbestelling verwijderd"
 
@@ -3573,6 +3631,7 @@ msgid "Cannot remove from active channel"
 msgstr "Kan niet uit actief kanaal verwijderen"
 
 #: src/app/routes/_authenticated/_assets/assets_.$id.tsx:179
+#: src/lib/components/shared/asset/asset-preview.tsx:162
 msgid "Not set"
 msgstr "Niet ingesteld"
 
@@ -3638,7 +3697,7 @@ msgid "Add option group"
 msgstr "Optiegroep toevoegen"
 
 #. placeholder {0}: formatCurrency(refund.amountToRefundTotal, order.currencyCode)
-#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:367
+#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:372
 msgid "Refund {0}"
 msgstr "Restitutie {0}"
 
@@ -3814,7 +3873,7 @@ msgid "Countries"
 msgstr "Landen"
 
 #. placeholder {0}: error.message
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:160
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:162
 msgid "Failed to remove order line: {0}"
 msgstr ""
 
@@ -3886,7 +3945,7 @@ msgctxt "theme"
 msgid "Light"
 msgstr "Licht"
 
-#: src/lib/components/data-table/data-table-view-options.tsx:120
+#: src/lib/components/data-table/data-table-view-options.tsx:130
 msgid "Reset"
 msgstr "Resetten"
 
@@ -3894,6 +3953,10 @@ msgstr "Resetten"
 #: src/lib/components/data-table/human-readable-operator.tsx:26
 msgid "is equal to"
 msgstr "is gelijk aan"
+
+#: src/lib/components/shared/asset/asset-properties.tsx:17
+msgid "Source File"
+msgstr ""
 
 #: src/app/routes/_authenticated/_products/components/create-product-options-dialog.tsx:249
 #: src/app/routes/_authenticated/_products/components/create-product-options-dialog.tsx:408
@@ -3963,7 +4026,7 @@ msgstr "+ {0} meer"
 msgid "Option Groups"
 msgstr "Optiegroepen"
 
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:431
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:471
 msgid "Custom fields"
 msgstr "Aangepaste velden"
 
@@ -4063,7 +4126,7 @@ msgstr "Besteltotaal"
 msgid "Visible to admins only"
 msgstr "Alleen zichtbaar voor beheerders"
 
-#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:99
+#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:103
 msgid "Qty"
 msgstr "Aantal"
 
@@ -4079,8 +4142,12 @@ msgstr "Superbeheerder"
 #~ msgid "Some resources are down"
 #~ msgstr "Sommige bronnen zijn offline"
 
+#: src/app/routes/_authenticated/_promotions/components/promotion-actions-selector.tsx:38
+msgid "Available Actions"
+msgstr "Beschikbare acties"
+
 #. placeholder {0}: error.message
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:141
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:143
 msgid "Failed to update order line: {0}"
 msgstr ""
 
@@ -4182,7 +4249,7 @@ msgid "{title}"
 msgstr "{title}"
 
 #: src/app/routes/_authenticated/_orders/components/fulfill-order-dialog.tsx:244
-#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:83
+#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:87
 #: src/app/routes/_authenticated/_orders/orders_.$id_.modify.tsx:178
 msgid "Order lines"
 msgstr "Bestelregels"
@@ -4205,7 +4272,7 @@ msgstr "Een terugbetaling van {formattedDiff} is vereist. Selecteer betalingsbed
 
 #: src/app/routes/_authenticated/_orders/components/edit-order-table.tsx:100
 #: src/app/routes/_authenticated/_orders/components/order-table.tsx:57
-#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:96
+#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:100
 msgid "Unit price"
 msgstr "Stukprijs"
 
@@ -4254,13 +4321,17 @@ msgid "Customer information updated"
 msgstr "Klantinformatie bijgewerkt"
 
 #. placeholder {0}: error.message
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:318
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:358
 msgid "Failed to delete draft order: {0}"
 msgstr ""
 
 #: src/lib/components/data-table/views-sheet.tsx:120
 msgid "Failed to convert view to global"
 msgstr "Weergave converteren naar globaal mislukt"
+
+#: src/app/routes/_authenticated/_payment-methods/components/payment-eligibility-checker-selector.tsx:37
+msgid "Select Payment Eligibility Checker"
+msgstr ""
 
 #: src/lib/components/data-table/filters/data-table-enum-filter.tsx:53
 msgid "Select operator"
@@ -4397,7 +4468,7 @@ msgstr "OF"
 msgid "Manage tags"
 msgstr "Tags beheren"
 
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:277
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:317
 msgid "Coupon code removed from order"
 msgstr "Couponcode verwijderd van bestelling"
 
@@ -4425,7 +4496,7 @@ msgid "Loading selected items..."
 msgstr ""
 
 #. placeholder {0}: error.message
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:210
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:250
 msgid "Failed to set billing address for order: {0}"
 msgstr ""
 
@@ -4483,7 +4554,7 @@ msgstr "De geschiktheidsvoorwaarden van deze verzendmethode worden niet voldaan 
 msgid "Add coupon code"
 msgstr "Couponcode toevoegen"
 
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:261
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:301
 msgid "Coupon code set for order"
 msgstr "Couponcode ingesteld voor bestelling"
 
@@ -4501,6 +4572,7 @@ msgstr "is groter dan of gelijk aan"
 
 #: src/app/routes/_authenticated/_collections/components/collection-contents-preview-table.tsx:77
 #: src/app/routes/_authenticated/_collections/components/collection-contents-preview-table.tsx:88
+#: src/lib/components/shared/entity-assets.tsx:151
 msgid "Preview"
 msgstr "Voorbeeld"
 
@@ -4620,6 +4692,11 @@ msgstr "kleiner dan of gelijk aan"
 msgid "Customer group members for {customerGroupName}"
 msgstr "Klantengroepleden voor {customerGroupName}"
 
+#. placeholder {0}: e instanceof Error ? e.message : String(e)
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:217
+msgid "Failed to set address for order: {0}"
+msgstr ""
+
 #: src/app/routes/_authenticated/_orders/components/fulfillment-details.tsx:118
 #: src/app/routes/_authenticated/_orders/components/payment-details.tsx:217
 #: src/app/routes/_authenticated/_orders/orders.tsx:101
@@ -4670,6 +4747,7 @@ msgstr "Staat / Provincie"
 #: src/app/routes/_authenticated/_tax-rates/tax-rates.tsx:55
 #: src/app/routes/_authenticated/_tax-rates/tax-rates.tsx:57
 #: src/app/routes/_authenticated/_zones/components/zone-countries-table.tsx:57
+#: src/lib/components/data-display/boolean.tsx:22
 #: src/lib/components/layout/nav-user.tsx:152
 msgid "Enabled"
 msgstr "Ingeschakeld"
@@ -4772,13 +4850,17 @@ msgstr "Welkom bij Vendure"
 msgid "Shipping Methods"
 msgstr "Verzendmethoden"
 
-#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:144
+#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:149
 msgid "({maxRefundable} refundable)"
 msgstr "({maxRefundable} restitueerbaar)"
 
 #: src/app/routes/_authenticated/_administrators/administrators.tsx:73
 msgid "Identifier"
 msgstr "Identificatie"
+
+#: src/app/routes/_authenticated/_shipping-methods/components/fulfillment-handler-selector.tsx:51
+msgid "Select a fulfillment handler"
+msgstr ""
 
 #: src/app/routes/_authenticated/_collections/collections_.$id.tsx:118
 msgid "Failed to update collection"
@@ -4881,10 +4963,11 @@ msgid "System"
 msgstr "Systeem"
 
 #: src/app/routes/_authenticated/_product-variants/product-variants_.$id.tsx:290
+#: src/app/routes/_authenticated/_products/components/product-variants-table.tsx:81
 msgid "Variant name"
 msgstr "Variantnaam"
 
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:543
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:579
 msgid "Remove"
 msgstr "Verwijderen"
 
@@ -4915,7 +4998,7 @@ msgstr "Belastingtarieven"
 msgid "Failed to load global settings"
 msgstr "Globale instellingen laden mislukt"
 
-#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:75
+#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:79
 msgid "Select items to refund and optionally return to stock"
 msgstr "Selecteer artikelen om te restitueren en optioneel terug te brengen naar voorraad"
 
@@ -5000,6 +5083,11 @@ msgstr "Afhandelen..."
 #: src/app/routes/_authenticated/_products/components/add-option-group-dialog.tsx:147
 msgid "Add option group to product"
 msgstr "Optiegroep toevoegen aan product"
+
+#. placeholder {0}: asset.name
+#: src/lib/components/shared/asset/asset-preview-dialog.tsx:37
+msgid "Preview of {0}"
+msgstr "Voorbeeld van {0}"
 
 #: src/app/routes/_authenticated/_sellers/sellers_.$id.tsx:56
 msgid "Successfully updated seller"
@@ -5093,6 +5181,11 @@ msgstr "Standaardtaal"
 msgid "Status"
 msgstr "Status"
 
+#: src/lib/components/shared/configurable-operation-multi-selector.tsx:298
+#: src/lib/components/shared/configurable-operation-selector.tsx:155
+msgid "No options found"
+msgstr "Geen opties gevonden"
+
 #: src/lib/components/shared/asset/asset-gallery.tsx:370
 #: src/lib/components/shared/asset/asset-gallery.tsx:382
 msgid "Binary"
@@ -5127,8 +5220,8 @@ msgstr "Optiewaarde succesvol toegevoegd"
 msgid "Collection moved to new parent"
 msgstr "Collectie naar nieuw bovenliggend niveau verplaatst"
 
-#: src/app/routes/_authenticated/_products/hooks/use-remove-option-group.ts:52
-#: src/app/routes/_authenticated/_products/hooks/use-remove-option-group.ts:68
+#: src/app/routes/_authenticated/_products/hooks/use-remove-option-group.ts:49
+#: src/app/routes/_authenticated/_products/hooks/use-remove-option-group.ts:65
 msgid "Option group removed"
 msgstr "Optiegroep verwijderd"
 
@@ -5199,6 +5292,10 @@ msgstr "Verwerking van restitutie mislukt"
 msgid "First name"
 msgstr "Voornaam"
 
+#: src/lib/components/shared/product-variant-selector.tsx:83
+msgid "Add item to order"
+msgstr ""
+
 #: src/lib/components/data-table/human-readable-operator.tsx:58
 msgid "contains"
 msgstr "bevat"
@@ -5211,8 +5308,8 @@ msgstr "Geen optiegroepen gevonden"
 msgid "No items found"
 msgstr "Geen items gevonden"
 
-#: src/app/routes/_authenticated/_products/hooks/use-remove-option-group.ts:55
-#: src/app/routes/_authenticated/_products/hooks/use-remove-option-group.ts:72
+#: src/app/routes/_authenticated/_products/hooks/use-remove-option-group.ts:52
+#: src/app/routes/_authenticated/_products/hooks/use-remove-option-group.ts:69
 msgid "Failed to remove option group"
 msgstr ""
 
@@ -5262,7 +5359,7 @@ msgstr "Testgegevens zijn bijgewerkt. Klik op \"Test uitvoeren\" om de bijgewerk
 msgid "is not in"
 msgstr "is niet in"
 
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:132
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:134
 msgid "Order line updated"
 msgstr "Bestelregel bijgewerkt"
 
@@ -5275,7 +5372,7 @@ msgid "Duplicate value \"{trimmed}\" already exists"
 msgstr "Dubbele waarde \"{trimmed}\" bestaat al"
 
 #: src/app/routes/_authenticated/_orders/components/payment-details.tsx:233
-#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:217
+#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:222
 msgid "Reason"
 msgstr "Reden"
 
@@ -5336,7 +5433,7 @@ msgstr "Video"
 msgid "less than"
 msgstr "kleiner dan"
 
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:121
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:123
 msgid "The variant could not be added. Ensure the parent product is enabled."
 msgstr "De variant kon niet worden toegevoegd. Controleer of het hoofdproduct is ingeschakeld."
 
@@ -5356,7 +5453,7 @@ msgstr "Taal"
 msgid "New Collection"
 msgstr "Nieuwe collectie"
 
-#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:72
+#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:76
 msgid "Refund and cancel order"
 msgstr "Bestelling restitueren en annuleren"
 
@@ -5398,7 +5495,7 @@ msgstr "Globale talen"
 msgid "New administrator"
 msgstr "Nieuwe beheerder"
 
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:355
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:395
 msgid "Delete draft"
 msgstr "Concept verwijderen"
 
@@ -5550,7 +5647,7 @@ msgstr "is kleiner dan"
 msgid "Refund ID"
 msgstr "Terugbetalings-ID"
 
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:91
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:93
 msgid "Order custom fields updated"
 msgstr "Aangepaste velden van bestelling bijgewerkt"
 
@@ -5685,6 +5782,7 @@ msgstr "Collecties laden..."
 msgid "Successfully updated facet value"
 msgstr "Facetwaarde succesvol bijgewerkt"
 
+#: src/lib/components/shared/entity-assets.tsx:290
 #: src/lib/components/shared/rich-text-editor/image-dialog.tsx:135
 msgid "Add asset"
 msgstr "Bestand toevoegen"
@@ -5710,7 +5808,7 @@ msgid "Add option value to {groupName}"
 msgstr "Optiewaarde toevoegen aan {groupName}"
 
 #. placeholder {0}: error.message
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:221
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:261
 msgid "Failed to unset shipping address for order: {0}"
 msgstr ""
 
@@ -5753,6 +5851,10 @@ msgstr "Aangemaakt op"
 #: src/app/routes/_authenticated/_products/components/add-product-variant-dialog.tsx:165
 msgid "Failed to create product variant"
 msgstr "Productvariant aanmaken mislukt"
+
+#: src/lib/components/data-input/relation-selector.tsx:417
+msgid "Search..."
+msgstr ""
 
 #. placeholder {0}: formatLanguageName(contentLanguage)
 #: src/lib/components/layout/channel-switcher.tsx:130
@@ -5814,6 +5916,10 @@ msgstr "Nog geen resultaat"
 msgid "Payment settled"
 msgstr "Betaling afgehandeld"
 
+#: src/app/routes/_authenticated/_promotions/components/promotion-conditions-selector.tsx:38
+msgid "Available Conditions"
+msgstr "Beschikbare voorwaarden"
+
 #: src/lib/components/data-table/data-table-active-filters-popover.tsx:27
 msgid "Active filters"
 msgstr "Actieve filters"
@@ -5852,7 +5958,7 @@ msgstr "Laden..."
 msgid "The token is used to specify the channel when making API requests."
 msgstr "De token wordt gebruikt om het kanaal op te geven bij het doen van API-verzoeken."
 
-#: src/app/routes/_authenticated/_orders/components/customer-address-selector.tsx:80
+#: src/app/routes/_authenticated/_orders/components/customer-address-selector.tsx:67
 msgid "No addresses found"
 msgstr "Geen adressen gevonden"
 
@@ -5860,7 +5966,7 @@ msgstr "Geen adressen gevonden"
 msgid "Fulfillment ID"
 msgstr "Afhandelings-ID"
 
-#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:290
+#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:295
 msgid "Select payments to refund"
 msgstr "Selecteer betalingen om te restitueren"
 

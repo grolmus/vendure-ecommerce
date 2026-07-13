@@ -18,7 +18,7 @@ msgstr ""
 msgid "Full Name"
 msgstr "Nume complet"
 
-#: src/lib/components/data-input/relation-selector.tsx:408
+#: src/lib/components/data-input/relation-selector.tsx:409
 msgid "Select items"
 msgstr "Selectează elementele"
 
@@ -90,7 +90,7 @@ msgstr "Editează valoare JSON"
 msgid "Using external authentication strategy: {strategy}"
 msgstr "Folosind strategia de autentificare externă: {strategy}"
 
-#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:225
+#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:230
 msgid "Select a reason..."
 msgstr "Alege un motiv..."
 
@@ -149,7 +149,7 @@ msgstr "{selectionLength} resurse șterse"
 msgid "Successfully updated tax rate"
 msgstr "Cota de taxă a fost actualizată cu succes"
 
-#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:237
+#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:242
 msgid "Enter custom reason..."
 msgstr "Introdu motiv personalizat..."
 
@@ -163,6 +163,11 @@ msgstr "Tip"
 #: src/lib/components/data-input/default-relation-input.tsx:676
 msgid "Select {0}"
 msgstr "Selectează {0}"
+
+#. placeholder {0}: selectedItems.length
+#: src/lib/components/data-input/relation-selector.tsx:408
+msgid "Add more ({0} selected)"
+msgstr ""
 
 #: src/app/routes/_authenticated/_facets/facets.tsx:67
 msgid "View values"
@@ -190,7 +195,7 @@ msgstr "Fără livrări"
 msgid "When this is enabled, the prices entered in the product catalog will be included in the tax for the default tax zone."
 msgstr "Când este activat, prețurile introduse în catalogul de produse vor include taxa pentru zona de impozitare implicită."
 
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:291
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:331
 msgid "Draft order completed"
 msgstr "Comandă ciornă finalizată"
 
@@ -206,6 +211,10 @@ msgstr "Reîmprospătare automată: {0}"
 #: src/app/common/delete-bulk-action.tsx:108
 msgid "Deleted {deleted} {entityName}"
 msgstr "{deleted} {entityName} șterse"
+
+#: src/lib/components/shared/asset/asset-properties.tsx:32
+msgid "File Size"
+msgstr ""
 
 #: src/app/routes/_authenticated/_sellers/sellers_.$id.tsx:29
 #: src/app/routes/_authenticated/_sellers/sellers.tsx:13
@@ -225,7 +234,7 @@ msgstr "{fulfilled, plural, one {{fulfilled} job anulat cu succes} few {{fulfill
 msgid "Seller"
 msgstr "Vânzător"
 
-#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:131
+#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:136
 msgid "SKU:"
 msgstr "SKU:"
 
@@ -326,10 +335,11 @@ msgstr "Locația de stoc a fost creată cu succes"
 #: src/app/routes/_authenticated/_products/components/add-option-group-dialog.tsx:120
 #: src/app/routes/_authenticated/_products/components/add-product-variant-dialog.tsx:166
 #: src/app/routes/_authenticated/_products/components/generate-variants-panel.tsx:185
-#: src/app/routes/_authenticated/_products/hooks/use-remove-option-group.ts:56
-#: src/app/routes/_authenticated/_products/hooks/use-remove-option-group.ts:73
+#: src/app/routes/_authenticated/_products/hooks/use-remove-option-group.ts:53
+#: src/app/routes/_authenticated/_products/hooks/use-remove-option-group.ts:70
 #: src/app/routes/_authenticated/_products/products_.$id_.variants.tsx:105
 #: src/app/routes/_authenticated/_products/products_.$id.tsx:190
+#: src/lib/components/shared/asset/asset-preview.tsx:127
 msgid "Unknown error"
 msgstr "Eroare necunoscută"
 
@@ -373,7 +383,7 @@ msgstr "Rol Nou"
 msgid "Failed to delete assets: {message}"
 msgstr "Nu s-au putut șterge resursele: {message}"
 
-#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:105
+#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:109
 msgid "Return to stock"
 msgstr "Returnează în stoc"
 
@@ -515,7 +525,7 @@ msgstr "Gestionează vizualizările globale salvate care sunt vizibile tuturor u
 msgid "Search payment methods..."
 msgstr "Caută metode de plată..."
 
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:217
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:257
 msgid "Shipping address unset for order"
 msgstr "Adresa de livrare anulată pentru comandă"
 
@@ -639,7 +649,7 @@ msgstr "Te rugăm să adaugi produse și să completezi adresa de livrare pentru
 msgid "Toggle header row"
 msgstr "Comută rândul antet"
 
-#: src/app/routes/_authenticated/_orders/components/customer-address-selector.tsx:65
+#: src/app/routes/_authenticated/_orders/components/customer-address-selector.tsx:52
 msgid "Select address"
 msgstr "Selectează adresa"
 
@@ -661,7 +671,7 @@ msgid "Metadata"
 msgstr "Metadate"
 
 #. placeholder {0}: error.message
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:251
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:291
 msgid "Failed to set shipping method for order: {0}"
 msgstr ""
 
@@ -716,7 +726,7 @@ msgstr "Confirmă navigarea"
 msgid "Link target"
 msgstr "Comportament link"
 
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:365
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:405
 msgid "Complete draft"
 msgstr "Finalizează ciorna"
 
@@ -767,7 +777,7 @@ msgstr "Introdu ID-ul tranzacției pentru această soluționare rambursare"
 msgid "Your API Key"
 msgstr "Cheia ta API"
 
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:349
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:389
 msgid "Are you sure you want to delete this draft order?"
 msgstr "Ești sigur că vrei să ștergi această comandă ciornă?"
 
@@ -782,6 +792,7 @@ msgid "Found {0} eligible shipping method{1}"
 msgstr "S-au găsit {0} metode de livrare eligibile"
 
 #: src/lib/components/shared/asset/asset-gallery.tsx:746
+#: src/lib/components/shared/asset/asset-properties.tsx:39
 msgid "Dimensions"
 msgstr "Dimensiuni"
 
@@ -790,7 +801,7 @@ msgid "Show password"
 msgstr "Afișează parola"
 
 #. placeholder {0}: formatCurrency(refund.totalRefundableAmount, order.currencyCode)
-#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:282
+#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:287
 msgid "(max: {0})"
 msgstr "(max.: {0})"
 
@@ -818,7 +829,7 @@ msgstr "Reduceri"
 msgid "Enter refund note"
 msgstr "Introdu notă rambursare"
 
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:151
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:153
 msgid "Order line removed"
 msgstr "Linie comandă eliminată"
 
@@ -836,7 +847,7 @@ msgid "Confirm"
 msgstr "Confirmă"
 
 #. placeholder {0}: error.message
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:303
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:343
 msgid "Failed to complete draft order: {0}"
 msgstr ""
 
@@ -854,7 +865,7 @@ msgstr "Nu s-a putut crea produsul"
 
 #: src/app/routes/_authenticated/_orders/components/order-detail-shared.tsx:276
 #: src/app/routes/_authenticated/_orders/orders_.$id_.modify.tsx:233
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:457
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:497
 #: src/lib/components/shared/role-code-label.tsx:8
 msgid "Customer"
 msgstr "Client"
@@ -864,11 +875,12 @@ msgstr "Client"
 msgid "Error loading order history: {0}"
 msgstr "Eroare la încărcarea istoricului comenzii: {0}"
 
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:195
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:235
 msgid "Shipping address set for order"
 msgstr "Adresa de livrare setată pentru comandă"
 
 #: src/app/routes/_authenticated/_assets/assets_.$id.tsx:173
+#: src/lib/components/shared/asset/asset-preview.tsx:153
 msgid "Focal Point"
 msgstr "Punct focal"
 
@@ -910,7 +922,7 @@ msgstr "Acestea sunt valorile pentru atributul <0>{facetName}</0>."
 msgid "Successfully added payment to order"
 msgstr "Plata a fost adăugată cu succes la comandă"
 
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:206
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:246
 msgid "Billing address set for order"
 msgstr "Adresă de facturare setată pentru comandă"
 
@@ -984,7 +996,7 @@ msgid "Allocated"
 msgstr "Alocat"
 
 #. placeholder {0}: error.message
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:270
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:310
 msgid "Failed to set coupon code for order: {0}"
 msgstr ""
 
@@ -1009,7 +1021,7 @@ msgstr "Colecția a fost creată cu succes"
 msgid "Price"
 msgstr "Preț"
 
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:343
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:383
 #: src/app/routes/_authenticated/_orders/orders.tsx:115
 msgid "Draft order"
 msgstr "Comandă ciornă"
@@ -1018,6 +1030,10 @@ msgstr "Comandă ciornă"
 #: src/app/routes/_authenticated/_system/settings-store.tsx:314
 msgid "Scope"
 msgstr "Domeniu"
+
+#: src/app/routes/_authenticated/_promotions/components/promotion-conditions-selector.tsx:37
+msgid "Add condition"
+msgstr "Adaugă condiție"
 
 #: src/app/routes/_authenticated/_shipping-methods/components/test-single-method-result.tsx:58
 msgid "Shipping method is eligible for this order"
@@ -1052,7 +1068,7 @@ msgstr "Când este activat, o promoție este disponibilă în magazin"
 msgid "When tracked, product variant stock levels will be automatically adjusted when sold. This setting can be overridden by individual product variants."
 msgstr "Când este activ, nivelurile de stoc ale variantelor de produse vor fi ajustate automat la vânzare. Această setare poate fi suprascrisă de variantele individuale de produse."
 
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:242
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:282
 msgid "Shipping method set for order"
 msgstr "Metoda de livrare setată pentru comandă"
 
@@ -1098,7 +1114,7 @@ msgid "Email address"
 msgstr "Adresă de email"
 
 #. placeholder {0}: error.message
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:281
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:321
 msgid "Failed to remove coupon code from order: {0}"
 msgstr ""
 
@@ -1221,7 +1237,7 @@ msgstr "Status plată actualizat cu succes"
 msgid "Create new"
 msgstr "Creează nou"
 
-#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:249
+#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:254
 msgid "Refund total"
 msgstr "Total rambursare"
 
@@ -1239,14 +1255,20 @@ msgid "{cancellableCount, plural, one {Cancel {cancellableCount} job} other {Can
 msgstr ""
 
 #: src/lib/components/data-input/product-multi-selector-input.tsx:499
-#: src/lib/components/shared/configurable-operation-multi-selector.tsx:265
-#: src/lib/components/shared/configurable-operation-selector.tsx:140
 msgid "{buttonText}"
 msgstr "{buttonText}"
 
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:111
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:113
 msgid "Item added to order"
 msgstr "Articol adăugat la comandă"
+
+#: src/lib/components/shared/asset/asset-preview.tsx:146
+msgid "Edit focal point"
+msgstr "Editează punctul focal"
+
+#: src/lib/components/shared/asset/asset-preview-dialog.tsx:34
+msgid "Asset"
+msgstr "Resursă"
 
 #: src/app/routes/_authenticated/_products/components/shared-option-group-warning.tsx:13
 msgid "{productCount, plural, one {This option group is used by one other product. Changes will affect it too.} other {This option group is shared across # products. Changes will affect all of them.}}"
@@ -1317,7 +1339,7 @@ msgstr "Status comandă schimbat"
 msgid "is before"
 msgstr "este înainte"
 
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:348
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:388
 msgid "Delete draft order"
 msgstr "Șterge comanda ciornă"
 
@@ -1370,7 +1392,7 @@ msgid "before"
 msgstr "înainte"
 
 #. placeholder {0}: error.message
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:188
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:228
 msgid "Failed to set customer for order: {0}"
 msgstr ""
 
@@ -1435,7 +1457,7 @@ msgstr "Țări"
 msgid "Failed to rename view"
 msgstr "Nu s-a putut redenumi vizualizarea"
 
-#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:306
+#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:311
 msgid "Available"
 msgstr "Disponibil"
 
@@ -1457,6 +1479,10 @@ msgstr "Grupuri de clienți"
 #: src/lib/framework/defaults.ts:98
 msgid "Customers"
 msgstr "Clienți"
+
+#: src/app/routes/_authenticated/_shipping-methods/components/shipping-calculator-selector.tsx:37
+msgid "Select Shipping Calculator"
+msgstr ""
 
 #: src/lib/components/layout/language-dialog.tsx:103
 msgid "Sample Formatting"
@@ -1486,7 +1512,7 @@ msgstr "Adresă actualizată cu succes"
 msgid "Created"
 msgstr "Creat"
 
-#: src/app/routes/_authenticated/_orders/components/customer-address-selector.tsx:76
+#: src/app/routes/_authenticated/_orders/components/customer-address-selector.tsx:63
 msgid "Loading addresses..."
 msgstr "Se încarcă adresele..."
 
@@ -1496,7 +1522,7 @@ msgid "Select a target collection to move {0} to."
 msgstr "Selectează o colecție țintă pentru a muta {0}."
 
 #. placeholder {0}: error.message
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:232
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:272
 msgid "Failed to unset billing address for order: {0}"
 msgstr ""
 
@@ -1527,7 +1553,7 @@ msgstr "Mergi la ultima pagină"
 #: src/app/routes/_authenticated/_orders/components/add-manual-payment-dialog.tsx:168
 #: src/app/routes/_authenticated/_orders/components/fulfill-order-dialog.tsx:311
 #: src/app/routes/_authenticated/_orders/components/order-modification-preview-dialog.tsx:352
-#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:358
+#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:363
 #: src/app/routes/_authenticated/_orders/components/settle-refund-dialog.tsx:71
 #: src/app/routes/_authenticated/_products/components/assign-facet-values-dialog.tsx:273
 #: src/app/routes/_authenticated/_products/components/force-remove-option-group-dialog.tsx:48
@@ -1549,7 +1575,7 @@ msgid "Cancel"
 msgstr "Anulează"
 
 #. placeholder {0}: error.message
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:95
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:97
 msgid "Failed to update order custom fields: {0}"
 msgstr ""
 
@@ -1576,7 +1602,7 @@ msgstr "Categorie de taxă nouă"
 msgid "Partial refund completed"
 msgstr "Rambursare parțială finalizată"
 
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:452
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:492
 msgid "Set custom fields"
 msgstr "Setează câmpuri personalizate"
 
@@ -1585,6 +1611,10 @@ msgstr "Setează câmpuri personalizate"
 #: src/app/routes/_authenticated/_collections/collections.tsx:339
 msgid "Collections"
 msgstr "Colecții"
+
+#: src/app/routes/_authenticated/_shipping-methods/components/shipping-eligibility-checker-selector.tsx:37
+msgid "Select Shipping Eligibility Checker"
+msgstr ""
 
 #: src/app/routes/_authenticated/_products/products_.$id_.variants.tsx:433
 msgid "Delete variant"
@@ -1604,7 +1634,7 @@ msgstr "Motiv:"
 
 #: src/app/routes/_authenticated/_orders/components/order-detail-shared.tsx:291
 #: src/app/routes/_authenticated/_orders/orders_.$id_.modify.tsx:248
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:470
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:510
 msgid "Shipping address"
 msgstr "Adresă de livrare"
 
@@ -1644,6 +1674,7 @@ msgstr "Grupuri de clienți"
 
 #: src/app/routes/_authenticated/_system/scheduled-tasks.tsx:123
 #: src/app/routes/_authenticated/_tax-rates/tax-rates.tsx:58
+#: src/lib/components/data-display/boolean.tsx:22
 #: src/lib/components/layout/nav-user.tsx:155
 msgid "Disabled"
 msgstr "Dezactivat"
@@ -1771,7 +1802,7 @@ msgstr "Notă adăugată"
 msgid "Select quantities to fulfill and configure the fulfillment handler"
 msgstr "Selectează cantitățile de onorat și configurează handler-ul de onorare"
 
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:228
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:268
 msgid "Billing address unset for order"
 msgstr "Adresă de facturare neconfigurată pentru comandă"
 
@@ -1790,7 +1821,7 @@ msgstr "Duplică"
 msgid "No results"
 msgstr "Fără rezultate"
 
-#: src/lib/components/data-table/data-table-view-options.tsx:89
+#: src/lib/components/data-table/data-table-view-options.tsx:95
 msgid "Column settings"
 msgstr "Setări coloane"
 
@@ -1876,7 +1907,7 @@ msgstr "Nu s-a putut extinde query-ul"
 msgid "Failed to update note"
 msgstr "Nu s-a putut actualiza nota"
 
-#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:201
+#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:206
 msgid "Refund shipping"
 msgstr "Rambursează livrarea"
 
@@ -2281,12 +2312,16 @@ msgstr "Setează limbile care sunt disponibile pentru toate canalele. Canalele i
 msgid "Collections moved successfully"
 msgstr "Colecții mutate cu succes"
 
+#: src/lib/components/data-input/relation-selector.tsx:411
+msgid "Change selection"
+msgstr ""
+
 #: src/app/routes/_authenticated/_customers/components/customer-status-badge.tsx:23
 msgid "Registered"
 msgstr "Înregistrat"
 
 #. placeholder {0}: error.message
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:199
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:239
 msgid "Failed to set shipping address for order: {0}"
 msgstr ""
 
@@ -2374,7 +2409,7 @@ msgstr "Elemente selectate"
 msgid "Values"
 msgstr "Valori"
 
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:170
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:172
 msgid "Customer set for order"
 msgstr "Client setat pentru comandă"
 
@@ -2539,7 +2574,7 @@ msgstr "Se vor elimina toate grupurile de opțiuni de pe acest produs și veți 
 
 #: src/app/routes/_authenticated/_orders/components/order-detail-shared.tsx:299
 #: src/app/routes/_authenticated/_orders/orders_.$id_.modify.tsx:277
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:502
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:532
 msgid "Billing address"
 msgstr "Adresă de facturare"
 
@@ -2583,6 +2618,10 @@ msgstr "Doar ciornele de comenzi pot fi finalizate"
 msgid "Failed to update product"
 msgstr "Nu s-a putut actualiza produsul"
 
+#: src/app/routes/_authenticated/_collections/components/collection-filters-selector.tsx:26
+msgid "Add collection filter"
+msgstr ""
+
 #. placeholder {0}: adjustedLines.length
 #: src/app/routes/_authenticated/_orders/components/order-modification-summary.tsx:152
 msgid "Adjusting {0} lines"
@@ -2601,7 +2640,7 @@ msgid "Channel"
 msgstr "Canal"
 
 #: src/app/routes/_authenticated/_orders/components/payment-details.tsx:170
-#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:317
+#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:322
 msgid "Amount"
 msgstr "Sumă"
 
@@ -2616,7 +2655,7 @@ msgid "New customer"
 msgstr "Client nou"
 
 #: src/app/routes/_authenticated/_orders/components/order-table.tsx:33
-#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:90
+#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:94
 msgid "Image"
 msgstr "Imagine"
 
@@ -2737,6 +2776,10 @@ msgstr "De la {0} la {1}"
 msgid "Failed to create customer"
 msgstr "Nu s-a putut crea clientul"
 
+#: src/lib/components/shared/asset/asset-preview.tsx:123
+msgid "Focal point updated"
+msgstr "Punct focal actualizat"
+
 #: src/app/routes/_authenticated/_products/products_.$id_.variants.tsx:279
 msgid "Option values"
 msgstr "Valori opțiuni"
@@ -2793,7 +2836,7 @@ msgstr "Alternativă: {value}"
 msgid "Order history"
 msgstr "Istoric comandă"
 
-#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:263
+#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:268
 msgid "Override"
 msgstr "Suprascrie"
 
@@ -2888,7 +2931,6 @@ msgstr ""
 #: src/app/routes/_authenticated/_tax-categories/tax-categories.tsx:44
 #: src/lib/components/data-input/product-multi-selector-input.tsx:377
 #: src/lib/components/data-input/product-multi-selector-input.tsx:380
-#: src/lib/components/data-input/relation-selector.tsx:404
 #: src/lib/components/shared/rich-text-editor/responsive-toolbar.tsx:439
 msgid "{0}"
 msgstr "{0}"
@@ -2901,7 +2943,7 @@ msgstr "Zonă Nouă"
 msgid "Failed to update collection position"
 msgstr "Nu s-a putut actualiza poziția colecției"
 
-#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:102
+#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:106
 msgid "Refund"
 msgstr "Rambursare"
 
@@ -2975,6 +3017,10 @@ msgstr "Este categoria de taxă implicită"
 msgid "Slug is set"
 msgstr "Identificator-ul URL este setat"
 
+#: src/lib/components/shared/asset/asset-preview.tsx:126
+msgid "Failed to update focal point"
+msgstr "Actualizarea punctului focal a eșuat"
+
 #: src/app/routes/_authenticated/_zones/zones_.$id.tsx:61
 msgid "Successfully updated zone"
 msgstr "Zona a fost actualizată cu succes"
@@ -3038,6 +3084,10 @@ msgstr "Metrici comenzi"
 msgid "Select display language"
 msgstr "Selectează limba de afișare"
 
+#: src/app/routes/_authenticated/_payment-methods/components/payment-handler-selector.tsx:37
+msgid "Select Payment Handler"
+msgstr ""
+
 #: src/app/routes/_authenticated/_profile/profile.tsx:128
 msgid "Authentication methods"
 msgstr "Metode de autentificare"
@@ -3073,7 +3123,7 @@ msgstr "Variante Produs"
 msgid "Manage Global Views"
 msgstr "Gestionează Vizualizări Globale"
 
-#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:365
+#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:370
 msgid "Processing..."
 msgstr "Se procesează..."
 
@@ -3088,7 +3138,7 @@ msgstr "Selectează intervalul de date"
 
 #: src/app/routes/_authenticated/_orders/components/edit-order-table.tsx:87
 #: src/app/routes/_authenticated/_orders/components/order-table.tsx:44
-#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:93
+#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:97
 msgid "Product"
 msgstr "Produs"
 
@@ -3167,12 +3217,12 @@ msgstr "Total Comenzi"
 msgid "No eligible shipping methods found for this order."
 msgstr "Nu s-au găsit metode de livrare eligibile pentru această comandă."
 
-#: src/app/routes/_authenticated/_products/components/product-options-table.tsx:118
+#: src/app/routes/_authenticated/_products/components/product-options-table.tsx:126
 msgid "Add product option"
 msgstr "Adaugă opțiune produs"
 
 #: src/app/routes/_authenticated/_orders/components/order-table-totals.tsx:66
-#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:189
+#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:194
 #: src/app/routes/_authenticated/_orders/orders.tsx:85
 msgid "Shipping"
 msgstr "Livrare"
@@ -3223,7 +3273,7 @@ msgstr "Nu s-a putut actualiza metoda de livrare"
 msgid "Shipping Methods"
 msgstr "Metode de livrare"
 
-#: src/app/routes/_authenticated/_orders/components/customer-address-selector.tsx:71
+#: src/app/routes/_authenticated/_orders/components/customer-address-selector.tsx:58
 msgid "Select an address"
 msgstr "Selectează o adresă"
 
@@ -3236,7 +3286,7 @@ msgstr "Da"
 msgid "Slug"
 msgstr "Identificator URL"
 
-#: src/lib/components/shared/asset/asset-focal-point-editor.tsx:97
+#: src/lib/components/shared/asset/asset-focal-point-editor.tsx:98
 msgid "Set Focal Point"
 msgstr "Setează punctul focal"
 
@@ -3278,6 +3328,10 @@ msgstr "este mai mic sau egal cu"
 msgid "is not equal to"
 msgstr "nu este egal cu"
 
+#: src/app/routes/_authenticated/_payment-methods/components/payment-eligibility-checker-selector.tsx:38
+msgid "No checkers found"
+msgstr ""
+
 #: src/app/routes/_authenticated/_orders/components/payment-details.tsx:142
 msgid "Settle payment"
 msgstr "Finalizează plata"
@@ -3308,7 +3362,7 @@ msgstr "Locație Stoc Nouă"
 msgid "{successfulRefundCount} payment(s) refunded before failure. Check order history for details."
 msgstr "{successfulRefundCount} plată(ți) rambursată(e) înainte de eșec. Verifică istoricul comenzii pentru detalii."
 
-#: src/lib/components/data-input/relation-selector.tsx:411
+#: src/lib/components/data-input/relation-selector.tsx:412
 msgid "Select item"
 msgstr "Selectează elementul"
 
@@ -3324,6 +3378,10 @@ msgstr "Gestionează Etichete"
 #: src/app/routes/_authenticated/_orders/components/order-history/order-history-utils.tsx:110
 msgid "Items refunded"
 msgstr "Articole rambursate"
+
+#: src/app/routes/_authenticated/_promotions/components/promotion-actions-selector.tsx:37
+msgid "Add action"
+msgstr "Adaugă acțiune"
 
 #. placeholder {0}: entityName.toLowerCase()
 #: src/app/common/duplicate-entity-dialog.tsx:85
@@ -3376,7 +3434,7 @@ msgstr "Adaugă rând după"
 msgid "Tax total"
 msgstr "Total taxe"
 
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:374
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:414
 msgid "Draft order status"
 msgstr "Starea ciornei comenzii"
 
@@ -3393,7 +3451,7 @@ msgstr "Valoarea atributului a fost creată cu succes"
 msgid "Marketing"
 msgstr "Marketing"
 
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:311
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:351
 msgid "Draft order deleted"
 msgstr "Comandă ciornă ștearsă"
 
@@ -3471,6 +3529,7 @@ msgid "Cannot remove from active channel"
 msgstr "Nu poți elimina din canalul activ"
 
 #: src/app/routes/_authenticated/_assets/assets_.$id.tsx:179
+#: src/lib/components/shared/asset/asset-preview.tsx:162
 msgid "Not set"
 msgstr "Nu este setat"
 
@@ -3532,7 +3591,7 @@ msgid "Add option group"
 msgstr "Adaugă grup de opțiuni"
 
 #. placeholder {0}: formatCurrency(refund.amountToRefundTotal, order.currencyCode)
-#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:367
+#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:372
 msgid "Refund {0}"
 msgstr "Rambursare {0}"
 
@@ -3708,7 +3767,7 @@ msgid "Countries"
 msgstr "Țări"
 
 #. placeholder {0}: error.message
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:160
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:162
 msgid "Failed to remove order line: {0}"
 msgstr ""
 
@@ -3772,7 +3831,7 @@ msgctxt "theme"
 msgid "Light"
 msgstr "Light"
 
-#: src/lib/components/data-table/data-table-view-options.tsx:120
+#: src/lib/components/data-table/data-table-view-options.tsx:130
 msgid "Reset"
 msgstr "Resetează"
 
@@ -3780,6 +3839,10 @@ msgstr "Resetează"
 #: src/lib/components/data-table/human-readable-operator.tsx:26
 msgid "is equal to"
 msgstr "este egal cu"
+
+#: src/lib/components/shared/asset/asset-properties.tsx:17
+msgid "Source File"
+msgstr ""
 
 #: src/app/routes/_authenticated/_customers/components/customer-history/customer-history-utils.tsx:57
 #: src/app/routes/_authenticated/_customers/components/customer-history/default-customer-history-components.tsx:118
@@ -3844,7 +3907,7 @@ msgstr "+ încă {0}"
 msgid "Option Groups"
 msgstr "Grupuri de opțiuni"
 
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:431
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:471
 msgid "Custom fields"
 msgstr "Câmpuri personalizate"
 
@@ -3940,7 +4003,7 @@ msgstr "Total Comandă"
 msgid "Visible to admins only"
 msgstr "Vizibil doar pentru administratori"
 
-#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:99
+#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:103
 msgid "Qty"
 msgstr "Cant."
 
@@ -3952,8 +4015,12 @@ msgstr "Etichete"
 msgid "Super Admin"
 msgstr "Super Administrator"
 
+#: src/app/routes/_authenticated/_promotions/components/promotion-actions-selector.tsx:38
+msgid "Available Actions"
+msgstr "Acțiuni disponibile"
+
 #. placeholder {0}: error.message
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:141
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:143
 msgid "Failed to update order line: {0}"
 msgstr ""
 
@@ -4055,7 +4122,7 @@ msgid "{title}"
 msgstr "{title}"
 
 #: src/app/routes/_authenticated/_orders/components/fulfill-order-dialog.tsx:244
-#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:83
+#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:87
 #: src/app/routes/_authenticated/_orders/orders_.$id_.modify.tsx:178
 msgid "Order lines"
 msgstr "Linii comandă"
@@ -4078,7 +4145,7 @@ msgstr "Este necesară o rambursare de {formattedDiff}. Selectează sumele de pl
 
 #: src/app/routes/_authenticated/_orders/components/edit-order-table.tsx:100
 #: src/app/routes/_authenticated/_orders/components/order-table.tsx:57
-#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:96
+#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:100
 msgid "Unit price"
 msgstr "Preț unitar"
 
@@ -4123,13 +4190,17 @@ msgid "Customer information updated"
 msgstr "Informații client actualizate"
 
 #. placeholder {0}: error.message
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:318
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:358
 msgid "Failed to delete draft order: {0}"
 msgstr ""
 
 #: src/lib/components/data-table/views-sheet.tsx:120
 msgid "Failed to convert view to global"
 msgstr "Nu s-a putut converti vizualizarea la globală"
+
+#: src/app/routes/_authenticated/_payment-methods/components/payment-eligibility-checker-selector.tsx:37
+msgid "Select Payment Eligibility Checker"
+msgstr ""
 
 #: src/lib/components/data-table/filters/data-table-enum-filter.tsx:53
 msgid "Select operator"
@@ -4254,7 +4325,7 @@ msgstr "SAU"
 msgid "Manage tags"
 msgstr "Gestionează etichete"
 
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:277
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:317
 msgid "Coupon code removed from order"
 msgstr "Cod cupon eliminat din comandă"
 
@@ -4278,7 +4349,7 @@ msgid "Loading selected items..."
 msgstr ""
 
 #. placeholder {0}: error.message
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:210
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:250
 msgid "Failed to set billing address for order: {0}"
 msgstr ""
 
@@ -4336,7 +4407,7 @@ msgstr "Condițiile verificării eligibilității acestei metode de livrare nu s
 msgid "Add coupon code"
 msgstr "Adaugă cod cupon"
 
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:261
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:301
 msgid "Coupon code set for order"
 msgstr "Cod cupon setat pentru comandă"
 
@@ -4354,6 +4425,7 @@ msgstr "este mai mare sau egal cu"
 
 #: src/app/routes/_authenticated/_collections/components/collection-contents-preview-table.tsx:77
 #: src/app/routes/_authenticated/_collections/components/collection-contents-preview-table.tsx:88
+#: src/lib/components/shared/entity-assets.tsx:151
 msgid "Preview"
 msgstr "Previzualizare"
 
@@ -4473,6 +4545,11 @@ msgstr "mai mic sau egal"
 msgid "Customer group members for {customerGroupName}"
 msgstr "Membri grup client pentru {customerGroupName}"
 
+#. placeholder {0}: e instanceof Error ? e.message : String(e)
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:217
+msgid "Failed to set address for order: {0}"
+msgstr ""
+
 #: src/app/routes/_authenticated/_orders/components/fulfillment-details.tsx:118
 #: src/app/routes/_authenticated/_orders/components/payment-details.tsx:217
 #: src/app/routes/_authenticated/_orders/orders.tsx:101
@@ -4519,6 +4596,7 @@ msgstr "Județ / Provincie"
 #: src/app/routes/_authenticated/_tax-rates/tax-rates.tsx:55
 #: src/app/routes/_authenticated/_tax-rates/tax-rates.tsx:57
 #: src/app/routes/_authenticated/_zones/components/zone-countries-table.tsx:57
+#: src/lib/components/data-display/boolean.tsx:22
 #: src/lib/components/layout/nav-user.tsx:152
 msgid "Enabled"
 msgstr "Activat"
@@ -4621,13 +4699,17 @@ msgstr "Bun venit la Vendure"
 msgid "Shipping Methods"
 msgstr "Metode de livrare"
 
-#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:144
+#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:149
 msgid "({maxRefundable} refundable)"
 msgstr "({maxRefundable} rambursabil)"
 
 #: src/app/routes/_authenticated/_administrators/administrators.tsx:73
 msgid "Identifier"
 msgstr "Identificator"
+
+#: src/app/routes/_authenticated/_shipping-methods/components/fulfillment-handler-selector.tsx:51
+msgid "Select a fulfillment handler"
+msgstr ""
 
 #: src/app/routes/_authenticated/_collections/collections_.$id.tsx:118
 msgid "Failed to update collection"
@@ -4718,10 +4800,11 @@ msgid "System"
 msgstr "Sistem"
 
 #: src/app/routes/_authenticated/_product-variants/product-variants_.$id.tsx:290
+#: src/app/routes/_authenticated/_products/components/product-variants-table.tsx:81
 msgid "Variant name"
 msgstr "Nume variantă"
 
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:543
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:579
 msgid "Remove"
 msgstr "Elimină"
 
@@ -4752,7 +4835,7 @@ msgstr "Cote de taxă"
 msgid "Failed to load global settings"
 msgstr "Nu s-au putut încărca setările globale"
 
-#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:75
+#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:79
 msgid "Select items to refund and optionally return to stock"
 msgstr "Selectează articolele de rambursat și, opțional, returnează-le în stoc"
 
@@ -4825,6 +4908,11 @@ msgstr "Se livrează..."
 #: src/app/routes/_authenticated/_products/components/add-option-group-dialog.tsx:147
 msgid "Add option group to product"
 msgstr "Adaugă grup de opțiuni la produs"
+
+#. placeholder {0}: asset.name
+#: src/lib/components/shared/asset/asset-preview-dialog.tsx:37
+msgid "Preview of {0}"
+msgstr "Previzualizare a {0}"
 
 #: src/app/routes/_authenticated/_sellers/sellers_.$id.tsx:56
 msgid "Successfully updated seller"
@@ -4914,6 +5002,11 @@ msgstr "Limbă implicită"
 msgid "Status"
 msgstr "Status"
 
+#: src/lib/components/shared/configurable-operation-multi-selector.tsx:298
+#: src/lib/components/shared/configurable-operation-selector.tsx:155
+msgid "No options found"
+msgstr "Nu au fost găsite opțiuni"
+
 #: src/lib/components/shared/asset/asset-gallery.tsx:370
 #: src/lib/components/shared/asset/asset-gallery.tsx:382
 msgid "Binary"
@@ -4944,8 +5037,8 @@ msgstr "Valoarea opțiunii a fost adăugată cu succes"
 msgid "Collection moved to new parent"
 msgstr "Colecția a fost mutată la un părinte nou"
 
-#: src/app/routes/_authenticated/_products/hooks/use-remove-option-group.ts:52
-#: src/app/routes/_authenticated/_products/hooks/use-remove-option-group.ts:68
+#: src/app/routes/_authenticated/_products/hooks/use-remove-option-group.ts:49
+#: src/app/routes/_authenticated/_products/hooks/use-remove-option-group.ts:65
 msgid "Option group removed"
 msgstr "Grup opțiuni eliminat"
 
@@ -5016,6 +5109,10 @@ msgstr "Nu s-a putut procesa rambursarea"
 msgid "First name"
 msgstr "Prenume"
 
+#: src/lib/components/shared/product-variant-selector.tsx:83
+msgid "Add item to order"
+msgstr ""
+
 #: src/lib/components/data-table/human-readable-operator.tsx:58
 msgid "contains"
 msgstr "conține"
@@ -5028,8 +5125,8 @@ msgstr "Nu s-au găsit grupuri de opțiuni"
 msgid "No items found"
 msgstr "Nu s-au găsit elemente"
 
-#: src/app/routes/_authenticated/_products/hooks/use-remove-option-group.ts:55
-#: src/app/routes/_authenticated/_products/hooks/use-remove-option-group.ts:72
+#: src/app/routes/_authenticated/_products/hooks/use-remove-option-group.ts:52
+#: src/app/routes/_authenticated/_products/hooks/use-remove-option-group.ts:69
 msgid "Failed to remove option group"
 msgstr ""
 
@@ -5079,7 +5176,7 @@ msgstr "Datele de test au fost actualizate. Faceți clic pe \"Rulează testul\" 
 msgid "is not in"
 msgstr "nu este în"
 
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:132
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:134
 msgid "Order line updated"
 msgstr "Linie comandă actualizată"
 
@@ -5092,7 +5189,7 @@ msgid "Duplicate value \"{trimmed}\" already exists"
 msgstr "Valoarea duplicată \"{trimmed}\" există deja"
 
 #: src/app/routes/_authenticated/_orders/components/payment-details.tsx:233
-#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:217
+#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:222
 msgid "Reason"
 msgstr "Motiv"
 
@@ -5153,7 +5250,7 @@ msgstr "Video"
 msgid "less than"
 msgstr "mai mic decât"
 
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:121
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:123
 msgid "The variant could not be added. Ensure the parent product is enabled."
 msgstr "Varianta nu a putut fi adăugată. Asigurați-vă că produsul părinte este activat."
 
@@ -5169,7 +5266,7 @@ msgstr "Limbă"
 msgid "New Collection"
 msgstr "Colecție Nouă"
 
-#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:72
+#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:76
 msgid "Refund and cancel order"
 msgstr "Rambursează și anulează comanda"
 
@@ -5211,7 +5308,7 @@ msgstr "Limbi globale"
 msgid "New administrator"
 msgstr "Administrator nou"
 
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:355
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:395
 msgid "Delete draft"
 msgstr "Șterge ciorna"
 
@@ -5355,7 +5452,7 @@ msgstr "este mai mic decât"
 msgid "Refund ID"
 msgstr "ID rambursare"
 
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:91
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:93
 msgid "Order custom fields updated"
 msgstr "Câmpuri personalizate comandă actualizate"
 
@@ -5486,6 +5583,7 @@ msgstr "Se încarcă colecțiile..."
 msgid "Successfully updated facet value"
 msgstr "Valoarea atributului a fost actualizată cu succes"
 
+#: src/lib/components/shared/entity-assets.tsx:290
 #: src/lib/components/shared/rich-text-editor/image-dialog.tsx:135
 msgid "Add asset"
 msgstr "Adaugă resursă"
@@ -5507,7 +5605,7 @@ msgid "Add option value to {groupName}"
 msgstr "Adaugă valoare opțiune la {groupName}"
 
 #. placeholder {0}: error.message
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:221
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:261
 msgid "Failed to unset shipping address for order: {0}"
 msgstr ""
 
@@ -5550,6 +5648,10 @@ msgstr "Creat la"
 #: src/app/routes/_authenticated/_products/components/add-product-variant-dialog.tsx:165
 msgid "Failed to create product variant"
 msgstr "Nu s-a putut crea varianta produsului"
+
+#: src/lib/components/data-input/relation-selector.tsx:417
+msgid "Search..."
+msgstr ""
 
 #. placeholder {0}: formatLanguageName(contentLanguage)
 #: src/lib/components/layout/channel-switcher.tsx:130
@@ -5611,6 +5713,10 @@ msgstr "Fără rezultat încă"
 msgid "Payment settled"
 msgstr "Plată soluționată"
 
+#: src/app/routes/_authenticated/_promotions/components/promotion-conditions-selector.tsx:38
+msgid "Available Conditions"
+msgstr "Condiții disponibile"
+
 #: src/lib/components/data-table/data-table-active-filters-popover.tsx:27
 msgid "Active filters"
 msgstr "Filtre active"
@@ -5649,7 +5755,7 @@ msgstr "Se încarcă..."
 msgid "The token is used to specify the channel when making API requests."
 msgstr "Token-ul este folosit pentru a specifica canalul la efectuarea cererilor API."
 
-#: src/app/routes/_authenticated/_orders/components/customer-address-selector.tsx:80
+#: src/app/routes/_authenticated/_orders/components/customer-address-selector.tsx:67
 msgid "No addresses found"
 msgstr "Nu s-au găsit adrese"
 
@@ -5657,7 +5763,7 @@ msgstr "Nu s-au găsit adrese"
 msgid "Fulfillment ID"
 msgstr "ID livrare"
 
-#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:290
+#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:295
 msgid "Select payments to refund"
 msgstr "Selectează plățile de rambursat"
 

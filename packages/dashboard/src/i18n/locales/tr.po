@@ -18,7 +18,7 @@ msgstr ""
 msgid "Full Name"
 msgstr "Ad Soyad"
 
-#: src/lib/components/data-input/relation-selector.tsx:408
+#: src/lib/components/data-input/relation-selector.tsx:409
 msgid "Select items"
 msgstr "Öğe seç"
 
@@ -90,7 +90,7 @@ msgstr "JSON değerini düzenle"
 msgid "Using external authentication strategy: {strategy}"
 msgstr "Harici kimlik doğrulama stratejisi kullanılıyor: {strategy}"
 
-#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:225
+#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:230
 msgid "Select a reason..."
 msgstr "Bir neden seçin..."
 
@@ -153,7 +153,7 @@ msgstr "{selectionLength} varlık silindi"
 msgid "Successfully updated tax rate"
 msgstr "Vergi oranı başarıyla güncellendi"
 
-#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:237
+#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:242
 msgid "Enter custom reason..."
 msgstr "Özel neden girin..."
 
@@ -167,6 +167,11 @@ msgstr "Tür"
 #: src/lib/components/data-input/default-relation-input.tsx:676
 msgid "Select {0}"
 msgstr "{0} seç"
+
+#. placeholder {0}: selectedItems.length
+#: src/lib/components/data-input/relation-selector.tsx:408
+msgid "Add more ({0} selected)"
+msgstr ""
 
 #: src/app/routes/_authenticated/_facets/facets.tsx:67
 msgid "View values"
@@ -198,7 +203,7 @@ msgstr "Bu etkinleştirildiğinde, ürün kataloğuna girilen fiyatlara varsayı
 #~ msgid "Create variants for your product"
 #~ msgstr "Ürününüz için varyantlar oluşturun"
 
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:291
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:331
 msgid "Draft order completed"
 msgstr "Taslak sipariş tamamlandı"
 
@@ -218,6 +223,10 @@ msgstr "Otomatik yenileme: {0}"
 #: src/app/common/delete-bulk-action.tsx:108
 msgid "Deleted {deleted} {entityName}"
 msgstr "{deleted} {entityName} silindi"
+
+#: src/lib/components/shared/asset/asset-properties.tsx:32
+msgid "File Size"
+msgstr ""
 
 #: src/app/routes/_authenticated/_system/healthchecks.tsx:13
 #~ msgid "Healthchecks"
@@ -241,7 +250,7 @@ msgstr "{fulfilled, plural, one {{fulfilled} görev başarıyla iptal edildi} ot
 msgid "Seller"
 msgstr "Satıcı"
 
-#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:131
+#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:136
 msgid "SKU:"
 msgstr "Stok Kodu:"
 
@@ -350,10 +359,11 @@ msgstr "Stok konumu başarıyla oluşturuldu"
 #: src/app/routes/_authenticated/_products/components/add-option-group-dialog.tsx:120
 #: src/app/routes/_authenticated/_products/components/add-product-variant-dialog.tsx:166
 #: src/app/routes/_authenticated/_products/components/generate-variants-panel.tsx:185
-#: src/app/routes/_authenticated/_products/hooks/use-remove-option-group.ts:56
-#: src/app/routes/_authenticated/_products/hooks/use-remove-option-group.ts:73
+#: src/app/routes/_authenticated/_products/hooks/use-remove-option-group.ts:53
+#: src/app/routes/_authenticated/_products/hooks/use-remove-option-group.ts:70
 #: src/app/routes/_authenticated/_products/products_.$id_.variants.tsx:105
 #: src/app/routes/_authenticated/_products/products_.$id.tsx:190
+#: src/lib/components/shared/asset/asset-preview.tsx:127
 msgid "Unknown error"
 msgstr "Bilinmeyen hata"
 
@@ -397,7 +407,7 @@ msgstr "Yeni Rol"
 msgid "Failed to delete assets: {message}"
 msgstr "Varlıklar silinemedi: {message}"
 
-#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:105
+#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:109
 msgid "Return to stock"
 msgstr "Stoka iade et"
 
@@ -543,7 +553,7 @@ msgstr "Tüm kullanıcılar tarafından görülebilen genel kaydedilmiş görün
 msgid "Search payment methods..."
 msgstr "Ödeme yöntemlerini ara..."
 
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:217
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:257
 msgid "Shipping address unset for order"
 msgstr "Sipariş için kargo adresi kaldırıldı"
 
@@ -667,7 +677,7 @@ msgstr "Testi çalıştırmak için lütfen ürün ekleyin ve kargo adresini dol
 msgid "Toggle header row"
 msgstr "Başlık satırını değiştir"
 
-#: src/app/routes/_authenticated/_orders/components/customer-address-selector.tsx:65
+#: src/app/routes/_authenticated/_orders/components/customer-address-selector.tsx:52
 msgid "Select address"
 msgstr "Adres seç"
 
@@ -689,7 +699,7 @@ msgid "Metadata"
 msgstr "Metadata"
 
 #. placeholder {0}: error.message
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:251
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:291
 msgid "Failed to set shipping method for order: {0}"
 msgstr ""
 
@@ -744,7 +754,7 @@ msgstr "Gezinmeyi onayla"
 msgid "Link target"
 msgstr "Bağlantı hedefi"
 
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:365
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:405
 msgid "Complete draft"
 msgstr "Taslağı tamamla"
 
@@ -795,7 +805,7 @@ msgstr "Bu iade ödemesi için işlem ID'sini girin"
 msgid "Your API Key"
 msgstr "API Anahtarınız"
 
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:349
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:389
 msgid "Are you sure you want to delete this draft order?"
 msgstr "Bu taslak siparişi silmek istediğinizden emin misiniz?"
 
@@ -810,6 +820,7 @@ msgid "Found {0} eligible shipping method{1}"
 msgstr "{0} uygun kargo yöntemi bulundu"
 
 #: src/lib/components/shared/asset/asset-gallery.tsx:746
+#: src/lib/components/shared/asset/asset-properties.tsx:39
 msgid "Dimensions"
 msgstr "Boyutlar"
 
@@ -818,7 +829,7 @@ msgid "Show password"
 msgstr "Şifreyi göster"
 
 #. placeholder {0}: formatCurrency(refund.totalRefundableAmount, order.currencyCode)
-#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:282
+#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:287
 msgid "(max: {0})"
 msgstr "(maks: {0})"
 
@@ -846,7 +857,7 @@ msgstr "İndirimler"
 msgid "Enter refund note"
 msgstr "İade notu girin"
 
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:151
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:153
 msgid "Order line removed"
 msgstr "Sipariş satırı kaldırıldı"
 
@@ -864,7 +875,7 @@ msgid "Confirm"
 msgstr "Onayla"
 
 #. placeholder {0}: error.message
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:303
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:343
 msgid "Failed to complete draft order: {0}"
 msgstr ""
 
@@ -882,7 +893,7 @@ msgstr "Ürün oluşturulamadı"
 
 #: src/app/routes/_authenticated/_orders/components/order-detail-shared.tsx:276
 #: src/app/routes/_authenticated/_orders/orders_.$id_.modify.tsx:233
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:457
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:497
 #: src/lib/components/shared/role-code-label.tsx:8
 msgid "Customer"
 msgstr "Müşteri"
@@ -892,11 +903,12 @@ msgstr "Müşteri"
 msgid "Error loading order history: {0}"
 msgstr "Sipariş geçmişi yüklenirken hata: {0}"
 
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:195
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:235
 msgid "Shipping address set for order"
 msgstr "Sipariş için kargo adresi ayarlandı"
 
 #: src/app/routes/_authenticated/_assets/assets_.$id.tsx:173
+#: src/lib/components/shared/asset/asset-preview.tsx:153
 msgid "Focal Point"
 msgstr "Odak Noktası"
 
@@ -938,7 +950,7 @@ msgstr "Bunlar <0>{facetName}</0> özelliği için özellik değerleridir."
 msgid "Successfully added payment to order"
 msgstr "Ödeme siparişe başarıyla eklendi"
 
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:206
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:246
 msgid "Billing address set for order"
 msgstr "Sipariş için fatura adresi ayarlandı"
 
@@ -1016,7 +1028,7 @@ msgstr "Tahsis edildi"
 #~ msgstr "Başka bir seçenek grubu ekle"
 
 #. placeholder {0}: error.message
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:270
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:310
 msgid "Failed to set coupon code for order: {0}"
 msgstr ""
 
@@ -1041,7 +1053,7 @@ msgstr "Koleksiyon başarıyla oluşturuldu"
 msgid "Price"
 msgstr "Fiyat"
 
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:343
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:383
 #: src/app/routes/_authenticated/_orders/orders.tsx:115
 msgid "Draft order"
 msgstr "Taslak sipariş"
@@ -1050,6 +1062,10 @@ msgstr "Taslak sipariş"
 #: src/app/routes/_authenticated/_system/settings-store.tsx:314
 msgid "Scope"
 msgstr "Kapsam"
+
+#: src/app/routes/_authenticated/_promotions/components/promotion-conditions-selector.tsx:37
+msgid "Add condition"
+msgstr "Koşul ekle"
 
 #: src/app/routes/_authenticated/_shipping-methods/components/test-single-method-result.tsx:58
 msgid "Shipping method is eligible for this order"
@@ -1084,7 +1100,7 @@ msgstr "Etkinleştirildiğinde promosyon mağazada kullanılabilir"
 msgid "When tracked, product variant stock levels will be automatically adjusted when sold. This setting can be overridden by individual product variants."
 msgstr "İzlendiğinde, ürün varyantı stok seviyeleri satıldığında otomatik olarak ayarlanacaktır. Bu ayar, tek tek ürün varyantları tarafından geçersiz kılınabilir."
 
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:242
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:282
 msgid "Shipping method set for order"
 msgstr "Sipariş için kargo yöntemi ayarlandı"
 
@@ -1130,7 +1146,7 @@ msgid "Email address"
 msgstr "E-posta adresi"
 
 #. placeholder {0}: error.message
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:281
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:321
 msgid "Failed to remove coupon code from order: {0}"
 msgstr ""
 
@@ -1261,7 +1277,7 @@ msgstr "Ödeme durumu başarıyla güncellendi"
 msgid "Create new"
 msgstr "Yeni oluştur"
 
-#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:249
+#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:254
 msgid "Refund total"
 msgstr "İade toplamı"
 
@@ -1279,18 +1295,24 @@ msgid "{cancellableCount, plural, one {Cancel {cancellableCount} job} other {Can
 msgstr ""
 
 #: src/lib/components/data-input/product-multi-selector-input.tsx:499
-#: src/lib/components/shared/configurable-operation-multi-selector.tsx:265
-#: src/lib/components/shared/configurable-operation-selector.tsx:140
 msgid "{buttonText}"
 msgstr "{buttonText}"
 
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:111
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:113
 msgid "Item added to order"
 msgstr "Ürün siparişe eklendi"
+
+#: src/lib/components/shared/asset/asset-preview.tsx:146
+msgid "Edit focal point"
+msgstr "Odak noktasını düzenle"
 
 #: src/lib/components/shared/seller-selector.tsx:92
 #~ msgid "No sellers found"
 #~ msgstr "Satıcı bulunamadı"
+
+#: src/lib/components/shared/asset/asset-preview-dialog.tsx:34
+msgid "Asset"
+msgstr "Varlık"
 
 #: src/app/routes/_authenticated/_products/components/shared-option-group-warning.tsx:13
 msgid "{productCount, plural, one {This option group is used by one other product. Changes will affect it too.} other {This option group is shared across # products. Changes will affect all of them.}}"
@@ -1365,7 +1387,7 @@ msgstr "Sipariş geçiş yaptı"
 msgid "is before"
 msgstr "öncesinde"
 
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:348
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:388
 msgid "Delete draft order"
 msgstr "Taslak siparişi sil"
 
@@ -1418,7 +1440,7 @@ msgid "before"
 msgstr "önce"
 
 #. placeholder {0}: error.message
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:188
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:228
 msgid "Failed to set customer for order: {0}"
 msgstr ""
 
@@ -1488,7 +1510,7 @@ msgstr "Ülkeler"
 msgid "Failed to rename view"
 msgstr "Görünüm yeniden adlandırılamadı"
 
-#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:306
+#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:311
 msgid "Available"
 msgstr "Mevcut"
 
@@ -1510,6 +1532,10 @@ msgstr "Müşteri Grupları"
 #: src/lib/framework/defaults.ts:98
 msgid "Customers"
 msgstr "Müşteriler"
+
+#: src/app/routes/_authenticated/_shipping-methods/components/shipping-calculator-selector.tsx:37
+msgid "Select Shipping Calculator"
+msgstr ""
 
 #: src/lib/components/layout/language-dialog.tsx:103
 msgid "Sample Formatting"
@@ -1539,7 +1565,7 @@ msgstr "Adres başarıyla güncellendi"
 msgid "Created"
 msgstr "Oluşturuldu"
 
-#: src/app/routes/_authenticated/_orders/components/customer-address-selector.tsx:76
+#: src/app/routes/_authenticated/_orders/components/customer-address-selector.tsx:63
 msgid "Loading addresses..."
 msgstr "Adresler yükleniyor..."
 
@@ -1549,7 +1575,7 @@ msgid "Select a target collection to move {0} to."
 msgstr "{0} öğesini taşımak için bir hedef koleksiyon seçin."
 
 #. placeholder {0}: error.message
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:232
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:272
 msgid "Failed to unset billing address for order: {0}"
 msgstr ""
 
@@ -1580,7 +1606,7 @@ msgstr "Son sayfaya git"
 #: src/app/routes/_authenticated/_orders/components/add-manual-payment-dialog.tsx:168
 #: src/app/routes/_authenticated/_orders/components/fulfill-order-dialog.tsx:311
 #: src/app/routes/_authenticated/_orders/components/order-modification-preview-dialog.tsx:352
-#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:358
+#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:363
 #: src/app/routes/_authenticated/_orders/components/settle-refund-dialog.tsx:71
 #: src/app/routes/_authenticated/_products/components/assign-facet-values-dialog.tsx:273
 #: src/app/routes/_authenticated/_products/components/force-remove-option-group-dialog.tsx:48
@@ -1602,7 +1628,7 @@ msgid "Cancel"
 msgstr "İptal"
 
 #. placeholder {0}: error.message
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:95
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:97
 msgid "Failed to update order custom fields: {0}"
 msgstr ""
 
@@ -1637,7 +1663,7 @@ msgstr "Yeni vergi kategorisi"
 msgid "Partial refund completed"
 msgstr "Kısmi iade tamamlandı"
 
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:452
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:492
 msgid "Set custom fields"
 msgstr "Özel alanları ayarla"
 
@@ -1646,6 +1672,10 @@ msgstr "Özel alanları ayarla"
 #: src/app/routes/_authenticated/_collections/collections.tsx:339
 msgid "Collections"
 msgstr "Koleksiyonlar"
+
+#: src/app/routes/_authenticated/_shipping-methods/components/shipping-eligibility-checker-selector.tsx:37
+msgid "Select Shipping Eligibility Checker"
+msgstr ""
 
 #: src/app/routes/_authenticated/_products/products_.$id_.variants.tsx:433
 msgid "Delete variant"
@@ -1665,7 +1695,7 @@ msgstr "Sebep:"
 
 #: src/app/routes/_authenticated/_orders/components/order-detail-shared.tsx:291
 #: src/app/routes/_authenticated/_orders/orders_.$id_.modify.tsx:248
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:470
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:510
 msgid "Shipping address"
 msgstr "Kargo adresi"
 
@@ -1705,6 +1735,7 @@ msgstr "Müşteri Grupları"
 
 #: src/app/routes/_authenticated/_system/scheduled-tasks.tsx:123
 #: src/app/routes/_authenticated/_tax-rates/tax-rates.tsx:58
+#: src/lib/components/data-display/boolean.tsx:22
 #: src/lib/components/layout/nav-user.tsx:155
 msgid "Disabled"
 msgstr "Devre dışı"
@@ -1838,7 +1869,7 @@ msgstr "Not eklendi"
 msgid "Select quantities to fulfill and configure the fulfillment handler"
 msgstr "Teslim edilecek miktarları seçin ve teslimat işleyicisini yapılandırın"
 
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:228
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:268
 msgid "Billing address unset for order"
 msgstr "Siparişten fatura adresi kaldırıldı"
 
@@ -1857,7 +1888,7 @@ msgstr "Çoğalt"
 msgid "No results"
 msgstr "Sonuç yok"
 
-#: src/lib/components/data-table/data-table-view-options.tsx:89
+#: src/lib/components/data-table/data-table-view-options.tsx:95
 msgid "Column settings"
 msgstr "Sütun ayarları"
 
@@ -1943,7 +1974,7 @@ msgstr "Sorgu belgesi uzatılamadı"
 msgid "Failed to update note"
 msgstr "Not güncellenemedi"
 
-#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:201
+#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:206
 msgid "Refund shipping"
 msgstr "Kargo iadesi"
 
@@ -2348,12 +2379,16 @@ msgstr "Tüm kanallar için kullanılabilir dilleri ayarlar. Tek tek kanallar da
 msgid "Collections moved successfully"
 msgstr "Koleksiyonlar başarıyla taşındı"
 
+#: src/lib/components/data-input/relation-selector.tsx:411
+msgid "Change selection"
+msgstr ""
+
 #: src/app/routes/_authenticated/_customers/components/customer-status-badge.tsx:23
 msgid "Registered"
 msgstr "Kayıtlı"
 
 #. placeholder {0}: error.message
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:199
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:239
 msgid "Failed to set shipping address for order: {0}"
 msgstr ""
 
@@ -2441,7 +2476,7 @@ msgstr "Seçili Öğeler"
 msgid "Values"
 msgstr "Değerler"
 
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:170
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:172
 msgid "Customer set for order"
 msgstr "Sipariş için müşteri ayarlandı"
 
@@ -2618,7 +2653,7 @@ msgstr "Bu, bu üründeki tüm seçenek gruplarını kaldıracak ve varyant kuru
 
 #: src/app/routes/_authenticated/_orders/components/order-detail-shared.tsx:299
 #: src/app/routes/_authenticated/_orders/orders_.$id_.modify.tsx:277
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:502
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:532
 msgid "Billing address"
 msgstr "Fatura adresi"
 
@@ -2662,6 +2697,10 @@ msgstr "Yalnızca taslak siparişler tamamlanabilir"
 msgid "Failed to update product"
 msgstr "Ürün güncellenemedi"
 
+#: src/app/routes/_authenticated/_collections/components/collection-filters-selector.tsx:26
+msgid "Add collection filter"
+msgstr ""
+
 #. placeholder {0}: adjustedLines.length
 #: src/app/routes/_authenticated/_orders/components/order-modification-summary.tsx:152
 msgid "Adjusting {0} lines"
@@ -2685,7 +2724,7 @@ msgstr "Kanal"
 #~ msgstr "Sağlık Kontrolleri"
 
 #: src/app/routes/_authenticated/_orders/components/payment-details.tsx:170
-#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:317
+#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:322
 msgid "Amount"
 msgstr "Tutar"
 
@@ -2700,7 +2739,7 @@ msgid "New customer"
 msgstr "Yeni müşteri"
 
 #: src/app/routes/_authenticated/_orders/components/order-table.tsx:33
-#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:90
+#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:94
 msgid "Image"
 msgstr "Görsel"
 
@@ -2821,6 +2860,10 @@ msgstr "{0} ile {1} arası"
 msgid "Failed to create customer"
 msgstr "Müşteri oluşturulamadı"
 
+#: src/lib/components/shared/asset/asset-preview.tsx:123
+msgid "Focal point updated"
+msgstr "Odak noktası güncellendi"
+
 #: src/app/routes/_authenticated/_products/products_.$id_.variants.tsx:279
 msgid "Option values"
 msgstr "Seçenek değerleri"
@@ -2881,7 +2924,7 @@ msgstr "Yedek: {value}"
 msgid "Order history"
 msgstr "Sipariş geçmişi"
 
-#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:263
+#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:268
 msgid "Override"
 msgstr "Geçersiz kıl"
 
@@ -2980,7 +3023,6 @@ msgstr ""
 #: src/app/routes/_authenticated/_tax-categories/tax-categories.tsx:44
 #: src/lib/components/data-input/product-multi-selector-input.tsx:377
 #: src/lib/components/data-input/product-multi-selector-input.tsx:380
-#: src/lib/components/data-input/relation-selector.tsx:404
 #: src/lib/components/shared/rich-text-editor/responsive-toolbar.tsx:439
 msgid "{0}"
 msgstr "{0}"
@@ -2993,7 +3035,7 @@ msgstr "Yeni Bölge"
 msgid "Failed to update collection position"
 msgstr "Koleksiyon konumu güncellenemedi"
 
-#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:102
+#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:106
 msgid "Refund"
 msgstr "İade"
 
@@ -3067,6 +3109,10 @@ msgstr "Varsayılan vergi kategorisi"
 msgid "Slug is set"
 msgstr "Slug ayarlandı"
 
+#: src/lib/components/shared/asset/asset-preview.tsx:126
+msgid "Failed to update focal point"
+msgstr "Odak noktası güncellenemedi"
+
 #: src/app/routes/_authenticated/_zones/zones_.$id.tsx:61
 msgid "Successfully updated zone"
 msgstr "Bölge başarıyla güncellendi"
@@ -3130,6 +3176,10 @@ msgstr "Sipariş metrikleri"
 msgid "Select display language"
 msgstr "Görüntüleme dili seçin"
 
+#: src/app/routes/_authenticated/_payment-methods/components/payment-handler-selector.tsx:37
+msgid "Select Payment Handler"
+msgstr ""
+
 #: src/app/routes/_authenticated/_profile/profile.tsx:128
 msgid "Authentication methods"
 msgstr "Kimlik doğrulama yöntemleri"
@@ -3165,7 +3215,7 @@ msgstr "Ürün Varyantları"
 msgid "Manage Global Views"
 msgstr "Genel Görünümleri Yönet"
 
-#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:365
+#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:370
 msgid "Processing..."
 msgstr "İşleniyor..."
 
@@ -3180,7 +3230,7 @@ msgstr "Tarih aralığı seçin"
 
 #: src/app/routes/_authenticated/_orders/components/edit-order-table.tsx:87
 #: src/app/routes/_authenticated/_orders/components/order-table.tsx:44
-#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:93
+#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:97
 msgid "Product"
 msgstr "Ürün"
 
@@ -3259,12 +3309,12 @@ msgstr "Toplam Sipariş"
 msgid "No eligible shipping methods found for this order."
 msgstr "Bu sipariş için uygun kargo yöntemi bulunamadı."
 
-#: src/app/routes/_authenticated/_products/components/product-options-table.tsx:118
+#: src/app/routes/_authenticated/_products/components/product-options-table.tsx:126
 msgid "Add product option"
 msgstr "Ürün seçeneği ekle"
 
 #: src/app/routes/_authenticated/_orders/components/order-table-totals.tsx:66
-#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:189
+#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:194
 #: src/app/routes/_authenticated/_orders/orders.tsx:85
 msgid "Shipping"
 msgstr "Kargo"
@@ -3315,7 +3365,7 @@ msgstr "Kargo yöntemi güncellenemedi"
 msgid "Shipping Methods"
 msgstr "Kargo Yöntemleri"
 
-#: src/app/routes/_authenticated/_orders/components/customer-address-selector.tsx:71
+#: src/app/routes/_authenticated/_orders/components/customer-address-selector.tsx:58
 msgid "Select an address"
 msgstr "Bir adres seçin"
 
@@ -3328,7 +3378,7 @@ msgstr "Evet"
 msgid "Slug"
 msgstr "Slug"
 
-#: src/lib/components/shared/asset/asset-focal-point-editor.tsx:97
+#: src/lib/components/shared/asset/asset-focal-point-editor.tsx:98
 msgid "Set Focal Point"
 msgstr "Odak Noktasını Ayarla"
 
@@ -3378,6 +3428,10 @@ msgstr "eşit değildir"
 #~ msgid "e.g. Size"
 #~ msgstr "örn. Beden"
 
+#: src/app/routes/_authenticated/_payment-methods/components/payment-eligibility-checker-selector.tsx:38
+msgid "No checkers found"
+msgstr ""
+
 #: src/app/routes/_authenticated/_orders/components/payment-details.tsx:142
 msgid "Settle payment"
 msgstr "Ödemeyi tamamla"
@@ -3408,7 +3462,7 @@ msgstr "Yeni Stok Konumu"
 msgid "{successfulRefundCount} payment(s) refunded before failure. Check order history for details."
 msgstr "Hatadan önce {successfulRefundCount} ödeme iade edildi. Ayrıntılar için sipariş geçmişini kontrol edin."
 
-#: src/lib/components/data-input/relation-selector.tsx:411
+#: src/lib/components/data-input/relation-selector.tsx:412
 msgid "Select item"
 msgstr "Öğe seç"
 
@@ -3424,6 +3478,10 @@ msgstr "Etiketleri Yönet"
 #: src/app/routes/_authenticated/_orders/components/order-history/order-history-utils.tsx:110
 msgid "Items refunded"
 msgstr "Ürünler iade edildi"
+
+#: src/app/routes/_authenticated/_promotions/components/promotion-actions-selector.tsx:37
+msgid "Add action"
+msgstr "Eylem ekle"
 
 #: src/app/routes/_authenticated/_products/components/create-product-options-dialog.tsx:325
 #~ msgid "Assign options to existing variant"
@@ -3483,7 +3541,7 @@ msgstr "Sonrasına satır ekle"
 msgid "Tax total"
 msgstr "Toplam vergi"
 
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:374
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:414
 msgid "Draft order status"
 msgstr "Taslak sipariş durumu"
 
@@ -3504,7 +3562,7 @@ msgstr "Özellik değeri başarıyla oluşturuldu"
 msgid "Marketing"
 msgstr "Pazarlama"
 
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:311
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:351
 msgid "Draft order deleted"
 msgstr "Taslak sipariş silindi"
 
@@ -3582,6 +3640,7 @@ msgid "Cannot remove from active channel"
 msgstr "Etkin kanaldan kaldırılamaz"
 
 #: src/app/routes/_authenticated/_assets/assets_.$id.tsx:179
+#: src/lib/components/shared/asset/asset-preview.tsx:162
 msgid "Not set"
 msgstr "Ayarlanmadı"
 
@@ -3647,7 +3706,7 @@ msgid "Add option group"
 msgstr "Seçenek grubu ekle"
 
 #. placeholder {0}: formatCurrency(refund.amountToRefundTotal, order.currencyCode)
-#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:367
+#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:372
 msgid "Refund {0}"
 msgstr "{0} iade et"
 
@@ -3823,7 +3882,7 @@ msgid "Countries"
 msgstr "Ülkeler"
 
 #. placeholder {0}: error.message
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:160
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:162
 msgid "Failed to remove order line: {0}"
 msgstr ""
 
@@ -3895,7 +3954,7 @@ msgctxt "theme"
 msgid "Light"
 msgstr "Açık"
 
-#: src/lib/components/data-table/data-table-view-options.tsx:120
+#: src/lib/components/data-table/data-table-view-options.tsx:130
 msgid "Reset"
 msgstr "Sıfırla"
 
@@ -3903,6 +3962,10 @@ msgstr "Sıfırla"
 #: src/lib/components/data-table/human-readable-operator.tsx:26
 msgid "is equal to"
 msgstr "eşittir"
+
+#: src/lib/components/shared/asset/asset-properties.tsx:17
+msgid "Source File"
+msgstr ""
 
 #: src/app/routes/_authenticated/_products/components/create-product-options-dialog.tsx:249
 #: src/app/routes/_authenticated/_products/components/create-product-options-dialog.tsx:408
@@ -3972,7 +4035,7 @@ msgstr "+ {0} daha"
 msgid "Option Groups"
 msgstr "Seçenek Grupları"
 
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:431
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:471
 msgid "Custom fields"
 msgstr "Özel alanlar"
 
@@ -4072,7 +4135,7 @@ msgstr "Sipariş Toplamı"
 msgid "Visible to admins only"
 msgstr "Sadece yöneticilere görünür"
 
-#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:99
+#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:103
 msgid "Qty"
 msgstr "Adet"
 
@@ -4088,8 +4151,12 @@ msgstr "Süper Yönetici"
 #~ msgid "Some resources are down"
 #~ msgstr "Bazı kaynaklar çalışmıyor"
 
+#: src/app/routes/_authenticated/_promotions/components/promotion-actions-selector.tsx:38
+msgid "Available Actions"
+msgstr "Kullanılabilir eylemler"
+
 #. placeholder {0}: error.message
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:141
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:143
 msgid "Failed to update order line: {0}"
 msgstr ""
 
@@ -4191,7 +4258,7 @@ msgid "{title}"
 msgstr "{title}"
 
 #: src/app/routes/_authenticated/_orders/components/fulfill-order-dialog.tsx:244
-#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:83
+#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:87
 #: src/app/routes/_authenticated/_orders/orders_.$id_.modify.tsx:178
 msgid "Order lines"
 msgstr "Sipariş satırları"
@@ -4214,7 +4281,7 @@ msgstr "{formattedDiff} tutarında iade gerekiyor. Ödeme tutarlarını seçin v
 
 #: src/app/routes/_authenticated/_orders/components/edit-order-table.tsx:100
 #: src/app/routes/_authenticated/_orders/components/order-table.tsx:57
-#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:96
+#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:100
 msgid "Unit price"
 msgstr "Birim fiyat"
 
@@ -4263,13 +4330,17 @@ msgid "Customer information updated"
 msgstr "Müşteri bilgileri güncellendi"
 
 #. placeholder {0}: error.message
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:318
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:358
 msgid "Failed to delete draft order: {0}"
 msgstr ""
 
 #: src/lib/components/data-table/views-sheet.tsx:120
 msgid "Failed to convert view to global"
 msgstr "Görünüm genele dönüştürülemedi"
+
+#: src/app/routes/_authenticated/_payment-methods/components/payment-eligibility-checker-selector.tsx:37
+msgid "Select Payment Eligibility Checker"
+msgstr ""
 
 #: src/lib/components/data-table/filters/data-table-enum-filter.tsx:53
 msgid "Select operator"
@@ -4406,7 +4477,7 @@ msgstr "VEYA"
 msgid "Manage tags"
 msgstr "Etiketleri yönet"
 
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:277
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:317
 msgid "Coupon code removed from order"
 msgstr "Kupon kodu siparişten kaldırıldı"
 
@@ -4434,7 +4505,7 @@ msgid "Loading selected items..."
 msgstr ""
 
 #. placeholder {0}: error.message
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:210
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:250
 msgid "Failed to set billing address for order: {0}"
 msgstr ""
 
@@ -4492,7 +4563,7 @@ msgstr "Bu kargo yönteminin uygunluk kontrolü koşulları mevcut sipariş ve k
 msgid "Add coupon code"
 msgstr "Kupon kodu ekle"
 
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:261
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:301
 msgid "Coupon code set for order"
 msgstr "Sipariş için kupon kodu ayarlandı"
 
@@ -4510,6 +4581,7 @@ msgstr "büyük eşittir"
 
 #: src/app/routes/_authenticated/_collections/components/collection-contents-preview-table.tsx:77
 #: src/app/routes/_authenticated/_collections/components/collection-contents-preview-table.tsx:88
+#: src/lib/components/shared/entity-assets.tsx:151
 msgid "Preview"
 msgstr "Önizleme"
 
@@ -4629,6 +4701,11 @@ msgstr "küçük eşittir"
 msgid "Customer group members for {customerGroupName}"
 msgstr "{customerGroupName} için müşteri grubu üyeleri"
 
+#. placeholder {0}: e instanceof Error ? e.message : String(e)
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:217
+msgid "Failed to set address for order: {0}"
+msgstr ""
+
 #: src/app/routes/_authenticated/_orders/components/fulfillment-details.tsx:118
 #: src/app/routes/_authenticated/_orders/components/payment-details.tsx:217
 #: src/app/routes/_authenticated/_orders/orders.tsx:101
@@ -4675,6 +4752,7 @@ msgstr "İl / Bölge"
 #: src/app/routes/_authenticated/_tax-rates/tax-rates.tsx:55
 #: src/app/routes/_authenticated/_tax-rates/tax-rates.tsx:57
 #: src/app/routes/_authenticated/_zones/components/zone-countries-table.tsx:57
+#: src/lib/components/data-display/boolean.tsx:22
 #: src/lib/components/layout/nav-user.tsx:152
 msgid "Enabled"
 msgstr "Etkin"
@@ -4777,13 +4855,17 @@ msgstr "Vendure'a hoş geldiniz"
 msgid "Shipping Methods"
 msgstr "Kargo Yöntemleri"
 
-#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:144
+#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:149
 msgid "({maxRefundable} refundable)"
 msgstr "({maxRefundable} iade edilebilir)"
 
 #: src/app/routes/_authenticated/_administrators/administrators.tsx:73
 msgid "Identifier"
 msgstr "Tanımlayıcı"
+
+#: src/app/routes/_authenticated/_shipping-methods/components/fulfillment-handler-selector.tsx:51
+msgid "Select a fulfillment handler"
+msgstr ""
 
 #: src/app/routes/_authenticated/_collections/collections_.$id.tsx:118
 msgid "Failed to update collection"
@@ -4886,10 +4968,11 @@ msgid "System"
 msgstr "Sistem"
 
 #: src/app/routes/_authenticated/_product-variants/product-variants_.$id.tsx:290
+#: src/app/routes/_authenticated/_products/components/product-variants-table.tsx:81
 msgid "Variant name"
 msgstr "Varyant adı"
 
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:543
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:579
 msgid "Remove"
 msgstr "Kaldır"
 
@@ -4920,7 +5003,7 @@ msgstr "Vergi Oranları"
 msgid "Failed to load global settings"
 msgstr "Genel ayarlar yüklenemedi"
 
-#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:75
+#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:79
 msgid "Select items to refund and optionally return to stock"
 msgstr "İade edilecek öğeleri seçin ve isteğe bağlı olarak stoka iade edin"
 
@@ -5005,6 +5088,11 @@ msgstr "Teslim ediliyor..."
 #: src/app/routes/_authenticated/_products/components/add-option-group-dialog.tsx:147
 msgid "Add option group to product"
 msgstr "Ürüne seçenek grubu ekle"
+
+#. placeholder {0}: asset.name
+#: src/lib/components/shared/asset/asset-preview-dialog.tsx:37
+msgid "Preview of {0}"
+msgstr "{0} önizlemesi"
 
 #: src/app/routes/_authenticated/_sellers/sellers_.$id.tsx:56
 msgid "Successfully updated seller"
@@ -5098,6 +5186,11 @@ msgstr "Varsayılan dil"
 msgid "Status"
 msgstr "Durum"
 
+#: src/lib/components/shared/configurable-operation-multi-selector.tsx:298
+#: src/lib/components/shared/configurable-operation-selector.tsx:155
+msgid "No options found"
+msgstr "Seçenek bulunamadı"
+
 #: src/lib/components/shared/asset/asset-gallery.tsx:370
 #: src/lib/components/shared/asset/asset-gallery.tsx:382
 msgid "Binary"
@@ -5132,8 +5225,8 @@ msgstr "Seçenek değeri başarıyla eklendi"
 msgid "Collection moved to new parent"
 msgstr "Koleksiyon yeni üst öğeye taşındı"
 
-#: src/app/routes/_authenticated/_products/hooks/use-remove-option-group.ts:52
-#: src/app/routes/_authenticated/_products/hooks/use-remove-option-group.ts:68
+#: src/app/routes/_authenticated/_products/hooks/use-remove-option-group.ts:49
+#: src/app/routes/_authenticated/_products/hooks/use-remove-option-group.ts:65
 msgid "Option group removed"
 msgstr "Seçenek grubu kaldırıldı"
 
@@ -5204,6 +5297,10 @@ msgstr "İade işlenemedi"
 msgid "First name"
 msgstr "Ad"
 
+#: src/lib/components/shared/product-variant-selector.tsx:83
+msgid "Add item to order"
+msgstr ""
+
 #: src/lib/components/data-table/human-readable-operator.tsx:58
 msgid "contains"
 msgstr "içerir"
@@ -5216,8 +5313,8 @@ msgstr "Seçenek grubu bulunamadı"
 msgid "No items found"
 msgstr "Öğe bulunamadı"
 
-#: src/app/routes/_authenticated/_products/hooks/use-remove-option-group.ts:55
-#: src/app/routes/_authenticated/_products/hooks/use-remove-option-group.ts:72
+#: src/app/routes/_authenticated/_products/hooks/use-remove-option-group.ts:52
+#: src/app/routes/_authenticated/_products/hooks/use-remove-option-group.ts:69
 msgid "Failed to remove option group"
 msgstr ""
 
@@ -5267,7 +5364,7 @@ msgstr "Test verileri güncellendi. Güncellenmiş sonuçları görmek için \"T
 msgid "is not in"
 msgstr "içinde değil"
 
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:132
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:134
 msgid "Order line updated"
 msgstr "Sipariş satırı güncellendi"
 
@@ -5280,7 +5377,7 @@ msgid "Duplicate value \"{trimmed}\" already exists"
 msgstr "Yinelenen değer \"{trimmed}\" zaten mevcut"
 
 #: src/app/routes/_authenticated/_orders/components/payment-details.tsx:233
-#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:217
+#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:222
 msgid "Reason"
 msgstr "Sebep"
 
@@ -5341,7 +5438,7 @@ msgstr "Video"
 msgid "less than"
 msgstr "küçüktür"
 
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:121
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:123
 msgid "The variant could not be added. Ensure the parent product is enabled."
 msgstr "Varyant eklenemedi. Ana ürünün etkin olduğundan emin olun."
 
@@ -5361,7 +5458,7 @@ msgstr "Dil"
 msgid "New Collection"
 msgstr "Yeni Koleksiyon"
 
-#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:72
+#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:76
 msgid "Refund and cancel order"
 msgstr "İade et ve siparişi iptal et"
 
@@ -5403,7 +5500,7 @@ msgstr "Genel Diller"
 msgid "New administrator"
 msgstr "Yeni yönetici"
 
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:355
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:395
 msgid "Delete draft"
 msgstr "Taslağı sil"
 
@@ -5555,7 +5652,7 @@ msgstr "küçüktür"
 msgid "Refund ID"
 msgstr "İade ID"
 
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:91
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:93
 msgid "Order custom fields updated"
 msgstr "Sipariş özel alanları güncellendi"
 
@@ -5690,6 +5787,7 @@ msgstr "Koleksiyonlar yükleniyor..."
 msgid "Successfully updated facet value"
 msgstr "Özellik değeri başarıyla güncellendi"
 
+#: src/lib/components/shared/entity-assets.tsx:290
 #: src/lib/components/shared/rich-text-editor/image-dialog.tsx:135
 msgid "Add asset"
 msgstr "Varlık ekle"
@@ -5715,7 +5813,7 @@ msgid "Add option value to {groupName}"
 msgstr "{groupName}'e seçenek değeri ekle"
 
 #. placeholder {0}: error.message
-#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:221
+#: src/app/routes/_authenticated/_orders/orders_.draft.$id.tsx:261
 msgid "Failed to unset shipping address for order: {0}"
 msgstr ""
 
@@ -5758,6 +5856,10 @@ msgstr "Oluşturulma tarihi"
 #: src/app/routes/_authenticated/_products/components/add-product-variant-dialog.tsx:165
 msgid "Failed to create product variant"
 msgstr "Ürün varyantı oluşturulamadı"
+
+#: src/lib/components/data-input/relation-selector.tsx:417
+msgid "Search..."
+msgstr ""
 
 #. placeholder {0}: formatLanguageName(contentLanguage)
 #: src/lib/components/layout/channel-switcher.tsx:130
@@ -5819,6 +5921,10 @@ msgstr "Henüz sonuç yok"
 msgid "Payment settled"
 msgstr "Ödeme tamamlandı"
 
+#: src/app/routes/_authenticated/_promotions/components/promotion-conditions-selector.tsx:38
+msgid "Available Conditions"
+msgstr "Kullanılabilir koşullar"
+
 #: src/lib/components/data-table/data-table-active-filters-popover.tsx:27
 msgid "Active filters"
 msgstr "Etkin filtreler"
@@ -5857,7 +5963,7 @@ msgstr "Yükleniyor..."
 msgid "The token is used to specify the channel when making API requests."
 msgstr "Token, API istekleri yaparken kanalı belirtmek için kullanılır."
 
-#: src/app/routes/_authenticated/_orders/components/customer-address-selector.tsx:80
+#: src/app/routes/_authenticated/_orders/components/customer-address-selector.tsx:67
 msgid "No addresses found"
 msgstr "Adres bulunamadı"
 
@@ -5865,7 +5971,7 @@ msgstr "Adres bulunamadı"
 msgid "Fulfillment ID"
 msgstr "Teslimat ID"
 
-#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:290
+#: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:295
 msgid "Select payments to refund"
 msgstr "İade edilecek ödemeleri seçin"
 
