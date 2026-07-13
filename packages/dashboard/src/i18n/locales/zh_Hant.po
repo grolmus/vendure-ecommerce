@@ -286,7 +286,7 @@ msgstr "選擇角色"
 msgid "Successfully created role"
 msgstr "已成功建立角色"
 
-#: src/app/routes/_authenticated/_products/products_.$id_.variants.tsx:454
+#: src/app/routes/_authenticated/_products/products_.$id_.variants.tsx:434
 msgid "Are you sure you want to delete this variant?"
 msgstr "確定要刪除此變體嗎？"
 
@@ -310,7 +310,7 @@ msgstr "已成功更新商品變體"
 msgid "Failed to delete {failed} {entityName}: {allErrors}"
 msgstr "刪除 {failed} {entityName} 失敗：{allErrors}"
 
-#: src/app/routes/_authenticated/_products/products_.$id.tsx:160
+#: src/app/routes/_authenticated/_products/products_.$id.tsx:159
 msgid "Successfully updated product"
 msgstr "已成功更新商品"
 
@@ -350,8 +350,10 @@ msgstr "已成功建立庫存位置"
 #: src/app/routes/_authenticated/_products/components/add-option-group-dialog.tsx:120
 #: src/app/routes/_authenticated/_products/components/add-product-variant-dialog.tsx:166
 #: src/app/routes/_authenticated/_products/components/generate-variants-panel.tsx:185
-#: src/app/routes/_authenticated/_products/products_.$id_.variants.tsx:112
-#: src/app/routes/_authenticated/_products/products_.$id.tsx:204
+#: src/app/routes/_authenticated/_products/hooks/use-remove-option-group.ts:56
+#: src/app/routes/_authenticated/_products/hooks/use-remove-option-group.ts:73
+#: src/app/routes/_authenticated/_products/products_.$id_.variants.tsx:105
+#: src/app/routes/_authenticated/_products/products_.$id.tsx:190
 msgid "Unknown error"
 msgstr "未知錯誤"
 
@@ -403,7 +405,7 @@ msgstr "退回庫存"
 msgid "Visibility"
 msgstr "可見性"
 
-#: src/app/routes/_authenticated/_products/products_.$id.tsx:288
+#: src/app/routes/_authenticated/_products/products_.$id.tsx:274
 msgid "Product variants"
 msgstr "產品變體"
 
@@ -564,7 +566,7 @@ msgstr "載入客戶歷程時發生錯誤：{0}"
 msgid "Successfully removed {selectionLength} {entityType} from channel"
 msgstr "已成功從通路中移除 {selectionLength} {entityType}"
 
-#: src/app/routes/_authenticated/_products/products_.$id_.variants.tsx:158
+#: src/app/routes/_authenticated/_products/products_.$id_.variants.tsx:151
 msgid "Add option value"
 msgstr "新增選項值"
 
@@ -759,7 +761,7 @@ msgstr "完成草稿"
 #: src/app/routes/_authenticated/_option-groups/option-groups_.$id.tsx:170
 #: src/app/routes/_authenticated/_payment-methods/payment-methods_.$id.tsx:158
 #: src/app/routes/_authenticated/_products/components/add-product-variant-dialog.tsx:286
-#: src/app/routes/_authenticated/_products/products_.$id_.variants.tsx:348
+#: src/app/routes/_authenticated/_products/products_.$id_.variants.tsx:328
 #: src/app/routes/_authenticated/_promotions/promotions_.$id.tsx:165
 #: src/app/routes/_authenticated/_sellers/sellers_.$id.tsx:89
 #: src/app/routes/_authenticated/_shipping-methods/shipping-methods_.$id.tsx:148
@@ -874,7 +876,7 @@ msgstr "建立集合失敗"
 msgid "Go to first page"
 msgstr "前往第一頁"
 
-#: src/app/routes/_authenticated/_products/products_.$id.tsx:168
+#: src/app/routes/_authenticated/_products/products_.$id.tsx:167
 msgid "Failed to create product"
 msgstr "建立商品失敗"
 
@@ -898,7 +900,7 @@ msgstr "訂單已設定配送地址"
 msgid "Focal Point"
 msgstr "焦點"
 
-#: src/app/routes/_authenticated/_products/products_.$id.tsx:99
+#: src/app/routes/_authenticated/_products/products_.$id.tsx:98
 msgid "Single variant, no options"
 msgstr "單一變體，無選項"
 
@@ -1321,7 +1323,7 @@ msgstr "沒有符合目前篩選條件的變體。"
 msgid "Addresses"
 msgstr "地址"
 
-#: src/app/routes/_authenticated/_products/products_.$id_.variants.tsx:143
+#: src/app/routes/_authenticated/_products/products_.$id_.variants.tsx:136
 msgid "Add a new option value to the {groupName} option group"
 msgstr "向 {groupName} 選項群組新增選項值"
 
@@ -1447,7 +1449,7 @@ msgstr "用作預設帳單地址"
 
 #: src/app/common/delete-bulk-action.tsx:139
 #: src/app/routes/_authenticated/_assets/components/asset-bulk-actions.tsx:41
-#: src/app/routes/_authenticated/_products/products_.$id_.variants.tsx:357
+#: src/app/routes/_authenticated/_products/products_.$id_.variants.tsx:337
 #: src/lib/components/data-table/use-generated-columns.tsx:407
 #: src/lib/components/data-table/use-generated-columns.tsx:437
 #: src/lib/components/data-table/views-sheet.tsx:270
@@ -1581,7 +1583,7 @@ msgstr "前往最後一頁"
 #: src/app/routes/_authenticated/_orders/components/refund-order-dialog.tsx:358
 #: src/app/routes/_authenticated/_orders/components/settle-refund-dialog.tsx:71
 #: src/app/routes/_authenticated/_products/components/assign-facet-values-dialog.tsx:273
-#: src/app/routes/_authenticated/_products/products_.$id_.variants.tsx:493
+#: src/app/routes/_authenticated/_products/components/force-remove-option-group-dialog.tsx:48
 #: src/app/routes/_authenticated/_system/settings-store.tsx:140
 #: src/lib/components/data-input/product-multi-selector-input.tsx:470
 #: src/lib/components/data-table/data-table-bulk-action-item.tsx:122
@@ -1645,7 +1647,7 @@ msgstr "設定自訂欄位"
 msgid "Collections"
 msgstr "集合"
 
-#: src/app/routes/_authenticated/_products/products_.$id_.variants.tsx:453
+#: src/app/routes/_authenticated/_products/products_.$id_.variants.tsx:433
 msgid "Delete variant"
 msgstr "刪除變體"
 
@@ -1687,7 +1689,7 @@ msgid "Private collections are not visible in the shop"
 msgstr "私人集合在商店中不可見"
 
 #: src/app/routes/_authenticated/_product-variants/product-variants_.$id.tsx:262
-#: src/app/routes/_authenticated/_products/products_.$id.tsx:229
+#: src/app/routes/_authenticated/_products/products_.$id.tsx:215
 msgid "When enabled, a product is available in the shop"
 msgstr "啟用後，商品在商店中可用"
 
@@ -1747,7 +1749,7 @@ msgstr "無屬性值"
 msgid "A reason for the refund is required"
 msgstr "需要提供退款原因"
 
-#: src/app/routes/_authenticated/_products/products_.$id.tsx:194
+#: src/app/routes/_authenticated/_products/products_.$id.tsx:180
 msgid "Could not remove option group"
 msgstr "無法移除選項群組"
 
@@ -1776,7 +1778,7 @@ msgstr "退款已成功完成"
 #: src/app/routes/_authenticated/_payment-methods/payment-methods_.$id.tsx:138
 #: src/app/routes/_authenticated/_product-variants/product-variants_.$id.tsx:252
 #: src/app/routes/_authenticated/_products/components/assign-facet-values-dialog.tsx:279
-#: src/app/routes/_authenticated/_products/products_.$id.tsx:219
+#: src/app/routes/_authenticated/_products/products_.$id.tsx:205
 #: src/app/routes/_authenticated/_profile/profile.tsx:92
 #: src/app/routes/_authenticated/_promotions/promotions_.$id.tsx:144
 #: src/app/routes/_authenticated/_roles/roles_.$id.tsx:84
@@ -1819,7 +1821,7 @@ msgstr "付款方式"
 msgid "Edit"
 msgstr "編輯"
 
-#: src/app/routes/_authenticated/_products/products_.$id_.variants.tsx:183
+#: src/app/routes/_authenticated/_products/products_.$id_.variants.tsx:180
 msgid "Variant updated successfully"
 msgstr "變體已成功更新"
 
@@ -1873,7 +1875,7 @@ msgstr "欄設定"
 msgid "Code"
 msgstr "代碼"
 
-#: src/app/routes/_authenticated/_products/products_.$id.tsx:203
+#: src/app/routes/_authenticated/_products/products_.$id.tsx:189
 msgid "Failed to remove option groups"
 msgstr "移除選項群組失敗"
 
@@ -1964,7 +1966,7 @@ msgid "Test Shipping Method"
 msgstr "測試配送方式"
 
 #: src/app/routes/_authenticated/_product-variants/product-variants_.$id.tsx:491
-#: src/app/routes/_authenticated/_products/products_.$id.tsx:333
+#: src/app/routes/_authenticated/_products/products_.$id.tsx:320
 msgid "Facet Values"
 msgstr "屬性值"
 
@@ -2373,7 +2375,7 @@ msgstr "第 {0} 頁，共 {1} 頁"
 msgid "Rate"
 msgstr "費率"
 
-#: src/app/routes/_authenticated/_products/products_.$id.tsx:114
+#: src/app/routes/_authenticated/_products/products_.$id.tsx:113
 msgid "Size, colour, etc."
 msgstr "大小、顏色等"
 
@@ -2606,11 +2608,11 @@ msgstr "重新計算運費"
 #: src/app/routes/_authenticated/_assets/assets.tsx:40
 #: src/app/routes/_authenticated/_collections/collections_.$id.tsx:225
 #: src/app/routes/_authenticated/_product-variants/product-variants_.$id.tsx:508
-#: src/app/routes/_authenticated/_products/products_.$id.tsx:366
+#: src/app/routes/_authenticated/_products/products_.$id.tsx:353
 msgid "Assets"
 msgstr "資源"
 
-#: src/app/routes/_authenticated/_products/products_.$id.tsx:307
+#: src/app/routes/_authenticated/_products/products_.$id.tsx:293
 msgid "This will remove all option groups from this product and return to the variant setup choice."
 msgstr "這將移除此產品的所有選項群組並返回變體設定選擇。"
 
@@ -2656,7 +2658,7 @@ msgstr "所有類型"
 msgid "Only draft orders can be completed"
 msgstr "只有草稿訂單可以完成"
 
-#: src/app/routes/_authenticated/_products/products_.$id.tsx:168
+#: src/app/routes/_authenticated/_products/products_.$id.tsx:167
 msgid "Failed to update product"
 msgstr "更新商品失敗"
 
@@ -2707,7 +2709,7 @@ msgid "Successfully created administrator"
 msgstr "成功建立管理員"
 
 #: src/app/routes/_authenticated/_option-groups/option-groups_.$id.tsx:198
-#: src/app/routes/_authenticated/_products/products_.$id.tsx:315
+#: src/app/routes/_authenticated/_products/products_.$id.tsx:301
 msgid "Product Options"
 msgstr "商品選項"
 
@@ -2723,7 +2725,7 @@ msgstr "正在建立..."
 msgid "Are you sure you want to delete this global view? This action cannot be undone and will affect all users."
 msgstr "確定要刪除此全域檢視嗎？此動作無法復原，將影響所有使用者。"
 
-#: src/app/routes/_authenticated/_products/products_.$id_.variants.tsx:486
+#: src/app/routes/_authenticated/_products/components/force-remove-option-group-dialog.tsx:37
 msgid "Force remove option group"
 msgstr "強制移除選項群組"
 
@@ -2787,7 +2789,7 @@ msgstr "刪除全域檢視"
 #: src/app/routes/_authenticated/_option-groups/option-groups_.$id.tsx:160
 #: src/app/routes/_authenticated/_payment-methods/payment-methods_.$id.tsx:138
 #: src/app/routes/_authenticated/_product-variants/product-variants_.$id.tsx:252
-#: src/app/routes/_authenticated/_products/products_.$id.tsx:219
+#: src/app/routes/_authenticated/_products/products_.$id.tsx:205
 #: src/app/routes/_authenticated/_promotions/promotions_.$id.tsx:144
 #: src/app/routes/_authenticated/_roles/roles_.$id.tsx:84
 #: src/app/routes/_authenticated/_sellers/sellers_.$id.tsx:78
@@ -2819,7 +2821,7 @@ msgstr "從 {0} 到 {1}"
 msgid "Failed to create customer"
 msgstr "建立客戶失敗"
 
-#: src/app/routes/_authenticated/_products/products_.$id_.variants.tsx:298
+#: src/app/routes/_authenticated/_products/products_.$id_.variants.tsx:279
 msgid "Option values"
 msgstr "選項值"
 
@@ -3048,7 +3050,7 @@ msgstr "切換標題欄"
 msgid "New Promotion"
 msgstr "新增促銷"
 
-#: src/app/routes/_authenticated/_products/products_.$id_.variants.tsx:151
+#: src/app/routes/_authenticated/_products/products_.$id_.variants.tsx:144
 msgid "Option value name"
 msgstr "選項值名稱"
 
@@ -3095,7 +3097,7 @@ msgstr "設定 {columnId} 欄的篩選條件"
 msgid "Country"
 msgstr "國家"
 
-#: src/app/routes/_authenticated/_products/products_.$id.tsx:97
+#: src/app/routes/_authenticated/_products/products_.$id.tsx:96
 msgid "Simple product"
 msgstr "簡單產品"
 
@@ -3271,7 +3273,7 @@ msgstr "配送"
 msgid "useWidgetDimensions must be used within a DashboardBaseWidget"
 msgstr "useWidgetDimensions 必須在 DashboardBaseWidget 中使用"
 
-#: src/app/routes/_authenticated/_products/products_.$id_.variants.tsx:488
+#: src/app/routes/_authenticated/_products/components/force-remove-option-group-dialog.tsx:40
 msgid "This option group is in use by existing variants. Force removing it may affect those variants. Are you sure?"
 msgstr "此選項群組正被現有變體使用。強制移除可能會影響這些變體。您確定嗎？"
 
@@ -3322,7 +3324,7 @@ msgid "Yes"
 msgstr "是"
 
 #: src/app/routes/_authenticated/_collections/collections_.$id.tsx:175
-#: src/app/routes/_authenticated/_products/products_.$id.tsx:246
+#: src/app/routes/_authenticated/_products/products_.$id.tsx:232
 msgid "Slug"
 msgstr "Slug"
 
@@ -3384,7 +3386,7 @@ msgstr "完成付款"
 #: src/app/routes/_authenticated/_channels/channels.tsx:15
 #: src/app/routes/_authenticated/_channels/channels.tsx:23
 #: src/app/routes/_authenticated/_option-groups/option-groups_.$id.tsx:216
-#: src/app/routes/_authenticated/_products/products_.$id.tsx:343
+#: src/app/routes/_authenticated/_products/products_.$id.tsx:330
 #: src/app/routes/_authenticated/_roles/roles_.$id.tsx:111
 #: src/lib/components/layout/channel-switcher.tsx:146
 msgid "Channels"
@@ -3410,8 +3412,8 @@ msgstr "失敗前已退還 {successfulRefundCount} 筆付款。請查看訂單�
 msgid "Select item"
 msgstr "選取項目"
 
-#: src/app/routes/_authenticated/_products/products_.$id.tsx:57
-#: src/app/routes/_authenticated/_products/products_.$id.tsx:212
+#: src/app/routes/_authenticated/_products/products_.$id.tsx:56
+#: src/app/routes/_authenticated/_products/products_.$id.tsx:198
 msgid "New product"
 msgstr "新增商品"
 
@@ -3583,7 +3585,7 @@ msgstr "無法從活動頻道中移除"
 msgid "Not set"
 msgstr "未設定"
 
-#: src/app/routes/_authenticated/_products/products_.$id_.variants.tsx:504
+#: src/app/routes/_authenticated/_products/components/force-remove-option-group-dialog.tsx:60
 msgid "Force remove"
 msgstr "強制移除"
 
@@ -3607,7 +3609,7 @@ msgstr "建立客戶群組失敗"
 msgid "Failed to create role"
 msgstr "建立角色失敗"
 
-#: src/app/routes/_authenticated/_products/products_.$id.tsx:240
+#: src/app/routes/_authenticated/_products/products_.$id.tsx:226
 msgid "Product name"
 msgstr "商品名稱"
 
@@ -3620,8 +3622,8 @@ msgstr "履行狀態已成功更新"
 #: src/app/routes/_authenticated/_option-groups/option-groups_.$id.tsx:211
 #: src/app/routes/_authenticated/_option-groups/option-groups.tsx:38
 #: src/app/routes/_authenticated/_product-variants/product-variants_.$id.tsx:66
-#: src/app/routes/_authenticated/_products/products_.$id_.variants.tsx:66
-#: src/app/routes/_authenticated/_products/products_.$id.tsx:56
+#: src/app/routes/_authenticated/_products/products_.$id_.variants.tsx:59
+#: src/app/routes/_authenticated/_products/products_.$id.tsx:55
 #: src/app/routes/_authenticated/_products/products.tsx:24
 #: src/app/routes/_authenticated/_products/products.tsx:47
 msgid "Products"
@@ -3794,7 +3796,9 @@ msgstr "返回搜尋"
 msgid "View duplicated successfully"
 msgstr "檢視已成功複製"
 
-#: src/app/routes/_authenticated/_products/products_.$id_.variants.tsx:315
+#: src/app/routes/_authenticated/_products/components/product-option-group-badge.tsx:45
+#: src/app/routes/_authenticated/_products/components/product-option-group-badge.tsx:51
+#: src/app/routes/_authenticated/_products/products_.$id_.variants.tsx:297
 msgid "Remove option group"
 msgstr "移除選項群組"
 
@@ -3802,7 +3806,7 @@ msgstr "移除選項群組"
 #: src/app/routes/_authenticated/_orders/components/add-surcharge-form.tsx:76
 #: src/app/routes/_authenticated/_orders/components/order-tax-summary.tsx:14
 #: src/app/routes/_authenticated/_payment-methods/payment-methods_.$id.tsx:171
-#: src/app/routes/_authenticated/_products/products_.$id.tsx:262
+#: src/app/routes/_authenticated/_products/products_.$id.tsx:248
 #: src/app/routes/_authenticated/_promotions/promotions_.$id.tsx:174
 #: src/app/routes/_authenticated/_roles/roles_.$id.tsx:94
 #: src/app/routes/_authenticated/_shipping-methods/shipping-methods_.$id.tsx:162
@@ -3943,7 +3947,7 @@ msgstr "您的訂單摘要"
 msgid "Upload"
 msgstr "上傳"
 
-#: src/app/routes/_authenticated/_products/products_.$id.tsx:112
+#: src/app/routes/_authenticated/_products/products_.$id.tsx:111
 msgid "Product with options"
 msgstr "帶選項的產品"
 
@@ -4324,7 +4328,7 @@ msgstr "隱藏密碼"
 msgid "New seller"
 msgstr "新增賣家"
 
-#: src/app/routes/_authenticated/_products/products_.$id_.variants.tsx:153
+#: src/app/routes/_authenticated/_products/products_.$id_.variants.tsx:146
 msgid "e.g., Red, Large, Cotton"
 msgstr "例如：紅色、大號、棉質"
 
@@ -4663,7 +4667,7 @@ msgstr "州/省"
 #: src/app/routes/_authenticated/_payment-methods/payment-methods_.$id.tsx:147
 #: src/app/routes/_authenticated/_payment-methods/payment-methods.tsx:42
 #: src/app/routes/_authenticated/_product-variants/product-variants_.$id.tsx:261
-#: src/app/routes/_authenticated/_products/products_.$id.tsx:228
+#: src/app/routes/_authenticated/_products/products_.$id.tsx:214
 #: src/app/routes/_authenticated/_promotions/promotions_.$id.tsx:153
 #: src/app/routes/_authenticated/_system/scheduled-tasks.tsx:115
 #: src/app/routes/_authenticated/_system/scheduled-tasks.tsx:119
@@ -4711,7 +4715,7 @@ msgstr "預覽變更"
 msgid "Failed to remove {entityType} from channel"
 msgstr "從頻道中移除 {entityType} 失敗"
 
-#: src/app/routes/_authenticated/_products/products_.$id_.variants.tsx:191
+#: src/app/routes/_authenticated/_products/products_.$id_.variants.tsx:188
 msgid "Variant deleted successfully"
 msgstr "變體已成功刪除"
 
@@ -4741,7 +4745,7 @@ msgstr "排程任務"
 msgid "Are you sure you want to delete this item? This action cannot be undone."
 msgstr "確定要刪除此項目嗎？此動作無法復原。"
 
-#: src/app/routes/_authenticated/_products/products_.$id_.variants.tsx:342
+#: src/app/routes/_authenticated/_products/products_.$id_.variants.tsx:322
 msgid "Variants"
 msgstr "變體"
 
@@ -4894,7 +4898,7 @@ msgstr "移除"
 msgid "Failed to update customer"
 msgstr "更新客戶失敗"
 
-#: src/app/routes/_authenticated/_products/products_.$id.tsx:306
+#: src/app/routes/_authenticated/_products/products_.$id.tsx:292
 msgid "Remove option groups?"
 msgstr "移除選項群組？"
 
@@ -5027,7 +5031,7 @@ msgstr "我已儲存此 API Key"
 msgid "Configure available languages for your store and channels"
 msgstr "為您的商店和通路設定可用語言"
 
-#: src/app/routes/_authenticated/_products/products_.$id.tsx:160
+#: src/app/routes/_authenticated/_products/products_.$id.tsx:159
 msgid "Successfully created product"
 msgstr "已成功建立商品"
 
@@ -5120,7 +5124,7 @@ msgstr "不含稅："
 #~ msgid "Add Stock to Location"
 #~ msgstr "向位置新增庫存"
 
-#: src/app/routes/_authenticated/_products/products_.$id_.variants.tsx:105
+#: src/app/routes/_authenticated/_products/products_.$id_.variants.tsx:98
 msgid "Successfully added option value"
 msgstr "已成功新增選項值"
 
@@ -5128,8 +5132,8 @@ msgstr "已成功新增選項值"
 msgid "Collection moved to new parent"
 msgstr "集合已移至新的父級"
 
-#: src/app/routes/_authenticated/_products/products_.$id_.variants.tsx:206
-#: src/app/routes/_authenticated/_products/products_.$id_.variants.tsx:215
+#: src/app/routes/_authenticated/_products/hooks/use-remove-option-group.ts:52
+#: src/app/routes/_authenticated/_products/hooks/use-remove-option-group.ts:68
 msgid "Option group removed"
 msgstr "選項群組已移除"
 
@@ -5212,6 +5216,11 @@ msgstr "找不到選項群組"
 msgid "No items found"
 msgstr "找不到項目"
 
+#: src/app/routes/_authenticated/_products/hooks/use-remove-option-group.ts:55
+#: src/app/routes/_authenticated/_products/hooks/use-remove-option-group.ts:72
+msgid "Failed to remove option group"
+msgstr ""
+
 #: src/app/routes/_authenticated/_orders/components/order-table-totals.tsx:52
 msgid "Sub total"
 msgstr "小計"
@@ -5289,7 +5298,7 @@ msgstr "已成功從頻道中移除 {entityType}"
 #: src/app/routes/_authenticated/_option-groups/option-groups_.$id.tsx:81
 #: src/app/routes/_authenticated/_option-groups/option-groups.tsx:17
 #: src/app/routes/_authenticated/_option-groups/option-groups.tsx:24
-#: src/app/routes/_authenticated/_products/products_.$id_.variants.tsx:278
+#: src/app/routes/_authenticated/_products/products_.$id_.variants.tsx:259
 msgid "Option Groups"
 msgstr "選項群組"
 
@@ -5454,7 +5463,8 @@ msgstr "賣家訂單"
 msgid "New facet"
 msgstr "新增屬性"
 
-#: src/app/routes/_authenticated/_products/products_.$id_.variants.tsx:316
+#: src/app/routes/_authenticated/_products/components/product-option-group-badge.tsx:46
+#: src/app/routes/_authenticated/_products/products_.$id_.variants.tsx:298
 msgid "Are you sure you want to remove this option group from the product?"
 msgstr "您確定要從產品中移除此選項群組嗎？"
 
@@ -5637,7 +5647,7 @@ msgstr "新增賣家"
 msgid "Edit image"
 msgstr "編輯圖片"
 
-#: src/app/routes/_authenticated/_products/products_.$id_.variants.tsx:68
+#: src/app/routes/_authenticated/_products/products_.$id_.variants.tsx:61
 msgid "Manage Variants"
 msgstr "管理變體"
 
@@ -5696,11 +5706,11 @@ msgstr "客戶已新增至群組"
 msgid "Seller orders"
 msgstr "賣家訂單"
 
-#: src/app/routes/_authenticated/_products/products_.$id_.variants.tsx:111
+#: src/app/routes/_authenticated/_products/products_.$id_.variants.tsx:104
 msgid "Failed to add option value"
 msgstr "新增選項值失敗"
 
-#: src/app/routes/_authenticated/_products/products_.$id_.variants.tsx:140
+#: src/app/routes/_authenticated/_products/products_.$id_.variants.tsx:133
 msgid "Add option value to {groupName}"
 msgstr "向 {groupName} 新增選項值"
 
@@ -5715,7 +5725,7 @@ msgstr ""
 #: src/app/routes/_authenticated/_products/components/add-product-variant-dialog.tsx:292
 #: src/app/routes/_authenticated/_products/components/assign-facet-values-dialog.tsx:198
 #: src/app/routes/_authenticated/_products/components/generate-variants-panel.tsx:287
-#: src/app/routes/_authenticated/_products/products_.$id_.variants.tsx:351
+#: src/app/routes/_authenticated/_products/products_.$id_.variants.tsx:331
 msgid "SKU"
 msgstr "SKU"
 
@@ -5723,7 +5733,7 @@ msgstr "SKU"
 msgid "{totalQuantity} item(s) refunded"
 msgstr "{totalQuantity}件商品已退款"
 
-#: src/app/routes/_authenticated/_products/products_.$id_.variants.tsx:282
+#: src/app/routes/_authenticated/_products/products_.$id_.variants.tsx:263
 msgid "No option groups defined yet. Add option groups to create different variants of your product (e.g., Size, Color, Material)"
 msgstr "尚未定義選項群組。新增選項群組以建立商品的不同變體（例如：尺寸、顏色、材質）"
 
@@ -5894,8 +5904,8 @@ msgstr "付款方式為必填欄位"
 msgid "Failed to add customer to group"
 msgstr "將客戶新增至群組失敗"
 
-#: src/app/routes/_authenticated/_products/products_.$id_.variants.tsx:275
-#: src/app/routes/_authenticated/_products/products_.$id.tsx:279
+#: src/app/routes/_authenticated/_products/products_.$id_.variants.tsx:256
+#: src/app/routes/_authenticated/_products/products_.$id.tsx:265
 msgid "Manage variants"
 msgstr "管理變體"
 
@@ -5920,7 +5930,7 @@ msgstr "搜尋賣家..."
 msgid "Successfully created promotion"
 msgstr "已成功建立促銷"
 
-#: src/app/routes/_authenticated/_products/products_.$id_.variants.tsx:292
+#: src/app/routes/_authenticated/_products/products_.$id_.variants.tsx:273
 msgid "Option"
 msgstr "選項"
 
