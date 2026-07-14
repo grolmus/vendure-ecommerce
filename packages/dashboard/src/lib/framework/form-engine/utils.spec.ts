@@ -8,6 +8,7 @@ import {
     convertEmptyStringsToNull,
     isFieldNullable,
     removeEmptyIdFields,
+    stripEmptyTranslations,
     stripNullNullableFields,
     transformRelationFields,
 } from './utils.js';
@@ -40,6 +41,63 @@ describe('removeEmptyIdFields', () => {
         const fields = getOperationVariablesFields(createProductDocument);
         const result = removeEmptyIdFields(values, fields);
         expect(result).toEqual({ input: { translations: [] } });
+    });
+});
+
+// https://github.com/vendurehq/vendure/issues/4885 (OSS-579)
+// The form seeds a translation row per configured language; submitting the unfilled ones
+// persists empty translation rows that break language fallback. stripEmptyTranslations
+// drops the seeded-but-empty entries (no id, all fields empty) before submit.
+describe('stripEmptyTranslations', () => {
+    const fields = () => getOperationVariablesFields(createProductDocument);
+
+    it('drops a seeded empty translation and keeps the filled ones', () => {
+        const values: CreateProductInput = {
+            input: {
+                translations: [
+                    { languageCode: 'en', name: 'Test product', slug: 'test-product', description: '' },
+                    { languageCode: 'pl', name: '', slug: '', description: '' },
+                ],
+            },
+        };
+        const result = stripEmptyTranslations(values, fields());
+        expect(result.input.translations).toEqual([
+            { languageCode: 'en', name: 'Test product', slug: 'test-product', description: '' },
+        ]);
+    });
+
+    it('keeps an existing translation (with an id) even if all fields are empty', () => {
+        const values: any = {
+            input: {
+                translations: [{ id: '42', languageCode: 'pl', name: '', slug: '', description: '' }],
+            },
+        };
+        const result = stripEmptyTranslations(values, fields());
+        expect(result.input.translations).toEqual([
+            { id: '42', languageCode: 'pl', name: '', slug: '', description: '' },
+        ]);
+    });
+
+    it('keeps a translation where at least one field is filled', () => {
+        const values: CreateProductInput = {
+            input: {
+                translations: [{ languageCode: 'pl', name: '', slug: 'polski-slug', description: '' }],
+            },
+        };
+        const result = stripEmptyTranslations(values, fields());
+        expect(result.input.translations).toHaveLength(1);
+    });
+
+    it('leaves values without empty translations unchanged', () => {
+        const values: CreateProductInput = {
+            input: {
+                translations: [
+                    { languageCode: 'en', name: 'Test product', slug: 'test-product', description: '' },
+                ],
+            },
+        };
+        const result = stripEmptyTranslations(values, fields());
+        expect(result).toEqual(values);
     });
 });
 

@@ -203,6 +203,75 @@ export function stripNullNullableFields<T extends Record<string, any>>(values: T
     return result;
 }
 
+/**
+ * @description
+ * Removes translation entries that were seeded by the form but never filled in by the
+ * user. The form engine seeds a translation row for every configured language (so any
+ * language can be edited in the form), but submitting the untouched ones persists empty
+ * translation rows. Those empty rows break language fallback — a lookup for that language
+ * finds the empty row instead of falling back to the default language — most visibly in
+ * the search index, which shows an empty name. See #4885 / OSS-579.
+ *
+ * A translation is dropped only when it has no `id` (i.e. it was seeded, not an existing
+ * persisted row) AND every field other than `languageCode` is empty. Existing translations
+ * (with an `id`) and any language the user actually filled are always kept. Works at any
+ * nesting depth and for any translatable sub-entity (detected by a `languageCode` field).
+ */
+export function stripEmptyTranslations<T extends Record<string, any>>(values: T, fields: FieldInfo[]): T {
+    if (!values) {
+        return values;
+    }
+    const result = structuredClone(values);
+
+    function process(obj: any, fieldDefs: FieldInfo[]) {
+        for (const field of fieldDefs) {
+            const value = obj?.[field.name];
+            if (!value || typeof value !== 'object' || !field.typeInfo) {
+                continue;
+            }
+            if (Array.isArray(value)) {
+                const isTranslationsArray = field.typeInfo.some(f => f.name === 'languageCode');
+                if (isTranslationsArray) {
+                    obj[field.name] = value.filter(entry => !isSeededEmptyTranslation(entry));
+                }
+                for (const item of obj[field.name]) {
+                    process(item, field.typeInfo);
+                }
+            } else {
+                process(value, field.typeInfo);
+            }
+        }
+    }
+
+    process(result, fields);
+    return result;
+}
+
+function isSeededEmptyTranslation(entry: any): boolean {
+    if (!entry || typeof entry !== 'object') {
+        return false;
+    }
+    // An existing (persisted) translation carries an id — never treat it as seeded-empty,
+    // even if the user cleared its fields; that is a deliberate edit, not form seeding.
+    if (entry.id != null && entry.id !== '') {
+        return false;
+    }
+    return Object.entries(entry).every(([key, value]) => key === 'languageCode' || isEmptyValue(value));
+}
+
+function isEmptyValue(value: any): boolean {
+    if (value == null || value === '') {
+        return true;
+    }
+    if (Array.isArray(value)) {
+        return value.every(isEmptyValue);
+    }
+    if (typeof value === 'object') {
+        return Object.values(value).every(isEmptyValue);
+    }
+    return false;
+}
+
 // =============================================================================
 // TYPE GUARDS FOR CONFIGURABLE FIELD DEFINITIONS
 // =============================================================================

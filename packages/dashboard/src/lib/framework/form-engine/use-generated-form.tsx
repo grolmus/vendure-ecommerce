@@ -14,6 +14,7 @@ import {
 import {
     convertEmptyStringsToNull,
     removeEmptyIdFields,
+    stripEmptyTranslations,
     stripNullNullableFields,
     transformRelationFields,
 } from './utils.js';
@@ -191,6 +192,9 @@ export function useGeneratedForm<
                     removeEmptyIdFields(values, updateFields),
                     updateFields,
                 );
+                // Drop translation rows the form seeded for languages the user never filled,
+                // so we don't persist empty translations that break language fallback (#4885).
+                processed = stripEmptyTranslations(processed, updateFields);
                 if (!entity) {
                     processed = stripNullNullableFields(processed, updateFields);
                 }
