@@ -1,6 +1,5 @@
-import path from 'node:path';
-
 import { brand, darkTheme, fontFamily, lightTheme, radii, shadows } from '@vendure-io/design-tokens';
+import path from 'node:path';
 import { Plugin } from 'vite';
 
 type ThemeColors = Record<string, string | undefined>;
@@ -111,8 +110,25 @@ function generateThemeInlineBlock(): string {
     const colorKeys = Object.keys(lightTheme).filter(k => k !== 'radius');
     const colorLines = colorKeys.map(key => `    --color-${key}: var(--${key});`);
 
-    // Radius — direct values from token definitions (not calc-based)
-    const radiusLines = Object.entries(radii).map(([key, value]) => `    --radius-${key}: ${value};`);
+    // Radius — derive the scale from the runtime `--radius` base token instead of
+    // baking in the literal `radii` values. Because this is a `@theme inline` block,
+    // Tailwind substitutes each value into the `rounded-*` utilities; emitting
+    // `var(--radius)` / `calc(var(--radius) * N)` (rather than a fixed literal) makes
+    // those utilities reference the runtime variable, so a `theme.{light,dark}.radius`
+    // override actually changes corner roundness. `none`/`full` are fixed semantic
+    // values and stay literal (never scaled). See #4865 / OSS-577.
+    const radiusScale: Record<string, string> = {
+        sm: 'calc(var(--radius) * 0.6)',
+        md: 'calc(var(--radius) * 0.8)',
+        lg: 'var(--radius)',
+        xl: 'calc(var(--radius) * 1.4)',
+        '2xl': 'calc(var(--radius) * 1.8)',
+        '3xl': 'calc(var(--radius) * 2.2)',
+        '4xl': 'calc(var(--radius) * 2.6)',
+    };
+    const radiusLines = Object.entries(radii).map(
+        ([key, value]) => `    --radius-${key}: ${radiusScale[key] ?? value};`,
+    );
 
     // Shadows — direct values from token definitions
     const shadowLines = Object.entries(shadows).map(([key, value]) => `    --shadow-${key}: ${value};`);
