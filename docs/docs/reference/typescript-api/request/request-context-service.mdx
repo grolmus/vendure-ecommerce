@@ -37,9 +37,12 @@ as — commonly the superadmin for administrative scripts:
 
 ```ts
 const { superadminCredentials } = this.configService.authOptions;
-const superAdminUser = await this.connection.rawConnection
-    .getRepository(User)
-    .findOneOrFail({ where: { identifier: superadminCredentials.identifier } });
+const superAdminUser = await this.connection.rawConnection.getRepository(User).findOneOrFail({
+    where: { identifier: superadminCredentials.identifier },
+    // The roles (and their channels) must be loaded, or the resulting context
+    // has the user's id but no permissions.
+    relations: { roles: { channels: true } },
+});
 
 const ctx = await this.requestContextService.create({
     apiType: 'admin',
