@@ -202,6 +202,7 @@ export const devConfig: VendureConfig = {
         DashboardPlugin.init({
             route: 'dashboard',
             appDir: dashboardAppDir,
+            viteDevServerPort: Number(process.env.VITE_DEV_SERVER_PORT) || 5173,
         }),
     ],
 };
