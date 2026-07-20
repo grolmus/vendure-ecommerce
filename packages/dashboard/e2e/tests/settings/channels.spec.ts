@@ -2,6 +2,7 @@ import { type Page, expect, test } from '@playwright/test';
 
 import { BaseDetailPage } from '../../page-objects/detail-page.base.js';
 import { BaseListPage } from '../../page-objects/list-page.base.js';
+import { VendureAdminClient } from '../../utils/vendure-admin-client.js';
 
 // Channels have dependent selectors: available languages/currencies must be set
 // before their respective defaults. Zone selectors are standard Base UI Selects.
@@ -146,22 +147,6 @@ test.describe('Channels CRUD', () => {
 // the schema but still required by ChannelService.create, which throws a raw UserInputError
 // ("Either a defaultCurrencyCode or currencyCode must be provided").
 
-// The Design System v2 MultiSelect renders a Base UI combobox: options live in a portalled
-// `listbox`, and a multi-select shows its value as chips rather than as text inside the input.
-// Closing leaves an inert backdrop behind for a moment, which swallows the next click, so wait
-// for it to go away before interacting again.
-async function closeDropdown(page: Page) {
-    // Click away rather than pressing Escape: Escape leaves focus on the trigger, which can
-    // re-open the dropdown and leave its inert backdrop swallowing the next click. This is the
-    // same dismissal the Channels CRUD tests above use.
-    await page.locator('body').click({ position: { x: 0, y: 0 } });
-    // A closed dropdown can stay mounted but hidden, so assert on visibility rather than presence.
-    await expect(page.getByRole('listbox').filter({ visible: true })).toHaveCount(0);
-    await expect(page.locator('[data-base-ui-inert]')).toHaveCount(0);
-}
-
-const currencyChips = (dp: BaseDetailPage) => dp.formItem('Available currencies');
-
 test.describe('Channel required-field validation', () => {
     const detailPage = (page: Page) =>
         new BaseDetailPage(page, {
@@ -169,6 +154,35 @@ test.describe('Channel required-field validation', () => {
             pathPrefix: '/channels/',
             newTitle: 'New channel',
         });
+
+    // Select popups are portalled to the document, and several of them are mounted at once on
+    // this form, so scope option queries to the one that is actually open.
+    const openSelect = (page: Page) =>
+        page.locator('[data-slot="select-content"]').filter({ visible: true });
+
+    // A DS v2 multi-select shows its value as chips, not as text inside the input, so assertions
+    // about what is selected have to read the chip rather than the form item as a whole.
+    const currencyChip = (dp: BaseDetailPage, currency: string) =>
+        dp
+            .formItem('Available currencies')
+            .locator('[data-slot="combobox-chip"]')
+            .filter({ hasText: currency });
+
+    // These tests create channels; without this they only pass against a cold database.
+    test.afterAll(async ({ browser }) => {
+        const page = await browser.newPage();
+        const client = new VendureAdminClient(page);
+        await client.login();
+        const { channels } = await client.gql(`query { channels { items { id code } } }`);
+        for (const channel of channels.items.filter((c: { code: string }) =>
+            c.code.startsWith('e2e-default-'),
+        )) {
+            await client.gql(`mutation ($id: ID!) { deleteChannel(id: $id) { result } }`, {
+                id: channel.id,
+            });
+        }
+        await page.close();
+    });
 
     test('should show inline errors instead of a raw GraphQL toast when required fields are missing', async ({
         page,
@@ -215,20 +229,25 @@ test.describe('Channel required-field validation', () => {
         await dp.fillInput('Code', 'e2e-default-source-channel');
         await dp.fillInput('Token', 'e2e-default-source-token');
 
-        // Nothing is available, so there is nothing to make the default.
-        await dp.formItem('Default currency').getByRole('combobox').click();
+        // Nothing is available, so there is nothing to make the default. Base UI does not mount
+        // the popup at all for an empty list, so anchor on the trigger still offering its
+        // placeholder — otherwise a field that failed to render would pass this just as happily.
+        const defaultCurrency = dp.formItem('Default currency').getByRole('combobox');
+        await defaultCurrency.click();
         await expect(page.getByRole('option')).toHaveCount(0);
-        await closeDropdown(page);
+        await expect(defaultCurrency).toContainText('Select a currency');
+        await dp.closeDropdown();
 
         // Marking one currency available makes it — and only it — a candidate default.
         await dp.formItem('Available currencies').getByRole('combobox').click();
         await page.getByRole('option', { name: /Euro/ }).first().click();
-        await closeDropdown(page);
-        await expect(currencyChips(dp)).toContainText('Euro');
+        await dp.closeDropdown();
+        await expect(currencyChip(dp, 'Euro')).toBeVisible();
 
-        await dp.formItem('Default currency').getByRole('combobox').click();
-        await expect(page.getByRole('option')).toHaveCount(1);
-        await page.getByRole('option', { name: /Euro/ }).click();
+        await defaultCurrency.click();
+        await expect(openSelect(page)).toBeVisible();
+        await expect(openSelect(page).getByRole('option')).toHaveCount(1);
+        await openSelect(page).getByRole('option', { name: /Euro/ }).click();
         // A single-select closes itself once a value is picked.
         await expect(page.getByRole('listbox').filter({ visible: true })).toHaveCount(0);
         await expect(dp.formItem('Default currency').getByRole('combobox')).toContainText('Euro');
@@ -242,7 +261,7 @@ test.describe('Channel required-field validation', () => {
 
         // The default is among the saved channel's available currencies, because it came from them.
         await page.reload();
-        await expect(currencyChips(dp)).toContainText('Euro');
+        await expect(currencyChip(dp, 'Euro')).toBeVisible();
         await expect(dp.formItem('Default currency').getByRole('combobox')).toContainText('Euro');
     });
 
@@ -269,20 +288,15 @@ test.describe('Channel required-field validation', () => {
                 .first()
                 .click();
         }
-        await closeDropdown(page);
+        await dp.closeDropdown();
 
         // ...one of which becomes the default...
         await dp.formItem('Default currency').getByRole('combobox').click();
-        await page.getByRole('option', { name: /US Dollar/ }).click();
+        await openSelect(page).getByRole('option', { name: /US Dollar/ }).click();
         await expect(dp.formItem('Default currency').getByRole('combobox')).toContainText('US Dollar');
 
-        // ...and is then taken back off the available list via its badge.
-        await dp
-            .formItem('Available currencies')
-            .locator('[data-slot="combobox-chip"]')
-            .filter({ hasText: 'US Dollar' })
-            .locator('[data-slot="combobox-chip-remove"]')
-            .click();
+        // ...and is then taken back off the available list via its chip.
+        await currencyChip(dp, 'US Dollar').locator('[data-slot="combobox-chip-remove"]').click();
 
         await dp.clickCreate();
         await expect(
