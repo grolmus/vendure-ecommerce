@@ -224,6 +224,48 @@ test.describe('Translation fallback placeholders', () => {
         expect(placeholderValue).toContain('Now equipped with seventh-generation');
     });
 
+    // #4885 / OSS-579 — with German available, the form seeds a translation row for both en and de.
+    // Filling only the default language and submitting must send a single `en` translation, not an
+    // empty `de` row (which would break language fallback). This exercises the real react-hook-form
+    // path that the unit tests can't: `stripUntouchedTranslations` reads `dirtyFields`, which
+    // react-hook-form only populates when it is read during render — if the wiring regressed to
+    // reading it only in the submit handler, the fix would silently no-op and the empty `de` row
+    // would come back here.
+    test('creating a product with only the default language filled submits a single translation', async ({
+        page,
+    }) => {
+        const dp = detailPage(page);
+        await dp.gotoNew();
+        await dp.expectNewPageLoaded();
+
+        const name = `OSS579 Only-EN ${Date.now()}`;
+        // Slug is auto-generated from the name (its input is disabled), so filling the name is enough.
+        await dp.fillInput('Product name', name);
+
+        const createRequest = page.waitForRequest(
+            req => req.method() === 'POST' && (req.postData() ?? '').includes('mutation CreateProduct('),
+            { timeout: 15_000 },
+        );
+        await dp.clickCreate();
+        const input = (await createRequest).postDataJSON()?.variables?.input;
+
+        expect(input).toBeTruthy();
+        expect(input.translations).toHaveLength(1);
+        expect(input.translations[0].languageCode).toBe('en');
+        expect(input.translations[0].name).toBe(name);
+        expect(input.translations.some((t: any) => t.languageCode === 'de')).toBe(false);
+
+        await dp.expectSuccessToast();
+
+        // Clean up the product we just created so the suite stays re-runnable.
+        const createdId = new URL(page.url()).pathname.split('/').pop();
+        if (createdId && createdId !== 'new') {
+            const client = new VendureAdminClient(page);
+            await client.login();
+            await client.gql(`mutation ($id: ID!) { deleteProduct(id: $id) { result } }`, { id: createdId });
+        }
+    });
+
     // ── Cleanup: switch back to English ─────────────────────────────────
 
     test.afterAll(async ({ browser }) => {

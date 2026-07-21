@@ -8,8 +8,8 @@ import {
     convertEmptyStringsToNull,
     isFieldNullable,
     removeEmptyIdFields,
-    stripEmptyTranslations,
     stripNullNullableFields,
+    stripUntouchedTranslations,
     transformRelationFields,
 } from './utils.js';
 
@@ -56,12 +56,18 @@ describe('removeEmptyIdFields', () => {
 
 // https://github.com/vendurehq/vendure/issues/4885 (OSS-579)
 // The form seeds a translation row per configured language; submitting the unfilled ones
-// persists empty translation rows that break language fallback. stripEmptyTranslations
-// drops the seeded-but-empty entries (no id, all fields empty) before submit.
-describe('stripEmptyTranslations', () => {
+// persists empty translation rows that break language fallback. stripUntouchedTranslations
+// drops the rows react-hook-form's `dirtyFields` reports as untouched.
+//
+// `dirtyFields` is react-hook-form's record of which fields differ from `defaultValues`; it is a
+// nested object of booleans (a field the user changed — or, on an update, a value supplied via the
+// `values` prop that differs from the empty seeded defaults — is `true`). These tests feed it
+// directly. That the real form actually populates it this way (persisted rows dirty, seeded rows
+// not) is covered by the e2e, not here.
+describe('stripUntouchedTranslations', () => {
     const fields = () => getOperationVariablesFields(createProductDocument);
 
-    it('drops a seeded empty translation and keeps the filled ones', () => {
+    it('drops an untouched seeded translation and keeps the touched ones', () => {
         const values: CreateProductInput = {
             input: {
                 translations: [
@@ -70,37 +76,46 @@ describe('stripEmptyTranslations', () => {
                 ],
             },
         };
-        const result = stripEmptyTranslations(values, fields());
+        const dirty = { input: { translations: [{ name: true, slug: true }, {}] } };
+        const result = stripUntouchedTranslations(values, fields(), dirty);
         expect(result.input.translations).toEqual([
             { languageCode: 'en', name: 'Test product', slug: 'test-product', description: '' },
         ]);
     });
 
-    it('keeps an existing translation (with an id) even if all fields are empty', () => {
-        const values: any = {
-            input: {
-                translations: [{ id: '42', languageCode: 'pl', name: '', slug: '', description: '' }],
-            },
-        };
-        const result = stripEmptyTranslations(values, fields());
-        expect(result.input.translations).toEqual([
-            { id: '42', languageCode: 'pl', name: '', slug: '', description: '' },
-        ]);
-    });
-
-    it('keeps a translation where at least one field is filled', () => {
+    it('keeps a row where any single field is dirty', () => {
         const values: CreateProductInput = {
             input: {
                 translations: [{ languageCode: 'pl', name: '', slug: 'polski-slug', description: '' }],
             },
         };
-        const result = stripEmptyTranslations(values, fields());
+        const dirty = { input: { translations: [{ slug: true }] } };
+        const result = stripUntouchedTranslations(values, fields(), dirty);
         expect(result.input.translations).toEqual([
             { languageCode: 'pl', name: '', slug: 'polski-slug', description: '' },
         ]);
     });
 
-    it('leaves values without empty translations unchanged', () => {
+    // The key advantage over a value-based check: a non-string field seeded with a filled-looking
+    // default (`false`, `0`, an enum member) is still correctly dropped when untouched, because
+    // dirty state doesn't care what the value is.
+    it('drops an untouched row even when its values look non-empty', () => {
+        const values: any = {
+            input: {
+                translations: [
+                    { languageCode: 'en', name: 'Filled', enabled: true, count: 5 },
+                    { languageCode: 'pl', name: '', enabled: false, count: 0 },
+                ],
+            },
+        };
+        const dirty = { input: { translations: [{ name: true, enabled: true, count: true }, {}] } };
+        const result = stripUntouchedTranslations(values, fields(), dirty);
+        expect(result.input.translations).toEqual([
+            { languageCode: 'en', name: 'Filled', enabled: true, count: 5 },
+        ]);
+    });
+
+    it('leaves values with no untouched translations unchanged', () => {
         const values: CreateProductInput = {
             input: {
                 translations: [
@@ -108,14 +123,15 @@ describe('stripEmptyTranslations', () => {
                 ],
             },
         };
-        const result = stripEmptyTranslations(values, fields());
+        const dirty = { input: { translations: [{ name: true, slug: true }] } };
+        const result = stripUntouchedTranslations(values, fields(), dirty);
         expect(result).toEqual(values);
     });
 
-    // If every row is seeded-empty, stripping them all would submit `translations: []`. A blank
-    // create form is reachable (a non-nullable `String` maps to a bare `z.string()`), so keep the
-    // rows and let validation surface the empty required fields instead of silently sending none.
-    it('keeps all rows when every one is a seeded empty translation', () => {
+    // If every row is untouched, dropping them all would submit `translations: []`. A blank create
+    // form is reachable (a non-nullable `String` maps to a bare `z.string()`), so keep the rows and
+    // let validation surface the empty required fields instead of silently sending none.
+    it('keeps all rows when every one is untouched', () => {
         const values: CreateProductInput = {
             input: {
                 translations: [
@@ -124,17 +140,18 @@ describe('stripEmptyTranslations', () => {
                 ],
             },
         };
-        const result = stripEmptyTranslations(values, fields());
+        const dirty = { input: { translations: [{}, {}] } };
+        const result = stripUntouchedTranslations(values, fields(), dirty);
         expect(result.input.translations).toEqual([
             { languageCode: 'en', name: '', slug: '', description: '' },
             { languageCode: 'pl', name: '', slug: '', description: '' },
         ]);
     });
 
-    // The actual #4885 scenario: editing an entity that already has one persisted translation
-    // while the form seeded an empty row for a second language. The persisted row (with an id) is
-    // kept, the seeded-empty one dropped.
-    it('on update, keeps the persisted translation and drops the seeded empty row', () => {
+    // The #4885 update scenario: an entity with one persisted translation, the form seeded an empty
+    // row for a second language. The persisted row is dirty (its `values`-supplied content differs
+    // from the empty seeded defaults), the seeded row is not, so only the seeded row is dropped.
+    it('on update, keeps the persisted (dirty) translation and drops the seeded (untouched) one', () => {
         const values: UpdateProductInput = {
             input: {
                 id: '1',
@@ -144,29 +161,29 @@ describe('stripEmptyTranslations', () => {
                 ],
             },
         };
-        const result = stripEmptyTranslations(values, getOperationVariablesFields(updateProductDocument));
+        const dirty = { input: { translations: [{ id: true, name: true, slug: true }, {}] } };
+        const result = stripUntouchedTranslations(
+            values,
+            getOperationVariablesFields(updateProductDocument),
+            dirty,
+        );
         expect(result.input.translations).toEqual([
             { id: '10', languageCode: 'en', name: 'Laptop', slug: 'laptop', description: '' },
         ]);
     });
 
-    // The recursive empty-check descends into an object field: an otherwise-empty row carrying
-    // only `customFields: {}` is still seeded-empty and gets dropped alongside a filled sibling.
-    it('treats a row with only an empty customFields object as seeded-empty', () => {
-        const values: any = {
+    it('treats missing dirty info for a row as untouched', () => {
+        const values: CreateProductInput = {
             input: {
                 translations: [
-                    {
-                        languageCode: 'en',
-                        name: 'Test product',
-                        slug: 'test-product',
-                        description: '',
-                    },
-                    { languageCode: 'pl', name: '', slug: '', description: '', customFields: {} },
+                    { languageCode: 'en', name: 'Test product', slug: 'test-product', description: '' },
+                    { languageCode: 'pl', name: '', slug: '', description: '' },
                 ],
             },
         };
-        const result = stripEmptyTranslations(values, fields());
+        // dirtyFields only carries an entry for the touched row; the untouched row is absent.
+        const dirty = { input: { translations: [{ name: true }] } };
+        const result = stripUntouchedTranslations(values, fields(), dirty);
         expect(result.input.translations).toEqual([
             { languageCode: 'en', name: 'Test product', slug: 'test-product', description: '' },
         ]);
@@ -182,12 +199,12 @@ describe('stripEmptyTranslations', () => {
             },
         };
         const snapshot = structuredClone(values);
-        stripEmptyTranslations(values, fields());
+        stripUntouchedTranslations(values, fields(), { input: { translations: [{ name: true }, {}] } });
         expect(values).toEqual(snapshot);
     });
 
     it('returns null input unchanged', () => {
-        expect(stripEmptyTranslations(null as any, fields())).toBeNull();
+        expect(stripUntouchedTranslations(null as any, fields(), {})).toBeNull();
     });
 });
 

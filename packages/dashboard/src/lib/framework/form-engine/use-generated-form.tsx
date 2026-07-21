@@ -14,8 +14,8 @@ import {
 import {
     convertEmptyStringsToNull,
     removeEmptyIdFields,
-    stripEmptyTranslations,
     stripNullNullableFields,
+    stripUntouchedTranslations,
     transformRelationFields,
 } from './utils.js';
 
@@ -171,6 +171,11 @@ export function useGeneratedForm<
         defaultValues: processedDefaultValues,
         values,
     });
+    // Read `dirtyFields` here, during render, so react-hook-form's lazily-tracked `formState`
+    // Proxy actually populates it. If it were only read inside the submit handler it could come
+    // back empty, and `stripUntouchedTranslations` would then keep every seeded row (see its docs).
+    const { dirtyFields } = form.formState;
+
     let submitHandler = (event: FormEvent): any => {
         event.preventDefault();
     };
@@ -194,7 +199,7 @@ export function useGeneratedForm<
                 );
                 // Drop translation rows the form seeded for languages the user never filled,
                 // so we don't persist empty translations that break language fallback (#4885).
-                processed = stripEmptyTranslations(processed, updateFields);
+                processed = stripUntouchedTranslations(processed, updateFields, dirtyFields);
                 if (!entity) {
                     processed = stripNullNullableFields(processed, updateFields);
                 }

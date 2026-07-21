@@ -205,76 +205,71 @@ export function stripNullNullableFields<T extends Record<string, any>>(values: T
 
 /**
  * @description
- * Removes translation entries that were seeded by the form but never filled in by the
- * user. The form engine seeds a translation row for every configured language (so any
- * language can be edited in the form), but submitting the untouched ones persists empty
- * translation rows. Those empty rows break language fallback — a lookup for that language
- * finds the empty row instead of falling back to the default language — most visibly in
- * the search index, which shows an empty name. See #4885 / OSS-579.
+ * Removes translation rows the form seeded but the user never edited. The form engine seeds a
+ * translation row for every configured language (so any language can be edited in the form), but
+ * submitting the untouched ones persists empty translation rows. Those empty rows break language
+ * fallback — a lookup for that language finds the empty row instead of falling back to the default
+ * language — most visibly in the search index, which shows an empty name. See #4885 / OSS-579.
  *
- * A translation is dropped only when it has no `id` (i.e. it was seeded, not an existing
- * persisted row) AND every field other than `languageCode` is empty. Existing translations
- * (with an `id`) and any language the user actually filled are always kept. Works at any
- * nesting depth and for any translatable sub-entity (detected by a `languageCode` field).
+ * Which rows to drop is decided from react-hook-form's `dirtyFields`, which records exactly which
+ * fields the user touched: a seeded row never typed into is by definition not dirty. This is more
+ * robust than inferring "empty" from the submitted values, because a non-nullable non-string
+ * translation field is seeded with a filled-looking default (`Boolean` → `false`, `Int`/`Money` →
+ * `0`, enum → first member) that a value-based check would treat as user input. Existing persisted
+ * rows are dirty only where the user changed them, so an untouched persisted row is never dropped
+ * (its `id` field is not dirty and neither is anything else). Works at any nesting depth and for
+ * any translatable sub-entity (detected by a `languageCode` field).
+ *
+ * NOTE: `dirtyFields` must be read during render for react-hook-form to populate it (its
+ * `formState` is a lazily-tracked Proxy). Destructure it in the component/hook body, not only
+ * inside the submit handler — otherwise it comes back empty and, combined with the floor below,
+ * this silently keeps every row.
  */
-export function stripEmptyTranslations<T extends Record<string, any>>(values: T, fields: FieldInfo[]): T {
+export function stripUntouchedTranslations<T extends Record<string, any>>(
+    values: T,
+    fields: FieldInfo[],
+    dirtyFields: any,
+): T {
     if (!values) {
         return values;
     }
     const result = structuredClone(values);
 
-    function process(obj: any, fieldDefs: FieldInfo[]) {
+    function process(obj: any, dirty: any, fieldDefs: FieldInfo[]) {
         for (const field of fieldDefs) {
             const value = obj?.[field.name];
             if (!value || typeof value !== 'object' || !field.typeInfo) {
                 continue;
             }
+            const dirtyValue = dirty?.[field.name];
             if (Array.isArray(value)) {
                 const isTranslationsArray = field.typeInfo.some(f => f.name === 'languageCode');
                 if (isTranslationsArray) {
-                    const kept = value.filter(entry => !isSeededEmptyTranslation(entry));
+                    const kept = value.filter((_, i) => isDirty(dirtyValue?.[i]));
                     // Never strip every row: a fully-empty form (a non-nullable `String` maps to a
                     // bare `z.string()`, so a blank create passes validation) would otherwise submit
                     // `translations: []`. Leave the input untouched and let validation surface the
                     // empty required fields instead.
                     obj[field.name] = kept.length ? kept : value;
                 }
-                for (const item of obj[field.name]) {
-                    process(item, field.typeInfo);
+                for (const [i, item] of obj[field.name].entries()) {
+                    process(item, dirtyValue?.[i], field.typeInfo);
                 }
             } else {
-                process(value, field.typeInfo);
+                process(value, dirtyValue, field.typeInfo);
             }
         }
     }
 
-    process(result, fields);
+    process(result, dirtyFields, fields);
     return result;
 }
 
-function isSeededEmptyTranslation(entry: any): boolean {
-    if (!entry || typeof entry !== 'object') {
-        return false;
+function isDirty(value: any): boolean {
+    if (value != null && typeof value === 'object') {
+        return Object.values(value).some(isDirty);
     }
-    // An existing (persisted) translation carries an id — never treat it as seeded-empty,
-    // even if the user cleared its fields; that is a deliberate edit, not form seeding.
-    if (entry.id != null && entry.id !== '') {
-        return false;
-    }
-    return Object.entries(entry).every(([key, value]) => key === 'languageCode' || isEmptyValue(value));
-}
-
-function isEmptyValue(value: any): boolean {
-    if (value == null || value === '') {
-        return true;
-    }
-    if (Array.isArray(value)) {
-        return value.every(isEmptyValue);
-    }
-    if (typeof value === 'object') {
-        return Object.values(value).every(isEmptyValue);
-    }
-    return false;
+    return value === true;
 }
 
 // =============================================================================
