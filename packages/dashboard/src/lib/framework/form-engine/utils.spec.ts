@@ -23,6 +23,16 @@ const createProductDocument = graphql(`
 
 type CreateProductInput = VariablesOf<typeof createProductDocument>;
 
+const updateProductDocument = graphql(`
+    mutation UpdateProduct($input: UpdateProductInput!) {
+        updateProduct(input: $input) {
+            id
+        }
+    }
+`);
+
+type UpdateProductInput = VariablesOf<typeof updateProductDocument>;
+
 describe('removeEmptyIdFields', () => {
     it('should remove empty translation id field', () => {
         const values: CreateProductInput = {
@@ -85,7 +95,9 @@ describe('stripEmptyTranslations', () => {
             },
         };
         const result = stripEmptyTranslations(values, fields());
-        expect(result.input.translations).toHaveLength(1);
+        expect(result.input.translations).toEqual([
+            { languageCode: 'pl', name: '', slug: 'polski-slug', description: '' },
+        ]);
     });
 
     it('leaves values without empty translations unchanged', () => {
@@ -98,6 +110,84 @@ describe('stripEmptyTranslations', () => {
         };
         const result = stripEmptyTranslations(values, fields());
         expect(result).toEqual(values);
+    });
+
+    // If every row is seeded-empty, stripping them all would submit `translations: []`. A blank
+    // create form is reachable (a non-nullable `String` maps to a bare `z.string()`), so keep the
+    // rows and let validation surface the empty required fields instead of silently sending none.
+    it('keeps all rows when every one is a seeded empty translation', () => {
+        const values: CreateProductInput = {
+            input: {
+                translations: [
+                    { languageCode: 'en', name: '', slug: '', description: '' },
+                    { languageCode: 'pl', name: '', slug: '', description: '' },
+                ],
+            },
+        };
+        const result = stripEmptyTranslations(values, fields());
+        expect(result.input.translations).toEqual([
+            { languageCode: 'en', name: '', slug: '', description: '' },
+            { languageCode: 'pl', name: '', slug: '', description: '' },
+        ]);
+    });
+
+    // The actual #4885 scenario: editing an entity that already has one persisted translation
+    // while the form seeded an empty row for a second language. The persisted row (with an id) is
+    // kept, the seeded-empty one dropped.
+    it('on update, keeps the persisted translation and drops the seeded empty row', () => {
+        const values: UpdateProductInput = {
+            input: {
+                id: '1',
+                translations: [
+                    { id: '10', languageCode: 'en', name: 'Laptop', slug: 'laptop', description: '' },
+                    { languageCode: 'pl', name: '', slug: '', description: '' },
+                ],
+            },
+        };
+        const result = stripEmptyTranslations(values, getOperationVariablesFields(updateProductDocument));
+        expect(result.input.translations).toEqual([
+            { id: '10', languageCode: 'en', name: 'Laptop', slug: 'laptop', description: '' },
+        ]);
+    });
+
+    // The recursive empty-check descends into an object field: an otherwise-empty row carrying
+    // only `customFields: {}` is still seeded-empty and gets dropped alongside a filled sibling.
+    it('treats a row with only an empty customFields object as seeded-empty', () => {
+        const values: any = {
+            input: {
+                translations: [
+                    {
+                        languageCode: 'en',
+                        name: 'Test product',
+                        slug: 'test-product',
+                        description: '',
+                    },
+                    { languageCode: 'pl', name: '', slug: '', description: '', customFields: {} },
+                ],
+            },
+        };
+        const result = stripEmptyTranslations(values, fields());
+        expect(result.input.translations).toEqual([
+            { languageCode: 'en', name: 'Test product', slug: 'test-product', description: '' },
+        ]);
+    });
+
+    it('does not mutate the input', () => {
+        const values: CreateProductInput = {
+            input: {
+                translations: [
+                    { languageCode: 'en', name: 'Test product', slug: 'test-product', description: '' },
+                    { languageCode: 'pl', name: '', slug: '', description: '' },
+                ],
+            },
+        };
+        const snapshot = structuredClone(values);
+        stripEmptyTranslations(values, fields());
+        expect(values).toEqual(snapshot);
+    });
+
+    it('returns null input unchanged', () => {
+        expect(stripEmptyTranslations(null as any, fields())).toBeNull();
     });
 });
 

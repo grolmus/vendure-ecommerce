@@ -232,7 +232,12 @@ export function stripEmptyTranslations<T extends Record<string, any>>(values: T,
             if (Array.isArray(value)) {
                 const isTranslationsArray = field.typeInfo.some(f => f.name === 'languageCode');
                 if (isTranslationsArray) {
-                    obj[field.name] = value.filter(entry => !isSeededEmptyTranslation(entry));
+                    const kept = value.filter(entry => !isSeededEmptyTranslation(entry));
+                    // Never strip every row: a fully-empty form (a non-nullable `String` maps to a
+                    // bare `z.string()`, so a blank create passes validation) would otherwise submit
+                    // `translations: []`. Leave the input untouched and let validation surface the
+                    // empty required fields instead.
+                    obj[field.name] = kept.length ? kept : value;
                 }
                 for (const item of obj[field.name]) {
                     process(item, field.typeInfo);
