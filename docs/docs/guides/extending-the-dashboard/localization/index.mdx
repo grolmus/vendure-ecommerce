@@ -91,3 +91,59 @@ open up the `de.po` file and add German translations for each of the strings, by
 msgid "Welcome to Dashboard"
 msgstr "Willkommen zum Dashboard" # [!code highlight]
 ```
+
+## Contributing a translation of the Dashboard itself
+
+The sections above cover localizing **your own** extensions. If instead you want to translate the
+built-in Dashboard UI into a new language — or improve an existing translation — those catalogs live
+in the Vendure repository and the change is contributed via a pull request.
+
+:::note
+This is for the **React Dashboard** (`@vendure/dashboard`). The legacy Angular Admin UI has its own
+[separate translation workflow](https://github.com/vendurehq/vendure/blob/master/packages/admin-ui/README.md#localization).
+:::
+
+The Dashboard's own message catalogs live at `packages/dashboard/src/i18n/locales/{locale}.po`, one
+`.po` file per supported language. The English catalog (`en.po`) is the source and is always complete;
+the others are translations of it.
+
+### Improving an existing translation
+
+Open the catalog for the language you want to improve — for example `de.po` for German — and fill in
+or correct the `msgstr` values. An empty `msgstr` means that string is not yet translated and falls
+back to English at runtime.
+
+### Adding a new language
+
+1. Add the [locale code](https://lingui.dev/misc/faq#which-locales-and-formats-are-supported) to the
+   `locales` array in `packages/dashboard/lingui.config.js`.
+2. From `packages/dashboard`, generate the catalog:
+
+   ```bash
+   npm run i18n:extract
+   ```
+
+   This creates `src/i18n/locales/{locale}.po` containing every UI string with empty `msgstr` values.
+3. Fill in the `msgstr` values with your translations. There is nothing else to wire up — the
+   Dashboard loads catalogs by globbing that directory, so the new file is picked up automatically.
+
+### Testing your translation locally
+
+Run the development server so you can see your translations in the running Dashboard:
+
+```bash
+cd packages/dev-server
+bun run populate   # first time only, to seed test data
+bun run dev
+```
+
+Open the Dashboard (`http://localhost:3000/dashboard`), then switch the UI language from the user menu
+at the bottom of the sidebar → **Display language**, and choose your locale. The interface re-renders
+with your catalog; any string you left untranslated shows the English source.
+
+### Opening the pull request
+
+Commit the changed `.po` file(s) (and the `lingui.config.js` change, for a new language) and open a PR
+against `master`. A translation change is a `fix`, so title it accordingly, e.g.
+`fix(dashboard): Add Ukrainian UI translations`. Translations are always welcome, including partial
+ones — you don't have to translate every string to contribute.
