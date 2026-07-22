@@ -266,6 +266,48 @@ test.describe('Translation fallback placeholders', () => {
         }
     });
 
+    // #4885 / OSS-579 — the update path (the #4962 review regression). On edit, react-hook-form
+    // resets the form from the entity, so *nothing* is dirty until the user types. Changing only a
+    // non-translation field (here the Enabled switch) must still submit just the persisted `en`
+    // translation — the seeded empty `de` row is dropped by its missing `id`, not by dirty state
+    // (which is blank here). The dirty-only version kept every row when nothing was dirty and
+    // re-created the empty `de` translation on the most common edit path.
+    test('updating a non-translation field submits only the existing translation, not a seeded empty one', async ({
+        page,
+    }) => {
+        await goToLaptopProduct(page);
+        const productId = new URL(page.url()).pathname.split('/').pop() as string;
+
+        const dp = detailPage(page);
+        // Toggle Enabled to make the form dirty *without* touching any translation field.
+        const enabledSwitch = dp.formItem('Enabled').getByRole('switch');
+        const wasEnabled = (await enabledSwitch.getAttribute('data-state')) === 'checked';
+        await dp.toggleSwitch('Enabled', !wasEnabled);
+
+        const updateRequest = page.waitForRequest(
+            req => req.method() === 'POST' && (req.postData() ?? '').includes('mutation UpdateProduct('),
+            { timeout: 15_000 },
+        );
+        await dp.clickUpdate();
+        const input = (await updateRequest).postDataJSON()?.variables?.input;
+
+        expect(input).toBeTruthy();
+        // The persisted English translation (carrying an id) is kept…
+        const en = input.translations.find((t: any) => t.languageCode === 'en');
+        expect(en?.id).toBeTruthy();
+        // …and no empty German row is submitted.
+        expect(input.translations.some((t: any) => t.languageCode === 'de')).toBe(false);
+
+        await dp.expectSuccessToast();
+
+        // Restore the original enabled state so the shared Laptop product is unchanged for others.
+        const client = new VendureAdminClient(page);
+        await client.login();
+        await client.gql(`mutation ($input: UpdateProductInput!) { updateProduct(input: $input) { id } }`, {
+            input: { id: productId, enabled: wasEnabled },
+        });
+    });
+
     // ── Cleanup: switch back to English ─────────────────────────────────
 
     test.afterAll(async ({ browser }) => {

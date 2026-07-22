@@ -57,13 +57,13 @@ describe('removeEmptyIdFields', () => {
 // https://github.com/vendurehq/vendure/issues/4885 (OSS-579)
 // The form seeds a translation row per configured language; submitting the unfilled ones
 // persists empty translation rows that break language fallback. stripUntouchedTranslations
-// drops the rows react-hook-form's `dirtyFields` reports as untouched.
+// keeps a row when it is dirty OR persisted, and drops it otherwise.
 //
 // `dirtyFields` is react-hook-form's record of which fields differ from `defaultValues`; it is a
-// nested object of booleans (a field the user changed — or, on an update, a value supplied via the
-// `values` prop that differs from the empty seeded defaults — is `true`). These tests feed it
-// directly. That the real form actually populates it this way (persisted rows dirty, seeded rows
-// not) is covered by the e2e, not here.
+// nested object of booleans (a field the user changed is `true`). These tests feed it directly.
+// On the create path dirty state carries the decision; on the update path nothing is dirty until
+// the user types (RHF's `values` prop resets the form), so a persisted row is kept by its `id`
+// instead. That the real form populates `dirtyFields` this way is covered by the e2e, not here.
 describe('stripUntouchedTranslations', () => {
     const fields = () => getOperationVariablesFields(createProductDocument);
 
@@ -148,20 +148,26 @@ describe('stripUntouchedTranslations', () => {
         ]);
     });
 
-    // The #4885 update scenario: an entity with one persisted translation, the form seeded an empty
-    // row for a second language. The persisted row is dirty (its `values`-supplied content differs
-    // from the empty seeded defaults), the seeded row is not, so only the seeded row is dropped.
-    it('on update, keeps the persisted (dirty) translation and drops the seeded (untouched) one', () => {
+    // The #4885 update scenario Will identified: on an update, react-hook-form's `values` prop
+    // resets the form and promotes the entity to `defaultValues`, so *nothing* is dirty until the
+    // user types. Editing only a non-translation field (e.g. toggling Enabled) leaves every
+    // translation row untouched — the persisted `en` row is kept solely because it carries an `id`,
+    // and the seeded empty `pl` row is dropped. Dirty state alone cannot tell them apart here; the
+    // `id` is what separates them. (The old dirty-only version wrongly assumed the persisted row
+    // would be dirty, which masked this bug.)
+    it('on update, keeps the persisted (id-bearing) row and drops the seeded one when nothing is dirty', () => {
         const values: UpdateProductInput = {
             input: {
                 id: '1',
+                enabled: true,
                 translations: [
                     { id: '10', languageCode: 'en', name: 'Laptop', slug: 'laptop', description: '' },
                     { languageCode: 'pl', name: '', slug: '', description: '' },
                 ],
             },
         };
-        const dirty = { input: { translations: [{ id: true, name: true, slug: true }, {}] } };
+        // Only the top-level `enabled` toggle is dirty; no translation row is.
+        const dirty = { input: { enabled: true, translations: [{}, {}] } };
         const result = stripUntouchedTranslations(
             values,
             getOperationVariablesFields(updateProductDocument),

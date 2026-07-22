@@ -211,14 +211,20 @@ export function stripNullNullableFields<T extends Record<string, any>>(values: T
  * fallback — a lookup for that language finds the empty row instead of falling back to the default
  * language — most visibly in the search index, which shows an empty name. See #4885 / OSS-579.
  *
- * Which rows to drop is decided from react-hook-form's `dirtyFields`, which records exactly which
- * fields the user touched: a seeded row never typed into is by definition not dirty. This is more
- * robust than inferring "empty" from the submitted values, because a non-nullable non-string
- * translation field is seeded with a filled-looking default (`Boolean` → `false`, `Int`/`Money` →
- * `0`, enum → first member) that a value-based check would treat as user input. Existing persisted
- * rows are dirty only where the user changed them, so an untouched persisted row is never dropped
- * (its `id` field is not dirty and neither is anything else). Works at any nesting depth and for
- * any translatable sub-entity (detected by a `languageCode` field).
+ * A row is kept when it is **dirty OR persisted**, and dropped otherwise. The two predicates are
+ * complementary, each covering what the other is blind to:
+ *
+ * - `dirty` (from react-hook-form's `dirtyFields`) carries the **create** path: no row has an `id`
+ *   yet, so a seeded row never typed into is not dirty and is dropped, while a filled one is kept.
+ * - `persisted` (the row carries an `id`) carries the **update** path: react-hook-form's `values`
+ *   prop resets the form and promotes the entity to `defaultValues`, so on an update nothing is
+ *   dirty until the user types — an untouched persisted row and an untouched seeded row look
+ *   identical to dirty state, and only the `id` separates them.
+ *
+ * Crucially there is no value inspection anywhere, so an untouched row seeded with a filled-looking
+ * default (`Boolean` → `false`, `Int`/`Money` → `0`, enum → first member) is still correctly
+ * dropped — a value-based "is it empty?" check would treat those as user input. Works at any
+ * nesting depth and for any translatable sub-entity (detected by a `languageCode` field).
  *
  * NOTE: `dirtyFields` must be read during render for react-hook-form to populate it (its
  * `formState` is a lazily-tracked Proxy). Destructure it in the component/hook body, not only
@@ -245,7 +251,7 @@ export function stripUntouchedTranslations<T extends Record<string, any>>(
             if (Array.isArray(value)) {
                 const isTranslationsArray = field.typeInfo.some(f => f.name === 'languageCode');
                 if (isTranslationsArray) {
-                    const kept = value.filter((_, i) => isDirty(dirtyValue?.[i]));
+                    const kept = value.filter((entry, i) => isDirty(dirtyValue?.[i]) || isPersisted(entry));
                     // Never strip every row: a fully-empty form (a non-nullable `String` maps to a
                     // bare `z.string()`, so a blank create passes validation) would otherwise submit
                     // `translations: []`. Leave the input untouched and let validation surface the
@@ -270,6 +276,16 @@ function isDirty(value: any): boolean {
         return Object.values(value).some(isDirty);
     }
     return value === true;
+}
+
+/**
+ * A row that already exists in the database carries an `id`. Dirty state alone cannot identify
+ * these: react-hook-form's `values` prop resets the form and promotes the entity to
+ * `defaultValues`, so on an update nothing is dirty until the user types — an untouched persisted
+ * row and an untouched seeded row look identical. The `id` is the only thing that separates them.
+ */
+function isPersisted(entry: any): boolean {
+    return !!entry && typeof entry === 'object' && entry.id != null && entry.id !== '';
 }
 
 // =============================================================================
