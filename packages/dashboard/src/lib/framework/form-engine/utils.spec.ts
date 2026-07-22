@@ -178,6 +178,37 @@ describe('stripUntouchedTranslations', () => {
         ]);
     });
 
+    // Mixed update: the realistic multi-language edit — an untouched persisted row (kept by `id`),
+    // a newly-typed row the user just added (kept because it is dirty, no `id` yet), and a seeded
+    // untouched row (dropped). Exercises both keep-predicates together in one payload.
+    it('on update, keeps untouched-persisted and newly-typed rows while dropping the seeded one', () => {
+        const values: UpdateProductInput = {
+            input: {
+                id: '1',
+                translations: [
+                    { id: '10', languageCode: 'en', name: 'Laptop', slug: 'laptop', description: '' },
+                    { id: '20', languageCode: 'de', name: 'Laptop DE', slug: 'laptop-de', description: '' },
+                    { languageCode: 'fr', name: 'Ordinateur', slug: 'ordinateur', description: '' },
+                    { languageCode: 'es', name: '', slug: '', description: '' },
+                ],
+            },
+        };
+        // Only the newly-typed `fr` row is dirty; the two persisted rows and the seeded `es` are not.
+        const dirty = {
+            input: { translations: [{}, {}, { name: true, slug: true }, {}] },
+        };
+        const result = stripUntouchedTranslations(
+            values,
+            getOperationVariablesFields(updateProductDocument),
+            dirty,
+        );
+        expect(result.input.translations).toEqual([
+            { id: '10', languageCode: 'en', name: 'Laptop', slug: 'laptop', description: '' },
+            { id: '20', languageCode: 'de', name: 'Laptop DE', slug: 'laptop-de', description: '' },
+            { languageCode: 'fr', name: 'Ordinateur', slug: 'ordinateur', description: '' },
+        ]);
+    });
+
     it('treats missing dirty info for a row as untouched', () => {
         const values: CreateProductInput = {
             input: {
