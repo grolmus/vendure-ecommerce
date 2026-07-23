@@ -1,7 +1,7 @@
 ---
 title: 'Localization'
 metaTitle: "Localizing Vendure Dashboard Extensions with Lingui"
-metaDescription: "Add multi-language support to your Vendure Dashboard extensions using Lingui for string extraction, translation catalogs, and ICU MessageFormat."
+metaDescription: "Localize your Vendure Dashboard extensions with Lingui, and contribute UI translations of the Dashboard itself via a pull request."
 ---
 
 :::note
@@ -115,17 +115,22 @@ back to English at runtime.
 
 ### Adding a new language
 
-1. Add the [locale code](https://lingui.dev/misc/faq#which-locales-and-formats-are-supported) to the
-   `locales` array in `packages/dashboard/lingui.config.js`.
-2. From `packages/dashboard`, generate the catalog:
+1. Add the locale code to the `locales` array in `packages/dashboard/lingui.config.js`. It must be a
+   valid [`LanguageCode`](https://docs.vendure.io/reference/typescript-api/common/language-code/)
+   value, which uses underscores for region variants (`zh_Hans`, `pt_BR`).
+2. Add the same locale to `defaultAvailableLanguages` in `packages/dashboard/vite/constants.ts`. The
+   **Display language** selector is built from this list, so a catalog missing from it can never be
+   selected.
+3. From `packages/dashboard`, generate the catalog:
 
    ```bash
-   npm run i18n:extract
+   npx lingui extract
    ```
 
-   This creates `src/i18n/locales/{locale}.po` containing every UI string with empty `msgstr` values.
-3. Fill in the `msgstr` values with your translations. There is nothing else to wire up — the
-   Dashboard loads catalogs by globbing that directory, so the new file is picked up automatically.
+   This creates `src/i18n/locales/{locale}.po` with every UI string and empty `msgstr` values. Use
+   `npx lingui extract` rather than `npm run i18n:extract`, which also runs an LLM helper that writes
+   an untracked `missing-translations.txt`.
+4. Fill in the `msgstr` values. The Dashboard globs that directory, so nothing else needs registering.
 
 ### Testing your translation locally
 
@@ -137,13 +142,18 @@ bun run populate   # first time only, to seed test data
 bun run dev
 ```
 
-Open the Dashboard (`http://localhost:3000/dashboard`), then switch the UI language from the user menu
-at the bottom of the sidebar → **Display language**, and choose your locale. The interface re-renders
-with your catalog; any string you left untranslated shows the English source.
+`bun run dev` prints the Dashboard URL when it starts — open that. It serves from Vite, so `.po` edits
+are picked up on reload (the static build served by `DashboardPlugin` would need a rebuild). Then switch
+the UI language from the user menu at the bottom of the sidebar → **Display language**, and choose your
+locale. The interface re-renders with your catalog; any string you left untranslated shows the English source.
 
 ### Opening the pull request
 
-Commit the changed `.po` file(s) (and the `lingui.config.js` change, for a new language) and open a PR
-against `master`. A translation change is a `fix`, so title it accordingly, e.g.
-`fix(dashboard): Add Ukrainian UI translations`. Translations are always welcome, including partial
-ones — you don't have to translate every string to contribute.
+Commit the changed `.po` file(s) (and, for a new language, the `lingui.config.js` and
+`vite/constants.ts` changes) and open a PR against `master`. A translation change is a `fix`, so title
+it accordingly, e.g. `fix(dashboard): Add Ukrainian UI translations`. Translations are always welcome,
+including partial ones — you don't have to translate every string to contribute.
+
+Two CI checks gate a translation PR: **`dashboard i18n sync`** (runs `lingui extract` and fails if the
+committed catalogs are out of date) and **`i18n:check`** (per-locale catalog validation). Run
+`npx lingui extract` from `packages/dashboard` and commit the result so the sync check stays green.
