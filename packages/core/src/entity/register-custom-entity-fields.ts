@@ -53,22 +53,32 @@ export function getEntityNamesWithCustomFields(entities: Array<Type<any>>): stri
     // (a second server in the same process, or an imported-but-uninstalled plugin) — which would
     // otherwise seed phantom `config.customFields` keys.
     const registeredEntityNames = new Set(entities.map(entity => entity.name));
-    const metadataArgsStorage = getMetadataArgsStorage();
-    // The translation-entity exclusion set is intentionally built from the process-global metadata:
-    // it is only ever used to exclude, and the candidate names are already filtered to
-    // `registeredEntityNames` below, so a superset here is harmless.
-    const translationEntityNames = new Set(
-        metadataArgsStorage.relations
-            .filter(relation => relation.propertyName === 'translations')
-            .map(relation => getRelationTargetName(relation.type))
-            .filter((name): name is string => name != null),
-    );
-    const names = metadataArgsStorage.embeddeds
-        .filter(embedded => embedded.propertyName === 'customFields')
+    const translationEntityNames = getTranslationEntityNames();
+    const names = getMetadataArgsStorage()
+        .embeddeds.filter(embedded => embedded.propertyName === 'customFields')
         .map(embedded => (typeof embedded.target === 'string' ? embedded.target : embedded.target.name))
         .filter(name => registeredEntityNames.has(name))
         .filter(name => !translationEntityNames.has(name));
     return Array.from(new Set(names));
+}
+
+/**
+ * The single, relation-based definition of "is this a translation entity?", shared across
+ * custom-field registration (`getEntityNamesWithCustomFields` and the `ConfigService.customFields`
+ * getter) so they cannot classify entities differently. A translation entity is the target of a
+ * `translations` relation; it carries its own `customFields` embedded (for localized field values)
+ * but is never a valid `config.customFields` key.
+ *
+ * Built from the process-global metadata storage: it is only ever used to exclude, and callers
+ * scope the candidate list to their own entities first, so a superset here is harmless.
+ */
+export function getTranslationEntityNames(): Set<string> {
+    return new Set(
+        getMetadataArgsStorage()
+            .relations.filter(relation => relation.propertyName === 'translations')
+            .map(relation => getRelationTargetName(relation.type))
+            .filter((name): name is string => name != null),
+    );
 }
 
 /**
