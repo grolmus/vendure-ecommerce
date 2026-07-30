@@ -24,26 +24,28 @@ describe('ConfigService.customFields', () => {
         // A translation target whose name does NOT end in "Translation" — the old name+suffix
         // heuristic would have wrongly seeded it; the relation-based detection excludes it.
         class Oss654Locale {}
-        storage.embeddeds.push({
+        const baseEmbedded = {
             target: Oss654Base,
             propertyName: 'customFields',
             prefix: undefined,
             type: () => Oss654Base,
-        } as any);
-        storage.embeddeds.push({
+        } as any;
+        const localeEmbedded = {
             target: Oss654Locale,
             propertyName: 'customFields',
             prefix: undefined,
             type: () => Oss654Locale,
-        } as any);
-        storage.relations.push({
+        } as any;
+        const translationsRelation = {
             target: Oss654Base,
             propertyName: 'translations',
             relationType: 'one-to-many',
             type: () => Oss654Locale,
             isLazy: false,
             options: {},
-        } as any);
+        } as any;
+        storage.embeddeds.push(baseEmbedded, localeEmbedded);
+        storage.relations.push(translationsRelation);
         try {
             await setConfig({
                 dbConnectionOptions: { type: 'sqljs', entities: [Oss654Base, Oss654Locale] } as any,
@@ -56,9 +58,10 @@ describe('ConfigService.customFields', () => {
             // the translation target is excluded despite not ending in "Translation"
             expect((customFields as any).Oss654Locale).toBeUndefined();
         } finally {
-            storage.relations.pop();
-            storage.embeddeds.pop();
-            storage.embeddeds.pop();
+            storage.embeddeds = storage.embeddeds.filter(
+                e => e !== baseEmbedded && e !== localeEmbedded,
+            );
+            storage.relations = storage.relations.filter(r => r !== translationsRelation);
         }
     });
 
