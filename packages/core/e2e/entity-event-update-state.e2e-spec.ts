@@ -1,5 +1,6 @@
 import {
     AdministratorEvent,
+    CollectionEvent,
     defaultShippingCalculator,
     defaultShippingEligibilityChecker,
     dummyPaymentHandler,
@@ -22,10 +23,12 @@ import { TEST_SETUP_TIMEOUT_MS, testConfig } from '../../../e2e-common/test-conf
 
 import {
     createAdministratorDocument,
+    createCollectionDocument,
     createPromotionDocument,
     createRoleDocument,
     createShippingMethodDocument,
     updateAdministratorDocument,
+    updateCollectionDocument,
     updatePromotionDocument,
     updateShippingMethodDocument,
 } from './graphql/shared-definitions';
@@ -362,6 +365,54 @@ describe('Entity event updated state', () => {
 
             expect(event.type).toBe('updated');
             expect(event.entity.enabled).toBe(false);
+        });
+    });
+
+    describe('CollectionEvent', () => {
+        let collectionId: string;
+
+        it('setup: create collection', async () => {
+            const { createCollection } = await adminClient.query(createCollectionDocument, {
+                input: {
+                    filters: [],
+                    translations: [
+                        {
+                            languageCode: LanguageCode.en,
+                            name: 'Event Test Collection',
+                            description: '',
+                            slug: 'event-test-collection',
+                        },
+                    ],
+                },
+            });
+            collectionId = createCollection.id;
+            expect(collectionId).toBeDefined();
+        });
+
+        it('exposes the previous entity state on update', async () => {
+            const eventPromise = firstValueFrom(eventBus.ofType(CollectionEvent));
+
+            await adminClient.query(updateCollectionDocument, {
+                input: {
+                    id: collectionId,
+                    translations: [
+                        {
+                            languageCode: LanguageCode.en,
+                            name: 'Updated Collection Name',
+                            slug: 'event-test-collection',
+                        },
+                    ],
+                },
+            });
+
+            const event = await eventPromise;
+
+            expect(event.type).toBe('updated');
+            const current = event.entity.translations.find(t => t.languageCode === LanguageCode.en);
+            expect(current?.name).toBe('Updated Collection Name');
+            // previousEntity carries the pre-update state (#4402)
+            const previous = event.previousEntity?.translations.find(t => t.languageCode === LanguageCode.en);
+            expect(previous?.name).toBe('Event Test Collection');
         });
     });
 });

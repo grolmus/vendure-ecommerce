@@ -559,17 +559,14 @@ export class CollectionService implements OnModuleInit {
     }
 
     async update(ctx: RequestContext, input: UpdateCollectionInput): Promise<Translated<Collection>> {
-        // Ensure the entity belongs to the active channel before updating.
-        await this.connection.getEntityOrThrow(ctx, Collection, input.id, { channelId: ctx.channelId });
+        // Load the collection as it exists before the update. This both ensures the collection
+        // belongs to the active channel and captures its previous state, exposed as `previousEntity`
+        // on the CollectionEvent below so subscribers can diff against the pre-update values.
+        const previousEntity = await this.connection.getEntityOrThrow(ctx, Collection, input.id, {
+            channelId: ctx.channelId,
+            relations: ['featuredAsset', 'assets', 'channels', 'parent', 'translations'],
+        });
         await this.slugValidator.validateSlugs(ctx, input, CollectionTranslation);
-        const existingCollection = await this.connection.getEntityOrThrow<Collection>(
-            ctx,
-            Collection,
-            input.id,
-            {
-                channelId: ctx.channelId,
-            },
-        );
 
         const collection = await this.translatableSaver.update<Collection>({
             ctx,
@@ -595,7 +592,7 @@ export class CollectionService implements OnModuleInit {
             await this.eventBus.publish(new CollectionModificationEvent(ctx, collection, affectedVariantIds));
         }
         await this.eventBus.publish(
-            new CollectionEvent(ctx, collection, 'updated', input, existingCollection),
+            new CollectionEvent(ctx, collection, 'updated', input, previousEntity),
         );
         return assertFound(this.findOne(ctx, collection.id));
     }

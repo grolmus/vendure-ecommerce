@@ -21,6 +21,14 @@ export class CollectionEvent extends VendureEntityEvent<Collection, CollectionIn
         entity: Collection,
         type: 'created' | 'updated' | 'deleted',
         input?: CollectionInputTypes,
+        /**
+         * @description
+         * The state of the Collection prior to the update, populated for `updated` events so that
+         * subscribers can diff against the previous values. It is loaded with the same relations
+         * (`featuredAsset`, `assets`, `channels`, `parent`, `translations`) as the updated entity.
+         *
+         * @since 3.8.0
+         */
         public readonly previousEntity?: Collection,
     ) {
         super(entity, type, ctx, input);
