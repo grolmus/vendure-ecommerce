@@ -54,6 +54,9 @@ export function getEntityNamesWithCustomFields(entities: Array<Type<any>>): stri
     // otherwise seed phantom `config.customFields` keys.
     const registeredEntityNames = new Set(entities.map(entity => entity.name));
     const metadataArgsStorage = getMetadataArgsStorage();
+    // The translation-entity exclusion set is intentionally built from the process-global metadata:
+    // it is only ever used to exclude, and the candidate names are already filtered to
+    // `registeredEntityNames` below, so a superset here is harmless.
     const translationEntityNames = new Set(
         metadataArgsStorage.relations
             .filter(relation => relation.propertyName === 'translations')

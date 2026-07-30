@@ -5,9 +5,9 @@ import { runPluginConfigurations } from './bootstrap';
 import { CustomFieldConfig } from './config/custom-field/custom-field-types';
 import { RuntimeVendureConfig } from './config/vendure-config';
 // Importing the core entities registers their `customFields` embedded columns in the
-// TypeORM metadata; `coreEntitiesMap` also provides the concrete entity list a real server
-// is configured with, which getEntityNamesWithCustomFields() now scopes its seeding to.
-import { coreEntitiesMap } from './entity/entities';
+// TypeORM metadata, and populates `coreEntitiesMap` (which `getAllEntities`, and therefore the
+// auto-init seeding, reads). Imported for its side effect only.
+import './entity/entities';
 import { registerCustomEntityFields } from './entity/register-custom-entity-fields';
 import { VendurePlugin } from './plugin/vendure-plugin';
 
@@ -46,12 +46,7 @@ function makeConfig(partial: {
     plugins?: RuntimeVendureConfig['plugins'];
     customFields?: Record<string, CustomFieldConfig[]>;
 }): RuntimeVendureConfig {
-    return {
-        plugins: [],
-        customFields: {},
-        dbConnectionOptions: { entities: Object.values(coreEntitiesMap) },
-        ...partial,
-    } as unknown as RuntimeVendureConfig;
+    return { plugins: [], customFields: {}, ...partial } as unknown as RuntimeVendureConfig;
 }
 
 describe('runPluginConfigurations()', () => {
@@ -62,6 +57,17 @@ describe('runPluginConfigurations()', () => {
         await runPluginConfigurations(config);
         expect(config.customFields.Product).toEqual([]);
         expect(config.customFields.Customer).toEqual([]);
+    });
+
+    // OSS-653: runPluginConfigurations is also called directly (CLI/dashboard schema generators,
+    // codegen) with a config that never passed through preBootstrapConfig, so `dbConnectionOptions`
+    // carries no `entities`. Seeding must still work there — the entity list is derived from
+    // `config` (core entities + plugin entities) via getAllEntities, not from dbConnectionOptions.
+    it('seeds core entities when the config has no dbConnectionOptions.entities', async () => {
+        const config = makeConfig({});
+        expect((config as any).dbConnectionOptions?.entities).toBeUndefined();
+        await runPluginConfigurations(config);
+        expect(config.customFields.Product).toEqual([]);
     });
 
     // OSS-408: translation entities also declare a `customFields` embedded (for localized
