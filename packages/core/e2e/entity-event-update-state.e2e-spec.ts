@@ -413,6 +413,10 @@ describe('Entity event updated state', () => {
             // previousEntity carries the pre-update state (#4402)
             const previous = event.previousEntity?.translations.find(t => t.languageCode === LanguageCode.en);
             expect(previous?.name).toBe('Event Test Collection');
+            // previousEntity is loaded with its relation set (not just translations), so a
+            // non-translation relation must be present too — guards against silently dropping one.
+            expect(event.previousEntity?.channels).toBeDefined();
+            expect(event.previousEntity?.parent).toBeDefined();
         });
     });
 });
