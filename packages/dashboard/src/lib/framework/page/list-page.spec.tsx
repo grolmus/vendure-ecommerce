@@ -46,12 +46,22 @@ describe('ListPage prop forwarding', () => {
                 ...baseProps,
                 transformQueryKey,
                 disableViewOptions: true,
-                includeSelectionColumn: true,
+                // false is the non-default value, so this asserts the value is really forwarded
+                // rather than coinciding with PaginatedListDataTable's own default of true.
+                includeSelectionColumn: false,
             }),
         );
 
         expect(captured.props?.transformQueryKey).toBe(transformQueryKey);
         expect(captured.props?.disableViewOptions).toBe(true);
-        expect(captured.props?.includeSelectionColumn).toBe(true);
+        expect(captured.props?.includeSelectionColumn).toBe(false);
+    });
+
+    it('does not inject the forwarded props when they are not provided', () => {
+        renderToStaticMarkup(React.createElement(ListPage as any, { ...baseProps }));
+
+        expect(captured.props?.transformQueryKey).toBeUndefined();
+        expect(captured.props?.disableViewOptions).toBeUndefined();
+        expect(captured.props?.includeSelectionColumn).toBeUndefined();
     });
 });
