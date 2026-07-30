@@ -5,9 +5,9 @@ import { runPluginConfigurations } from './bootstrap';
 import { CustomFieldConfig } from './config/custom-field/custom-field-types';
 import { RuntimeVendureConfig } from './config/vendure-config';
 // Importing the core entities registers their `customFields` embedded columns in the
-// TypeORM metadata, which is how getEntityNamesWithCustomFields() detects the entities
-// that support custom fields. Imported for its side effect only.
-import './entity/entities';
+// TypeORM metadata; `coreEntitiesMap` also provides the concrete entity list a real server
+// is configured with, which getEntityNamesWithCustomFields() now scopes its seeding to.
+import { coreEntitiesMap } from './entity/entities';
 import { registerCustomEntityFields } from './entity/register-custom-entity-fields';
 import { VendurePlugin } from './plugin/vendure-plugin';
 
@@ -46,7 +46,12 @@ function makeConfig(partial: {
     plugins?: RuntimeVendureConfig['plugins'];
     customFields?: Record<string, CustomFieldConfig[]>;
 }): RuntimeVendureConfig {
-    return { plugins: [], customFields: {}, ...partial } as unknown as RuntimeVendureConfig;
+    return {
+        plugins: [],
+        customFields: {},
+        dbConnectionOptions: { entities: Object.values(coreEntitiesMap) },
+        ...partial,
+    } as unknown as RuntimeVendureConfig;
 }
 
 describe('runPluginConfigurations()', () => {
@@ -68,6 +73,31 @@ describe('runPluginConfigurations()', () => {
         await runPluginConfigurations(config);
         expect(config.customFields.ProductTranslation).toBeUndefined();
         expect(config.customFields.CollectionTranslation).toBeUndefined();
+    });
+
+    // OSS-653: seeding must be scoped to the entities registered with THIS server, not the global
+    // TypeORM metadata storage. An entity whose `customFields` embedded is present in the process
+    // (e.g. a second test server in the same process, or an imported-but-uninstalled plugin) but
+    // is not in this server's entity list must not produce a phantom `config.customFields` key.
+    it('does not seed customFields for entities not registered with this server', async () => {
+        const storage = getMetadataArgsStorage();
+        class Oss653PhantomEntity {}
+        storage.embeddeds.push({
+            target: Oss653PhantomEntity,
+            propertyName: 'customFields',
+            prefix: undefined,
+            type: () => Oss653PhantomEntity,
+        } as any);
+        try {
+            const config = makeConfig({});
+            await runPluginConfigurations(config);
+            // a real, registered entity is still seeded…
+            expect(config.customFields.Product).toEqual([]);
+            // …but the phantom entity present only in the global metadata is not
+            expect(config.customFields.Oss653PhantomEntity).toBeUndefined();
+        } finally {
+            storage.embeddeds.pop();
+        }
     });
 
     it('does not overwrite an existing customFields entry', async () => {
