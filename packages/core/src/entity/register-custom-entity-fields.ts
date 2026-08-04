@@ -29,6 +29,14 @@ import { EntityId } from './entity-id.decorator';
 const MAX_STRING_LENGTH = 65535;
 
 /**
+ * The relation property by which a translatable entity points at its translation entity. This is
+ * the single signal used to detect translation entities — both to exclude them from custom-field
+ * auto-init ({@link getTranslationEntityNames}) and to locate the translation type when registering
+ * localized custom fields ({@link registerCustomEntityFields}).
+ */
+const TRANSLATIONS_RELATION_PROPERTY = 'translations';
+
+/**
  * @description
  * Returns the names of all registered entities that support custom fields (i.e.
  * implement `HasCustomFields`). An entity supports custom fields when it declares
@@ -63,22 +71,20 @@ export function getEntityNamesWithCustomFields(entities: Array<Type<any>>): stri
 }
 
 /**
- * The single, relation-based definition of "is this a translation entity?", shared across
- * custom-field registration (`getEntityNamesWithCustomFields` and the `ConfigService.customFields`
- * getter) so they cannot classify entities differently. A translation entity is the target of a
- * `translations` relation; it carries its own `customFields` embedded (for localized field values)
- * but is never a valid `config.customFields` key.
+ * The relation-based definition of "is this a translation entity?", used internally by
+ * {@link getEntityNamesWithCustomFields} to build its exclusion set. A translation entity is the
+ * target of a `translations` relation; it carries its own `customFields` embedded (for localized
+ * field values) but is never a valid `config.customFields` key.
  *
- * Built from the process-global metadata storage. Callers scope their candidate entities first,
- * so extra names here cannot cause phantom *inclusion*; the only theoretical effect is
- * over-exclusion, if an unrelated entity elsewhere in the process declared a `translations`
- * relation targeting a name identical to one of your base entities — vanishingly unlikely in a
- * single-server process.
+ * Built from the process-global metadata storage. Callers scope their candidate entities first, so
+ * extra names here cannot cause phantom *inclusion*; the only theoretical effect is over-exclusion,
+ * if an unrelated entity elsewhere in the process declared a `translations` relation targeting a
+ * name identical to one of your base entities — vanishingly unlikely in a single-server process.
  */
-export function getTranslationEntityNames(): Set<string> {
+function getTranslationEntityNames(): Set<string> {
     return new Set(
         getMetadataArgsStorage()
-            .relations.filter(relation => relation.propertyName === 'translations')
+            .relations.filter(relation => relation.propertyName === TRANSLATIONS_RELATION_PROPERTY)
             .map(relation => getRelationTargetName(relation.type))
             .filter((name): name is string => name != null),
     );
@@ -348,7 +354,7 @@ export function registerCustomEntityFields(config: VendureConfig) {
             }
             const translationsMetadata = metadataArgsStorage
                 .filterRelations(customFieldsMetadata.target)
-                .find(m => m.propertyName === 'translations');
+                .find(m => m.propertyName === TRANSLATIONS_RELATION_PROPERTY);
             if (translationsMetadata) {
                 // This entity is translatable, which means that we should
                 // also register any localized custom fields on the related
