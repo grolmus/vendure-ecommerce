@@ -324,8 +324,8 @@ export interface ListPageProps<
     transformData?: (data: any[]) => any[];
     /**
      * @description
-     * Allows the react-query cache key to be transformed. Use this together with
-     * {@link ListPageProps.transformVariables} when a page injects extra state into the query
+     * Allows the react-query cache key to be transformed. Use this together with the
+     * `transformVariables` prop when a page injects extra state into the query
      * (e.g. a language selector or a status filter): the default key only reflects page, sorting,
      * column filters and the search term, so without transforming the key too, changing the injected
      * state serves a stale cached result instead of refetching.
