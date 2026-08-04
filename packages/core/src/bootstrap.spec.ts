@@ -10,36 +10,23 @@ import { RuntimeVendureConfig } from './config/vendure-config';
 import './entity/entities';
 import { registerCustomEntityFields } from './entity/register-custom-entity-fields';
 import { VendurePlugin } from './plugin/vendure-plugin';
+import { registerCustomFieldEntityMetadata } from './testing/custom-field-metadata-test-utils';
 
 /**
- * Registers a `translations` relation (and a matching `customFields` embedded on the
- * translation target) directly in the TypeORM metadata, so we can exercise the different
- * shapes TypeORM allows for a relation target — a constructor closure, a bare string name,
- * or a closure returning a string — without declaring throwaway `@Entity` classes that would
- * pollute the global metadata for every other test in the process. Returns a cleanup fn.
+ * Registers a `translations` relation and a matching `customFields` embedded on the translation
+ * target, so we can exercise the different shapes TypeORM allows for a relation target — a
+ * constructor closure, a bare string name, or a closure returning a string — without declaring
+ * throwaway `@Entity` classes that would pollute the global metadata for every other test in the
+ * process. Thin adapter over the shared {@link registerCustomFieldEntityMetadata} helper, which
+ * also owns the (reference-matched) teardown. Returns a cleanup fn.
  */
 function registerTranslationRelation(baseName: string, type: unknown): () => void {
-    const storage = getMetadataArgsStorage();
-    const base = { name: baseName };
-    const translationTarget = { name: `${baseName}Translation` };
-    storage.relations.push({
-        target: base,
-        propertyName: 'translations',
-        relationType: 'one-to-many',
-        type,
-        isLazy: false,
-        options: {},
-    } as any);
-    storage.embeddeds.push({
-        target: translationTarget,
-        propertyName: 'customFields',
-        prefix: undefined,
-        type: () => Object,
-    } as any);
-    return () => {
-        storage.relations.pop();
-        storage.embeddeds.pop();
-    };
+    return registerCustomFieldEntityMetadata({
+        base: { name: baseName },
+        translationTarget: { name: `${baseName}Translation` },
+        relationType: type,
+        translationHasCustomFields: true,
+    });
 }
 
 function makeConfig(partial: {

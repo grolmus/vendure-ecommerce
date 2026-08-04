@@ -1,10 +1,12 @@
-import { getMetadataArgsStorage } from 'typeorm';
 import { afterEach, describe, expect, it } from 'vitest';
+
+import { registerCustomFieldEntityMetadata } from '../testing/custom-field-metadata-test-utils';
+// Registers the core entities' metadata (side effect only).
+import '../entity/entities';
 
 import { resetConfig, setConfig } from './config-helpers';
 import { ConfigService } from './config.service';
-// Registers the core entities' metadata (side effect only).
-import '../entity/entities';
+import { CustomFieldConfig } from './custom-field/custom-field-types';
 
 /**
  * OSS-654: the ConfigService.customFields getter seeds an empty array for every registered entity
@@ -19,33 +21,17 @@ describe('ConfigService.customFields', () => {
     });
 
     it('seeds supporting entities and excludes translation entities via relation-based detection', async () => {
-        const storage = getMetadataArgsStorage();
         class Oss654Base {}
         // A translation target whose name does NOT end in "Translation" — the old name+suffix
         // heuristic would have wrongly seeded it; the relation-based detection excludes it.
         class Oss654Locale {}
-        const baseEmbedded = {
-            target: Oss654Base,
-            propertyName: 'customFields',
-            prefix: undefined,
-            type: () => Oss654Base,
-        } as any;
-        const localeEmbedded = {
-            target: Oss654Locale,
-            propertyName: 'customFields',
-            prefix: undefined,
-            type: () => Oss654Locale,
-        } as any;
-        const translationsRelation = {
-            target: Oss654Base,
-            propertyName: 'translations',
-            relationType: 'one-to-many',
-            type: () => Oss654Locale,
-            isLazy: false,
-            options: {},
-        } as any;
-        storage.embeddeds.push(baseEmbedded, localeEmbedded);
-        storage.relations.push(translationsRelation);
+        const cleanup = registerCustomFieldEntityMetadata({
+            base: Oss654Base,
+            baseHasCustomFields: true,
+            translationTarget: Oss654Locale,
+            relationType: () => Oss654Locale,
+            translationHasCustomFields: true,
+        });
         try {
             await setConfig({
                 dbConnectionOptions: { type: 'sqljs', entities: [Oss654Base, Oss654Locale] } as any,
@@ -58,19 +44,30 @@ describe('ConfigService.customFields', () => {
             // the translation target is excluded despite not ending in "Translation"
             expect((customFields as any).Oss654Locale).toBeUndefined();
         } finally {
-            storage.embeddeds = storage.embeddeds.filter(
-                e => e !== baseEmbedded && e !== localeEmbedded,
-            );
-            storage.relations = storage.relations.filter(r => r !== translationsRelation);
+            cleanup();
         }
     });
 
     it('does not overwrite an explicitly-configured entity', async () => {
-        await setConfig({
-            dbConnectionOptions: { type: 'sqljs', entities: [] } as any,
-            customFields: { Product: [{ name: 'foo', type: 'string' }] },
+        // The entity must be in `entities` AND support custom fields, so the seeding loop actually
+        // runs for it and reaches the "already configured?" guard — otherwise the assertion passes
+        // vacuously (the loop body never executes).
+        class Oss654Explicit {}
+        const cleanup = registerCustomFieldEntityMetadata({
+            base: Oss654Explicit,
+            baseHasCustomFields: true,
         });
-        const configService = new ConfigService();
-        expect(configService.customFields.Product).toEqual([{ name: 'foo', type: 'string' }]);
+        const existing: CustomFieldConfig[] = [{ name: 'foo', type: 'string' }];
+        try {
+            await setConfig({
+                dbConnectionOptions: { type: 'sqljs', entities: [Oss654Explicit] } as any,
+                customFields: { Oss654Explicit: existing },
+            });
+            const configService = new ConfigService();
+            // the pre-configured array is left untouched, not replaced with a fresh `[]`
+            expect((configService.customFields as any).Oss654Explicit).toBe(existing);
+        } finally {
+            cleanup();
+        }
     });
 });
