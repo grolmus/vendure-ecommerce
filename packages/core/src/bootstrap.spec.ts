@@ -1,4 +1,3 @@
-import { getMetadataArgsStorage } from 'typeorm';
 import { afterEach, describe, expect, it } from 'vitest';
 
 import { runPluginConfigurations } from './bootstrap';
@@ -24,8 +23,7 @@ function registerTranslationRelation(baseName: string, type: unknown): () => voi
     return registerCustomFieldEntityMetadata({
         base: { name: baseName },
         translationTarget: { name: `${baseName}Translation` },
-        relationType: type,
-        translationHasCustomFields: true,
+        relationTarget: type,
     });
 }
 
@@ -73,14 +71,11 @@ describe('runPluginConfigurations()', () => {
     // (e.g. a second test server in the same process, or an imported-but-uninstalled plugin) but
     // is not in this server's entity list must not produce a phantom `config.customFields` key.
     it('does not seed customFields for entities not registered with this server', async () => {
-        const storage = getMetadataArgsStorage();
         class Oss653PhantomEntity {}
-        storage.embeddeds.push({
-            target: Oss653PhantomEntity,
-            propertyName: 'customFields',
-            prefix: undefined,
-            type: () => Oss653PhantomEntity,
-        } as any);
+        const cleanup = registerCustomFieldEntityMetadata({
+            base: Oss653PhantomEntity,
+            baseHasCustomFields: true,
+        });
         try {
             const config = makeConfig({});
             await runPluginConfigurations(config);
@@ -89,7 +84,7 @@ describe('runPluginConfigurations()', () => {
             // …but the phantom entity present only in the global metadata is not
             expect(config.customFields.Oss653PhantomEntity).toBeUndefined();
         } finally {
-            storage.embeddeds.pop();
+            cleanup();
         }
     });
 
@@ -162,32 +157,17 @@ describe('registerCustomEntityFields()', () => {
     // It now reuses getRelationTargetName(), so a translatable entity with a string translations
     // target and real custom fields registers without aborting bootstrap.
     it('does not throw when a translatable entity has a bare-string translations relation target', () => {
-        const storage = getMetadataArgsStorage();
         class Oss408RegBase {}
         class Oss408RegBaseTranslation {}
-        // Base entity declares a customFields embedded…
-        storage.embeddeds.push({
-            target: Oss408RegBase,
-            propertyName: 'customFields',
-            prefix: undefined,
-            type: () => Oss408RegBase,
-        } as any);
-        // …a `translations` relation whose target is a BARE STRING (the crash case)…
-        storage.relations.push({
-            target: Oss408RegBase,
-            propertyName: 'translations',
-            relationType: 'one-to-many',
-            type: 'Oss408RegBaseTranslation',
-            isLazy: false,
-            options: {},
-        } as any);
-        // …and the translation entity also declares a customFields embedded.
-        storage.embeddeds.push({
-            target: Oss408RegBaseTranslation,
-            propertyName: 'customFields',
-            prefix: undefined,
-            type: () => Oss408RegBaseTranslation,
-        } as any);
+        // A base entity with a customFields embedded, a `translations` relation whose target is a
+        // BARE STRING (the crash case), and a translation entity that also declares a customFields
+        // embedded.
+        const cleanup = registerCustomFieldEntityMetadata({
+            base: Oss408RegBase,
+            baseHasCustomFields: true,
+            translationTarget: Oss408RegBaseTranslation,
+            relationTarget: 'Oss408RegBaseTranslation',
+        });
 
         const config = {
             customFields: { Oss408RegBase: [{ name: 'foo', type: 'string' }] },
@@ -197,9 +177,7 @@ describe('registerCustomEntityFields()', () => {
         try {
             expect(() => registerCustomEntityFields(config)).not.toThrow();
         } finally {
-            storage.embeddeds.pop();
-            storage.relations.pop();
-            storage.embeddeds.pop();
+            cleanup();
         }
     });
 });

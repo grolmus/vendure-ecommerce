@@ -29,8 +29,7 @@ describe('ConfigService.customFields', () => {
             base: Oss654Base,
             baseHasCustomFields: true,
             translationTarget: Oss654Locale,
-            relationType: () => Oss654Locale,
-            translationHasCustomFields: true,
+            relationTarget: () => Oss654Locale,
         });
         try {
             await setConfig({

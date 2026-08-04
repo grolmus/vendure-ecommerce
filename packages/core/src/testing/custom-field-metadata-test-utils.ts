@@ -7,11 +7,12 @@ import { getMetadataArgsStorage } from 'typeorm';
  * `getEntityNamesWithCustomFields`) without declaring throwaway `@Entity` classes that would
  * pollute the metadata for every other test in the process.
  *
- * Pushes an optional `customFields` embedded on the `base` and/or `translationTarget`, and — when a
- * `translationTarget` is given — a `translations` relation from `base` to it (the signal by which
- * translation entities are detected and excluded). The relation `type` deliberately accepts the
- * three shapes TypeORM allows (a constructor closure, a bare string name, or a closure returning a
- * string) so callers can cover each.
+ * Pushes a `customFields` embedded on the `base` (when `baseHasCustomFields` is set) and, when a
+ * `translationTarget` is given, both a `customFields` embedded on that target and a `translations`
+ * relation from `base` to it — the signal by which translation entities are detected and excluded.
+ * `relationTarget` is the relation's target reference and deliberately accepts the three shapes
+ * TypeORM allows (a constructor closure, a bare string name, or a closure returning a string) so
+ * callers can cover each; it defaults to a bare relation with no target when omitted.
  *
  * Returns a cleanup fn that removes exactly what it pushed, matched by reference (not by `pop()`),
  * so that interleaved registrations across tests unwind cleanly regardless of order. Shared by
@@ -22,8 +23,7 @@ export function registerCustomFieldEntityMetadata(options: {
     base: Type<any> | { name: string };
     baseHasCustomFields?: boolean;
     translationTarget?: Type<any> | { name: string };
-    relationType?: unknown;
-    translationHasCustomFields?: boolean;
+    relationTarget?: unknown;
 }): () => void {
     const storage = getMetadataArgsStorage();
     const pushedEmbeddeds: unknown[] = [];
@@ -39,14 +39,12 @@ export function registerCustomFieldEntityMetadata(options: {
         pushEmbedded(options.base);
     }
     if (options.translationTarget) {
-        if (options.translationHasCustomFields ?? true) {
-            pushEmbedded(options.translationTarget);
-        }
+        pushEmbedded(options.translationTarget);
         const relation = {
             target: options.base,
             propertyName: 'translations',
             relationType: 'one-to-many',
-            type: options.relationType,
+            type: options.relationTarget,
             isLazy: false,
             options: {},
         };
