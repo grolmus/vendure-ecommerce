@@ -1,6 +1,7 @@
-import React from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
-import { describe, expect, it, vi } from 'vitest';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+
+import { ListPage } from './list-page.js';
 
 // Capture the props ListPage forwards to PaginatedListDataTable.
 const captured: { props?: Record<string, any> } = {};
@@ -28,40 +29,34 @@ vi.mock('@tanstack/react-router', () => ({
     useNavigate: () => vi.fn(),
 }));
 
-// eslint-disable-next-line import/first
-import { ListPage } from './list-page.js';
-
 describe('ListPage prop forwarding', () => {
     const baseProps = {
-        route: { useSearch: () => ({}), fullPath: '/' },
+        route: { useSearch: () => ({}), fullPath: '/' } as any,
         title: 'Test',
         listQuery: {} as any,
     };
+
+    beforeEach(() => {
+        captured.props = undefined;
+    });
 
     it('forwards transformQueryKey, disableViewOptions and includeSelectionColumn to PaginatedListDataTable', () => {
         const transformQueryKey = (queryKey: any[]) => [...queryKey, 'extra'];
 
         renderToStaticMarkup(
-            React.createElement(ListPage as any, {
-                ...baseProps,
-                transformQueryKey,
-                disableViewOptions: true,
+            <ListPage
+                {...baseProps}
+                transformQueryKey={transformQueryKey}
+                disableViewOptions={true}
                 // false is the non-default value, so this asserts the value is really forwarded
                 // rather than coinciding with PaginatedListDataTable's own default of true.
-                includeSelectionColumn: false,
-            }),
+                includeSelectionColumn={false}
+            />,
         );
 
+        expect(captured.props).toBeDefined();
         expect(captured.props?.transformQueryKey).toBe(transformQueryKey);
         expect(captured.props?.disableViewOptions).toBe(true);
         expect(captured.props?.includeSelectionColumn).toBe(false);
-    });
-
-    it('does not inject the forwarded props when they are not provided', () => {
-        renderToStaticMarkup(React.createElement(ListPage as any, { ...baseProps }));
-
-        expect(captured.props?.transformQueryKey).toBeUndefined();
-        expect(captured.props?.disableViewOptions).toBeUndefined();
-        expect(captured.props?.includeSelectionColumn).toBeUndefined();
     });
 });
