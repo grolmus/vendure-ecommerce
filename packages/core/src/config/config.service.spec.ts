@@ -1,3 +1,4 @@
+import { getMetadataArgsStorage } from 'typeorm';
 import { afterEach, describe, expect, it } from 'vitest';
 
 import { registerCustomFieldEntityMetadata } from '../testing/custom-field-metadata-test-utils';
@@ -43,6 +44,41 @@ describe('ConfigService.customFields', () => {
             // the translation target is excluded despite not ending in "Translation"
             expect((customFields as any).Oss654Locale).toBeUndefined();
         } finally {
+            cleanup();
+        }
+    });
+
+    it('seeds an entity that only looks like a translation entity by name + languageCode', async () => {
+        // The other direction of the behaviour change: the OLD heuristic excluded any entity whose
+        // name ends in "Translation" AND which has a `languageCode` column. The relation-based
+        // detection excludes only the *target of a `translations` relation*, so an entity that
+        // merely looks like a translation entity — but which nothing points a `translations`
+        // relation at — is now correctly seeded. Guards against a regression to the name+column heuristic.
+        class Oss654OrphanTranslation {}
+        const cleanup = registerCustomFieldEntityMetadata({
+            base: Oss654OrphanTranslation,
+            baseHasCustomFields: true,
+        });
+        const storage = getMetadataArgsStorage();
+        const languageCodeColumn = {
+            target: Oss654OrphanTranslation,
+            propertyName: 'languageCode',
+            mode: 'regular',
+            options: {},
+        };
+        storage.columns.push(languageCodeColumn as any);
+        try {
+            await setConfig({
+                dbConnectionOptions: { type: 'sqljs', entities: [Oss654OrphanTranslation] } as any,
+                customFields: {},
+            });
+            const configService = new ConfigService();
+            expect((configService.customFields as any).Oss654OrphanTranslation).toEqual([]);
+        } finally {
+            const index = storage.columns.indexOf(languageCodeColumn as any);
+            if (index !== -1) {
+                storage.columns.splice(index, 1);
+            }
             cleanup();
         }
     });
