@@ -106,6 +106,33 @@ describe('runPluginConfigurations()', () => {
         }
     });
 
+    // OSS-408: the core point of the feature — a plugin's OWN entity that supports custom fields
+    // gets a seeded key too, so the plugin's `configuration` callback can extend it without a
+    // defensive guard. Contrast with the phantom-entity test above: seeding happens here because
+    // the entity is registered with this server (via the plugin's `entities`), not merely present
+    // in the global metadata.
+    it('seeds customFields for a plugin-registered entity', async () => {
+        const storage = getMetadataArgsStorage();
+        class Oss408PluginEntity {}
+        storage.embeddeds.push({
+            target: Oss408PluginEntity,
+            propertyName: 'customFields',
+            prefix: undefined,
+            type: () => Oss408PluginEntity,
+        } as any);
+
+        @VendurePlugin({ entities: [Oss408PluginEntity] })
+        class TestPlugin {}
+
+        try {
+            const config = makeConfig({ plugins: [TestPlugin] });
+            await runPluginConfigurations(config);
+            expect(config.customFields.Oss408PluginEntity).toEqual([]);
+        } finally {
+            storage.embeddeds.pop();
+        }
+    });
+
     it('does not overwrite an existing customFields entry', async () => {
         const existing: CustomFieldConfig[] = [{ name: 'foo', type: 'string' }];
         const config = makeConfig({ customFields: { Product: existing } });
