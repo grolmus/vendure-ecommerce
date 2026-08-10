@@ -76,10 +76,9 @@ export function getEntityNamesWithCustomFields(entities: Array<Type<any>>): stri
  * target of a `translations` relation; it carries its own `customFields` embedded (for localized
  * field values) but is never a valid `config.customFields` key.
  *
- * Built from the process-global metadata storage. Callers scope their candidate entities first, so
- * extra names here cannot cause phantom *inclusion*; the only theoretical effect is over-exclusion,
- * if an unrelated entity elsewhere in the process declared a `translations` relation targeting a
- * name identical to one of your base entities — vanishingly unlikely in a single-server process.
+ * Built from the process-global metadata storage, so it may contain names of entities not
+ * registered with this server. Callers filter their candidates to registered entities first, so a
+ * stray name here can only ever exclude, never include.
  */
 function getTranslationEntityNames(): Set<string> {
     return new Set(

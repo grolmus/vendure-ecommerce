@@ -11,10 +11,10 @@ import { CustomFieldConfig } from './custom-field/custom-field-types';
 
 /**
  * OSS-654: the ConfigService.customFields getter seeds an empty array for every registered entity
- * that supports custom fields but isn't explicitly configured. It used to detect translation
- * entities (which must be excluded) by a `*Translation` name suffix plus a `languageCode` column;
- * it now delegates to the shared, relation-based `getEntityNamesWithCustomFields`, so it can no
- * longer diverge from the bootstrap-time auto-init.
+ * that supports custom fields but isn't explicitly configured. Translation entities must be
+ * excluded, and the getter delegates that decision to the shared, relation-based
+ * `getEntityNamesWithCustomFields`, so it cannot diverge from the bootstrap-time auto-init. These
+ * specs pin the relation-based behaviour in both directions.
  */
 describe('ConfigService.customFields', () => {
     afterEach(() => {
@@ -23,8 +23,8 @@ describe('ConfigService.customFields', () => {
 
     it('seeds supporting entities and excludes translation entities via relation-based detection', async () => {
         class Oss654Base {}
-        // A translation target whose name does NOT end in "Translation" — the old name+suffix
-        // heuristic would have wrongly seeded it; the relation-based detection excludes it.
+        // A translation target whose name does NOT end in "Translation". Detection is
+        // relation-based, so it is still excluded; a name-suffix check would wrongly seed it.
         class Oss654Locale {}
         const cleanup = registerCustomFieldEntityMetadata({
             base: Oss654Base,
@@ -49,11 +49,10 @@ describe('ConfigService.customFields', () => {
     });
 
     it('seeds an entity that only looks like a translation entity by name + languageCode', async () => {
-        // The other direction of the behaviour change: the OLD heuristic excluded any entity whose
-        // name ends in "Translation" AND which has a `languageCode` column. The relation-based
-        // detection excludes only the *target of a `translations` relation*, so an entity that
-        // merely looks like a translation entity — but which nothing points a `translations`
-        // relation at — is now correctly seeded. Guards against a regression to the name+column heuristic.
+        // Only the target of a `translations` relation is excluded. An entity whose name ends in
+        // "Translation" and which has a `languageCode` column, but which nothing points a
+        // `translations` relation at, is therefore seeded like any other entity. A name+column
+        // check would wrongly exclude it.
         class Oss654OrphanTranslation {}
         const cleanup = registerCustomFieldEntityMetadata({
             base: Oss654OrphanTranslation,

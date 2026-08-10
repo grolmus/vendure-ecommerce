@@ -136,16 +136,16 @@ export class ConfigService implements VendureConfig {
 
         // The `customFields` config only includes the built-in entities, so any (plugin) entity
         // that declares a `customFields` embedded but is not explicitly configured must be added
-        // here. The translation-exclusion logic is shared with the bootstrap-time auto-init
-        // (runPluginConfigurations) via `getEntityNamesWithCustomFields`, replacing the
-        // `*Translation` name + `languageCode` column heuristic this getter used to apply.
+        // here. Translation entities are excluded by `getEntityNamesWithCustomFields`, which is
+        // also used by the bootstrap-time auto-init in `runPluginConfigurations`, so the two
+        // cannot classify an entity differently.
         //
-        // The two call sites still source their *entity list* differently: the auto-init passes
+        // The two call sites source their *entity list* differently: the auto-init passes
         // `getAllEntities(config)`, whereas this getter reads `dbConnectionOptions.entities`. That is
         // safe because `preBootstrapConfig` populates `dbConnectionOptions.entities` before any
-        // `ConfigService` exists, so the list is complete by the time this getter runs. Unifying the
-        // source would import `getAllEntities` from `bootstrap.ts` and create a cycle, so the
-        // invariant is relied on rather than enforced.
+        // `ConfigService` exists, so the list is complete by the time this getter runs. Importing
+        // `getAllEntities` from `bootstrap.ts` to unify the source would create a module cycle, so
+        // the invariant is relied on rather than enforced.
         const entities = Array.isArray(this.dbConnectionOptions.entities)
             ? this.dbConnectionOptions.entities.filter((e): e is Type<any> => typeof e === 'function')
             : [];

@@ -387,8 +387,9 @@ export async function runPluginConfigurations(config: RuntimeVendureConfig): Pro
     // (core entities plus this config's plugin entities, via `getAllEntities`) rather than the
     // global TypeORM metadata, to avoid phantom keys from entities imported into the process but
     // not registered with this server — a second server in the same process, or an
-    // imported-but-uninstalled plugin (OSS-653). Derived from `config` so every caller of
-    // `runPluginConfigurations` is covered, not only the `preBootstrapConfig` path.
+    // imported-but-uninstalled plugin (OSS-653). Derived from `config` so that it also works for
+    // callers which reach `runPluginConfigurations` without going through `preBootstrapConfig`,
+    // such as the CLI and dashboard schema generators.
     const entities = getAllEntities(config);
     for (const entityName of getEntityNamesWithCustomFields(entities)) {
         if (!Object.prototype.hasOwnProperty.call(config.customFields, entityName)) {

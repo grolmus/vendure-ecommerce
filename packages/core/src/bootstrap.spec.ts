@@ -17,7 +17,7 @@ import { registerCustomFieldEntityMetadata } from './testing/custom-field-metada
  * constructor closure, a bare string name, or a closure returning a string — without declaring
  * throwaway `@Entity` classes that would pollute the global metadata for every other test in the
  * process. Thin adapter over the shared {@link registerCustomFieldEntityMetadata} helper, which
- * also owns the (reference-matched) teardown. Returns a cleanup fn.
+ * also owns the teardown. Returns a cleanup fn.
  */
 function registerTranslationRelation(baseName: string, type: unknown): () => void {
     return registerCustomFieldEntityMetadata({

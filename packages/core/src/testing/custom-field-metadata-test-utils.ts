@@ -14,9 +14,9 @@ import { getMetadataArgsStorage } from 'typeorm';
  * TypeORM allows (a constructor closure, a bare string name, or a closure returning a string) so
  * callers can cover each; it defaults to a bare relation with no target when omitted.
  *
- * Returns a cleanup fn that removes exactly what it pushed, matched by reference (not by `pop()`),
- * so that interleaved registrations across tests unwind cleanly regardless of order. Shared by
- * `bootstrap.spec.ts` and `config.service.spec.ts` so neither re-rolls its own teardown idiom over
+ * Returns a cleanup fn that removes exactly what it pushed, matched by reference, so that
+ * interleaved registrations across tests unwind cleanly regardless of order. Shared by
+ * `bootstrap.spec.ts` and `config.service.spec.ts` so both use one teardown implementation over
  * the shared metadata storage.
  */
 export function registerCustomFieldEntityMetadata(options: {
