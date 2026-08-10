@@ -49,9 +49,9 @@ describe('ConfigService.customFields', () => {
     });
 
     it('seeds an entity that only looks like a translation entity by name + languageCode', async () => {
-        // Only the target of a `translations` relation is excluded. An entity whose name ends in
-        // "Translation" and which has a `languageCode` column, but which nothing points a
-        // `translations` relation at, is therefore seeded like any other entity. A name+column
+        // `getEntityNamesWithCustomFields` excludes only the target of a `translations` relation.
+        // Nothing points such a relation at this entity, so it is seeded like any other, even
+        // though its name ends in "Translation" and it has a `languageCode` column. A name+column
         // check would wrongly exclude it.
         class Oss654OrphanTranslation {}
         const cleanup = registerCustomFieldEntityMetadata({

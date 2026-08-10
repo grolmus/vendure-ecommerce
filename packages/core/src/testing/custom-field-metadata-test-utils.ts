@@ -3,16 +3,18 @@ import { getMetadataArgsStorage } from 'typeorm';
 
 /**
  * Registers custom-field-related TypeORM metadata directly in the process-global metadata storage,
- * so specs can exercise the relation-based translation-entity detection (used by
- * `getEntityNamesWithCustomFields`) without declaring throwaway `@Entity` classes that would
- * pollute the metadata for every other test in the process.
+ * so specs can exercise the relation-based translation-entity detection in
+ * `getEntityNamesWithCustomFields`. Declaring throwaway `@Entity` classes instead would pollute
+ * the metadata for every other test in the process.
  *
- * Pushes a `customFields` embedded on the `base` (when `baseHasCustomFields` is set) and, when a
- * `translationTarget` is given, both a `customFields` embedded on that target and a `translations`
- * relation from `base` to it — the signal by which translation entities are detected and excluded.
- * `relationTarget` is the relation's target reference and deliberately accepts the three shapes
- * TypeORM allows (a constructor closure, a bare string name, or a closure returning a string) so
- * callers can cover each; it defaults to a bare relation with no target when omitted.
+ * Set `baseHasCustomFields` to push a `customFields` embedded on the `base`. Pass a
+ * `translationTarget` to also push a `customFields` embedded on that target and a `translations`
+ * relation from `base` to it. That relation is the signal `getEntityNamesWithCustomFields` uses to
+ * exclude translation entities.
+ *
+ * `relationTarget` is the relation's target reference. It accepts the three shapes TypeORM allows:
+ * a constructor closure, a bare string name, or a closure returning a string. Omit it for a bare
+ * relation with no target.
  *
  * Returns a cleanup fn that removes exactly what it pushed, matched by reference, so that
  * interleaved registrations across tests unwind cleanly regardless of order. Shared by

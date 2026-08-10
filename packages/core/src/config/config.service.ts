@@ -145,7 +145,8 @@ export class ConfigService implements VendureConfig {
         // safe because `preBootstrapConfig` populates `dbConnectionOptions.entities` before any
         // `ConfigService` exists, so the list is complete by the time this getter runs. Importing
         // `getAllEntities` from `bootstrap.ts` to unify the source would create a module cycle, so
-        // the invariant is relied on rather than enforced.
+        // nothing checks that ordering at runtime. A `ConfigService` constructed before
+        // `preBootstrapConfig` has run sees an incomplete entity list, and nothing raises an error.
         const entities = Array.isArray(this.dbConnectionOptions.entities)
             ? this.dbConnectionOptions.entities.filter((e): e is Type<any> => typeof e === 'function')
             : [];

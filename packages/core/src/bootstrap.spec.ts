@@ -13,11 +13,12 @@ import { registerCustomFieldEntityMetadata } from './testing/custom-field-metada
 
 /**
  * Registers a `translations` relation and a matching `customFields` embedded on the translation
- * target, so we can exercise the different shapes TypeORM allows for a relation target — a
- * constructor closure, a bare string name, or a closure returning a string — without declaring
- * throwaway `@Entity` classes that would pollute the global metadata for every other test in the
- * process. Thin adapter over the shared {@link registerCustomFieldEntityMetadata} helper, which
- * also owns the teardown. Returns a cleanup fn.
+ * target. This lets the specs exercise the three shapes TypeORM allows for a relation target: a
+ * constructor closure, a bare string name, or a closure returning a string. Declaring throwaway
+ * `@Entity` classes instead would pollute the global metadata for every other test in the process.
+ *
+ * Thin adapter over the shared {@link registerCustomFieldEntityMetadata} helper, which also owns
+ * the teardown. Returns a cleanup fn.
  */
 function registerTranslationRelation(baseName: string, type: unknown): () => void {
     return registerCustomFieldEntityMetadata({
@@ -79,9 +80,9 @@ describe('runPluginConfigurations()', () => {
         try {
             const config = makeConfig({});
             await runPluginConfigurations(config);
-            // a real, registered entity is still seeded…
+            // a real, registered entity is still seeded
             expect(config.customFields.Product).toEqual([]);
-            // …but the phantom entity present only in the global metadata is not
+            // the phantom entity, present only in the global metadata, is not seeded
             expect(config.customFields.Oss653PhantomEntity).toBeUndefined();
         } finally {
             cleanup();
